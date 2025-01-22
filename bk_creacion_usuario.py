@@ -30,6 +30,7 @@ def insertarUsuario(nombre, usuario, password, tipo_usuario):
         conn.close()
         cursor.close()
         messagebox.showinfo("WisPro", f"Se creo de manera correcta el usuario {usuario}, ahora inicia sesion")
+        #return "Exito"
     
     except Exception as err:
         messagebox.showerror("WisPro", f"No podemos crear el usuario {err}")

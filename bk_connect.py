@@ -5,7 +5,7 @@ def conexionDB():
     try:
         conn = mysql.connector.Connect(
             host="localhost",
-            user="cisco",
+            user="root",
             password="MinuzaFea265/",
             database="wisp_control"
         )

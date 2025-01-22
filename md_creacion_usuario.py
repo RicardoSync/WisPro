@@ -40,7 +40,8 @@ def creacionUusuario():
             tipo_usuario = tipoUsuario.get()
 
             if len(nombre)>0:
-                insertarUsuario(nombre, usuario, password, tipo_usuario)
+                if insertarUsuario(nombre, usuario, password, tipo_usuario):
+                    windows.destroy()
             else:
                 messagebox.showerror("WisPro", "No podemos registrar un usuario sin nombre")
     
