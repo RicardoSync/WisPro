@@ -4,10 +4,14 @@ from tkinter import messagebox
 #cargamos los recursos
 from bk_recursos import colores_ui, imagenes_ui
 from bk_login import comprobacion
+
+#cargamos el modulo del adminstrador
+from md_panel_admin import panelAdministracion
+
 iconos = imagenes_ui()
 colores = colores_ui()
 
-def enviarDatos(usuarioEntry, passwordEntry):
+def enviarDatos(usuarioEntry, passwordEntry, windows):
     usuario = usuarioEntry.get()
     password = passwordEntry.get()
 
@@ -17,7 +21,7 @@ def enviarDatos(usuarioEntry, passwordEntry):
     if credenciales:
         rol = credenciales[1]
         if rol == 0:
-            print("panel admin")
+            panelAdministracion(username=usuario, rol=rol, ventana=windows)
         elif rol == 1:
             print("panel del tecnico")
         elif rol == 2:
@@ -84,7 +88,7 @@ def inicioSesion():
                                     border_width=2, corner_radius=10,
                                     fg_color=colores["fondo"],
                                     width=320,
-                                    command=lambda: enviarDatos(usuarioEntry, passwordEntry)
+                                    command=lambda: enviarDatos(usuarioEntry, passwordEntry, windows)
                                     )
         
         btnCancelar = CTkButton(contenedorFormulario, text="Cancelar", border_color=colores["marcos"],

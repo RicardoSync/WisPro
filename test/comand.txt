@@ -1,0 +1,2 @@
+pip uninstall pillow
+pip install --no-cache-dir pillow
