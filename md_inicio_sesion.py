@@ -3,15 +3,29 @@ from tkinter import messagebox
 
 #cargamos los recursos
 from bk_recursos import colores_ui, imagenes_ui
-from md_creacion_usuario import creacionUusuario
+from bk_login import comprobacion
 iconos = imagenes_ui()
 colores = colores_ui()
 
 def enviarDatos(usuarioEntry, passwordEntry):
     usuario = usuarioEntry.get()
     password = passwordEntry.get()
-    print(usuario, password)
 
+    credenciales = comprobacion(usuario=usuario, 
+                                password=password)
+    
+    if credenciales:
+        rol = credenciales[1]
+        if rol == 0:
+            print("panel admin")
+        elif rol == 1:
+            print("panel del tecnico")
+        elif rol == 2:
+            print("panel cajero")
+        else:
+            messagebox.showerror("WisPro", "No conocemos ese rol, intenta una vez mas")
+    else:
+        messagebox.showerror("WisPro", "Intenta una vez mas, username y/o password incorrectos!")
 
 def inicioSesion():
     windows = CTk()
@@ -43,7 +57,7 @@ def inicioSesion():
                                         )
         
 
-        titulo = CTkLabel(contenedorFormulario, text="Inicio de Sesion", font=("Monospace", 35, "bold"),
+        titulo = CTkLabel(contenedorFormulario, text="Inicio de Usuario", font=("Monospace", 35, "bold"),
                         text_color="white",
                         )
         
@@ -73,12 +87,12 @@ def inicioSesion():
                                     command=lambda: enviarDatos(usuarioEntry, passwordEntry)
                                     )
         
-        btnRegistrar = CTkButton(contenedorFormulario, text="Registrar", border_color=colores["marcos"],
+        btnCancelar = CTkButton(contenedorFormulario, text="Cancelar", border_color=colores["marcos"],
                                 border_width=2,
                                 corner_radius=10,
                                 fg_color=colores["fondo"],
                                 width=320,
-                                command=creacionUusuario
+                                command=windows.destroy
                                 )
         
         contenedorFormulario.pack(padx=10, pady=70)
@@ -90,7 +104,7 @@ def inicioSesion():
 
 
         btnCrearUsuario.pack(padx=10, pady=40)
-        btnRegistrar.pack(padx=10, pady=5)
+        btnCancelar.pack(padx=10, pady=5)
 
     #posicion de los elementos
     contenedorImagen.place(relx=0.0, rely=0.0, relwidth=0.5, relheight=1.0)
