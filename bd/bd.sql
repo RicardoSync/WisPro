@@ -11,6 +11,14 @@ CREATE TABLE usuarios (
     rol TINYINT NOT NULL CHECK (rol IN (0,1,2)) -- 0 = Admin, 1 = Técnico, 2 = Cajero
 );
 
+-- Tabla de paquetes (Internet o servicios contratados)
+CREATE TABLE paquetes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    velocidad VARCHAR(50) NOT NULL, -- Ejemplo: "20 Mbps", "50 Mbps"
+    precio DECIMAL(10,2) NOT NULL
+);
+
 -- Tabla de clientes
 CREATE TABLE clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -23,13 +31,7 @@ CREATE TABLE clientes (
     FOREIGN KEY (id_paquete) REFERENCES paquetes(id) ON DELETE SET NULL
 );
 
--- Tabla de paquetes (Internet o servicios contratados)
-CREATE TABLE paquetes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    velocidad VARCHAR(50) NOT NULL, -- Ejemplo: "20 Mbps", "50 Mbps"
-    precio DECIMAL(10,2) NOT NULL
-);
+
 
 -- Tabla de equipos (Router, ONU, Antenas, etc.)
 CREATE TABLE equipos (

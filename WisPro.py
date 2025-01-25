@@ -1,5 +1,5 @@
-from md_inicio_sesion import inicioSesion
-from md_panel_admin import panelAdministracion
+from md_login import inicioSesion
+from md_administrador import panelAdmin
 
 if __name__ == '__main__':
-    panelAdministracion(username="ricardo", rol=1, ventana=None)
+    panelAdmin(username="ricardo", rol=0, windows=any)

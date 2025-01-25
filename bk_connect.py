@@ -1,5 +1,5 @@
-import mysql.connector
 from tkinter import messagebox
+import mysql.connector
 
 def conexionDB():
     try:
@@ -10,6 +10,5 @@ def conexionDB():
             database="wisp_control"
         )
         return conn
-    
     except mysql.connector.Error as err:
-        messagebox.showerror("WisPro", f"No podemos establecer conexion al servidor {err}")
+        messagebox.showerror("SpiderNet", f"No podemos establecer la comunicacion {err}")
