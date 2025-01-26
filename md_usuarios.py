@@ -1,11 +1,61 @@
 from customtkinter import CTkToplevel, CTkEntry, CTkButton, CTkLabel, CTkFrame, CTkComboBox
 from tkinter import messagebox, ttk, END
+import tkinter as tk
 
 #modulos
 from bk_recursos import colores_ui
 from bk_consultas import consultaUsuarios
+from bk_insert import insertarUsuarios
+from bk_delete import eliminarUsuario
+from md_actulizar_usuarios import actualizarUsuariosWindows
 
 colores = colores_ui()
+
+def enviarEliminacion(tabla, windows):
+    seleccionado = tabla.selection()
+
+    if not seleccionado:
+        messagebox.showerror("SpiderNet", "Selecciona un usuario para poder eliminarlo")
+    
+    identificador = tabla.item(seleccionado, "values")
+
+    confirmacion = messagebox.askyesno("SpiderNet", "Seguro que desea eliminar al usuario?")
+
+    if confirmacion:
+        id = identificador[0]
+        eliminarUsuario(id)
+        tablaUsuarios(windows)
+    else:
+        messagebox.showinfo("SpiderNet", "No se elimino ningun elemento")
+
+def enviarActializacion(tabla, windows):
+    seleccionado = tabla.selection()
+
+    if not seleccionado:
+        messagebox.showinfo("SpiderNet", "No podemos actualizar sin ningun dato")
+    
+    identificador = tabla.item(seleccionado, "values")
+    id = identificador[0]
+    nombre = identificador[1]
+    usuario = identificador[2]
+    password = identificador[3]
+    rol = identificador[4]
+    actualizarUsuariosWindows(id, nombre, usuario, password, rol)
+
+
+def getDatos(nombreEntry, usernameEntry, passwordEntry, tipoUsuario, windows):
+    nombre = nombreEntry.get()
+    username = usernameEntry.get()
+    password = passwordEntry.get()
+    rol = tipoUsuario.get()
+
+    if not nombre or not username or not password or not rol:
+        messagebox.showerror("SpiderNet", "Todos los campos son obligatorios")
+        return
+
+    insertarUsuarios(nombre, username, password, rol)
+    #messagebox.showinfo("SpiderNet", "Usuario registrado exitosamente")
+    tablaUsuarios(windows)
 
 def formularioUI(formBanner, windows):
     tipo_usuario = ["Admin", "Tecnico", "Cajero"]
@@ -39,7 +89,9 @@ def formularioUI(formBanner, windows):
     btnRegistrar  = CTkButton(formBanner, text="Registrar", border_width=2, border_color=colores["marcos"],
                             corner_radius=10, fg_color=colores["boton"],
                             width=200,
-                            text_color="black")
+                            text_color="black",
+                            command=lambda:getDatos(nombreEntry, usernameEntry, passwordEntry, tipoUsuario, windows)
+                            )
 
     btnCancelar  = CTkButton(formBanner, text="Cancelar", border_width=2, border_color=colores["marcos"],
                             corner_radius=10, fg_color=colores["boton"],
@@ -58,19 +110,20 @@ def formularioUI(formBanner, windows):
     btnRegistrar.pack(padx=10, pady=10)
     btnCancelar.pack(padx=10, pady=10)
 
-
 def tablaUsuarios(windows):
-    usuarios = consultaUsuarios()
 
     contenedorTabla = CTkFrame(windows, border_width=2, border_color=colores["marcos"],
                         corner_radius=0, fg_color=colores["fondo"])
     
 
-    tabla = ttk.Treeview(contenedorTabla, columns=("Nombre", "Username", "Password", "Rol"), show="headings")
+    tabla = ttk.Treeview(contenedorTabla, columns=("ID", "Nombre", "Username", "Password", "Rol"), show="headings")
+    tabla.heading("ID", text="ID")
     tabla.heading("Nombre", text="Nombre")
     tabla.heading("Username", text="Username")
     tabla.heading("Password", text="Password")
     tabla.heading("Rol", text="Rol")
+
+    usuarios = consultaUsuarios()
 
     for item in tabla.get_children():
         tabla.delete(item)
@@ -81,7 +134,20 @@ def tablaUsuarios(windows):
     contenedorTabla.place(relx=0.2, rely=0.0, relwidth=0.8, relheight=1.0)
     tabla.pack(expand=True, fill="both")
 
-def creacionUsuarios():
+    #creacion del menu contextual
+    menu = tk.Menu(tabla, tearoff=0)
+    menu.add_command(label="Editar", command=lambda:enviarActializacion(tabla, windows))
+    menu.add_command(label="Eliminar", command=lambda:enviarEliminacion(tabla, windows))
+    menu.add_command(label="Actualizar", command=lambda:tablaUsuarios(windows))
+
+    def mostrar_menu(event):
+        seleccion = tabla.selection()
+        if seleccion:  # Solo mostrar menú si hay un ítem seleccionado
+            menu.post(event.x_root, event.y_root)
+
+    tabla.bind("<Button-3>", mostrar_menu)  # Evento clic derecho
+
+def creacionUsuarios(): 
     windows = CTkToplevel()
     windows.title("Nuevo Usuario")
     windows.geometry("1280x800")

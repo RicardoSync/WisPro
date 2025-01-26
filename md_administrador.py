@@ -10,7 +10,7 @@ fecha = datetime.now().strftime("%d/%m/%Y")
 
 
 def panelAdmin(username, rol, windows):
-    #windows.destroy()
+    windows.destroy()
 
     panel = CTk()
     panel.title(f"Panel de control {username}")
@@ -69,7 +69,7 @@ def panelAdmin(username, rol, windows):
     btnCancelar =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
-                            text="Configuracion",
+                            text="Cancelar",
                             text_color="black",
                             command=panel.destroy
                             )

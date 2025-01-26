@@ -5,7 +5,7 @@ def consultaUsuarios():
     try:
         conn = conexionDB()
         cursor = conn.cursor()
-        cursor.execute("SELECT nombre, usuario, password, rol FROM usuarios")
+        cursor.execute("SELECT id, nombre, usuario, password, rol FROM usuarios")
         usuarios = cursor.fetchall()
 
         cursor.close()
