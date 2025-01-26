@@ -4,6 +4,8 @@ from datetime import datetime
 #cargamos los modulos
 from bk_recursos import imagenes_ui, colores_ui
 from md_usuarios import creacionUsuarios
+from md_paquetes import creacionPaquetes
+
 iconos = imagenes_ui()
 colores = colores_ui()
 fecha = datetime.now().strftime("%d/%m/%Y")
@@ -34,7 +36,8 @@ def panelAdmin(username, rol, windows):
                             fg_color=colores["boton"],
                             width=200,
                             text="Paquetes",
-                            text_color="black"
+                            text_color="black",
+                            command=creacionPaquetes
                             )
     
     btnEquipos =  CTkButton(banner, border_width=2, border_color=colores["marcos"],

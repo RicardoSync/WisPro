@@ -15,3 +15,18 @@ def consultaUsuarios():
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos realizar la consulta de los usuarios {err}")
+
+def consultarPaquetes():
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT id, nombre, velocidad, precio FROM paquetes")
+        paquetes = cursor.fetchall()
+
+        cursor.close()
+        conexion.close()
+
+        return paquetes
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos realizar la consulta de los paquetes {err}")

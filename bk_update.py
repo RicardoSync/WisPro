@@ -33,3 +33,22 @@ def actualizarUsuario(id, nombre, usuario, password, rol):
 
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos actualizar al usuario {usuario}, tipo de error {err}")
+
+def actualizarPaquete(id, nombre, velocidad, precio):
+    try:
+        daniela = conexionDB()
+        cursor = daniela.cursor()
+        sql = """UPDATE paquetes 
+            SET nombre = %s, velocidad = %s, precio = %s
+            WHERE id = %s"""
+        valores = (nombre, velocidad, precio, id)
+        cursor.execute(sql, valores)
+
+        daniela.commit()
+        cursor.close()
+        daniela.close()
+
+        return 0
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos actualizar el paquete {nombre} por problemas {err}")
