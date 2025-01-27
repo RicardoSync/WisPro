@@ -1,2 +1,15 @@
 pip uninstall pillow
 pip install --no-cache-dir pillow
+
+
+            SELECT 
+                c.id, 
+                c.nombre, 
+                c.telefono, 
+                c.email, 
+                c.fecha_registro, 
+                p.nombre AS Paquete, 
+                p.velocidad, 
+                p.precio
+            FROM clientes c
+            INNER JOIN paquetes p ON c.id_paquete = p.id;

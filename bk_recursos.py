@@ -5,6 +5,10 @@ def imagenes_ui():
     imagenes = {
         "logo": CTkImage(light_image=Image.open("img/logo.png"),
                         dark_image=Image.open("img/logo.png"),
+                        size=(150,150)),
+
+        "cliente": CTkImage(light_image=Image.open("img/cliente.png"),
+                        dark_image=Image.open("img/cliente.png"),
                         size=(150,150))
     }
     return imagenes

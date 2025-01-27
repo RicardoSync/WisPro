@@ -1,5 +1,6 @@
 from bk_connect import conexionDB
 from tkinter import messagebox
+from bk_consultas import consultarPaqueteID
 
 def actualizarUsuario(id, nombre, usuario, password, rol):
     try:
@@ -52,3 +53,6 @@ def actualizarPaquete(id, nombre, velocidad, precio):
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos actualizar el paquete {nombre} por problemas {err}")
+
+def actualizarCliente(id, nombre, telefono, email, direccion, id_paquete):
+    pass

@@ -30,3 +30,54 @@ def consultarPaquetes():
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos realizar la consulta de los paquetes {err}")
+
+def consultarPaqueteID(nombrePaquete):
+    try:
+        daniela = conexionDB()
+        cursor = daniela.cursor()
+        sql = "SELECT id FROM paquetes WHERE nombre = %s"
+        valores = (nombrePaquete, )
+        cursor.execute(sql, valores)
+
+        idPaquete = cursor.fetchone()
+        cursor.close()
+        daniela.close()
+
+        return idPaquete[0] if idPaquete else None  # Retorna el ID o None
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos buscar el paquete con nombre {nombrePaquete} por error {err}")
+        return None
+
+def consultarClientes():
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """
+            SELECT 
+                c.id, 
+                c.nombre, 
+                c.telefono, 
+                c.email,
+                c.direccion, 
+                c.fecha_registro, 
+                p.nombre AS Paquete
+            FROM clientes c
+            INNER JOIN paquetes p ON c.id_paquete = p.id;
+        """
+        cursor.execute(sql)
+        datos = cursor.fetchall()
+
+        cursor.close()
+        conexion.close()
+
+        # Verificar si hay datos antes de devolverlos
+        if datos:
+            return datos
+        else:
+            messagebox.showinfo("SpiderNet", "No se encontró el cliente con ID = 1")
+            return None
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos consultar al cliente. Error: {err}")
+        return None

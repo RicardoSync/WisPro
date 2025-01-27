@@ -1,5 +1,6 @@
 from bk_connect import conexionDB
 from tkinter import messagebox
+from bk_consultas import consultarPaqueteID
 
 def insertarUsuarios(nombre, username, password, rol):
     try:
@@ -43,3 +44,27 @@ def insertarPaquete(nombre, velocidad, precio):
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos insertar el paquete debido a {err}")
+
+def insertarCliente(nombre, telefono, email, direccion, paquete):
+    idPaquete = consultarPaqueteID(paquete)
+
+    if not idPaquete:
+        messagebox.showerror("SpiderNet", "No logramos encontrar ese paquete, intenta una vex mas")
+        return
+    
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "INSERT INTO clientes (nombre, telefono, email, direccion, id_paquete) VALUES (%s,%s,%s,%s,%s)"
+        valores = (nombre, telefono, email, direccion, idPaquete)
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        conexion.close()
+        cursor.close()
+
+        messagebox.showinfo("SpiderNet", f"El cliente {nombre} se registro con exito")
+        return True
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos almacenar al cliente {err}")
