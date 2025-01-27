@@ -4,22 +4,33 @@ from tkinter import messagebox
 
 from bk_consultas import consultarPaquetes
 from bk_recursos import colores_ui, imagenes_ui
+from bk_update import actualizacion_cliente
 
 #variables necesarias
 colores = colores_ui()
 paquetes = consultarPaquetes()
-nombre_paquetes = [paquete[1] for paquete in paquetes]
 iconos = imagenes_ui()
+
+def enviar_actualizacion(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, id, windows):
+    nombre = nombreEntry.get()
+    telefono = telefonoEntry.get()
+    email = emailEntry.get()
+    direccion = direccionEntry.get()
+    paquete = paqueteNuevoEntry.get()
+
+    if actualizacion_cliente(id, nombre, telefono, email, direccion, paquete):
+        windows.destroy()
 
 def insertarElementos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paquetesEntry, nombre, telefono, email, direccion, paquete):
     nombreEntry.insert(0, nombre)
     telefonoEntry.insert(0, telefono)
     emailEntry.insert(0, email)
     direccionEntry.insert(0, direccion)
-    paquetesEntry.insert(0, paquete)
 
+def formulario(id, nombre, telefono, email, direccion, paquete, windows):
+    nombre_paquetes = [paquete[1] for paquete in paquetes]
+    nombre_paquetes.insert(0, paquete)
 
-def formulario(nombre, telefono, email, direccion, paquete, windows):
     contenedorFormulario = CTkFrame(windows, border_color=colores["marcos"], border_width=2,
                                 corner_radius=0, fg_color=colores["fondo"])
     
@@ -53,22 +64,18 @@ def formulario(nombre, telefono, email, direccion, paquete, windows):
     
     paquetesLabel = CTkLabel(contenedorFormulario, text="Paquetes Actual" , font=("Arial", 20), text_color="black")
 
-    paquetesEntry = CTkEntry(contenedorFormulario,
-                        border_color=colores["marcos"], border_width=2,
-                        corner_radius=10,
-                        width=250)
-
-    paqueteNuevo = CTkLabel(contenedorFormulario, text="Paquetes Nuevo" , font=("Arial", 20), text_color="black")
-
     paqueteNuevoEntry = CTkComboBox(contenedorFormulario, values=nombre_paquetes,
                         border_color=colores["marcos"], border_width=2,
                         corner_radius=10,
                         width=250)
     
+
     btnGuardar = CTkButton(contenedorFormulario, text="Actualizar", border_color=colores["marcos"],
                         border_width=2, corner_radius=10, fg_color=colores["boton"],
                         text_color="black",
-                        width=250)
+                        width=250,
+                        command=lambda:enviar_actualizacion(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, id, windows)
+                        )
 
     btnCancelar = CTkButton(contenedorFormulario, text="Cancelar", border_color=colores["marcos"],
                         border_width=2, corner_radius=10, fg_color=colores["boton"],
@@ -87,15 +94,13 @@ def formulario(nombre, telefono, email, direccion, paquete, windows):
     emailEntry.grid(column=0, row=3, padx=10, pady=10)
     direccionEntry.grid(column=1, row=3, padx=10, pady=10)
     paquetesLabel.grid(column=0, row=4, padx=10, pady=10)
-    paqueteNuevo.grid(column=1, row=4, padx=10, pady=10)
-    paquetesEntry.grid(column=0, row=5, padx=10, pady=10)
-    paqueteNuevoEntry.grid(column=1, row=5, padx=10, pady=10)
+    paqueteNuevoEntry.grid(column=0, row=5, padx=10, pady=10)
     btnGuardar.grid(column=0, row=6, padx=10, pady=10)
     btnCancelar.grid(column=1, row=6, padx=10, pady=10)
-    insertarElementos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paquetesEntry, nombre,
+    insertarElementos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, nombre,
                     telefono, email, direccion, paquete)
 
-def actualizarCliente(nombre, telefono, email, direccion, paquete):
+def actualizarCliente(id, nombre, telefono, email, direccion, paquete):
     windows = CTkToplevel()
     windows.title("Actualizar Cliente")
     windows.geometry("800x400")
@@ -110,6 +115,6 @@ def actualizarCliente(nombre, telefono, email, direccion, paquete):
 
     contenedorOpciones.place(relx=0.0, rely=0.0, relwidth=0.2, relheight=1.0)
     icono.pack(padx=10, pady=10)
-    formulario(nombre, telefono, email, direccion, paquete, windows)
+    formulario(id, nombre, telefono, email, direccion, paquete, windows)
     windows.mainloop()
 

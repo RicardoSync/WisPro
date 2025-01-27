@@ -54,5 +54,33 @@ def actualizarPaquete(id, nombre, velocidad, precio):
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos actualizar el paquete {nombre} por problemas {err}")
 
-def actualizarCliente(id, nombre, telefono, email, direccion, id_paquete):
-    pass
+def actualizacion_cliente(id, nombre, telefono, email, direccion, nombre_paquete):
+    try:
+        if not nombre_paquete:
+            messagebox.showerror("SpiderNet", "No podemos almacenar un paquete vacio")
+            return
+        
+        id_paquete = consultarPaqueteID(nombre_paquete)
+
+        if not id_paquete:
+            messagebox.showerror("SpiderNet", f"No se encontró el paquete '{nombre_paquete}'")
+            return False
+
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """UPDATE clientes
+            SET nombre = %s, telefono = %s, email = %s, direccion = %s, id_paquete = %s
+            WHERE id = %s"""
+        valores = (nombre, telefono, email, direccion, id_paquete, id)
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+
+        messagebox.showinfo("SpiderNet", "Cliente actualizado")
+        return True
+
+
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos actualizar al cliente {nombre}. Error: {err}")
