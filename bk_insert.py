@@ -1,6 +1,7 @@
 from bk_connect import conexionDB
 from tkinter import messagebox
 from bk_consultas import consultarPaqueteID
+from bk_generar_pago import generar_recibo
 
 def insertarUsuarios(nombre, username, password, rol):
     try:
@@ -46,6 +47,8 @@ def insertarPaquete(nombre, velocidad, precio):
         messagebox.showerror("SpiderNet", f"No podemos insertar el paquete debido a {err}")
 
 def insertarCliente(nombre, telefono, email, direccion, paquete):
+
+
     idPaquete = consultarPaqueteID(paquete)
 
     if not idPaquete:
@@ -68,3 +71,20 @@ def insertarCliente(nombre, telefono, email, direccion, paquete):
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos almacenar al cliente {err}")
+
+def insertarPago(id_cliente, monto, metodo_pago, cantidad, cambio, nombre_cliente, paquete):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "INSERT INTO pagos (id_cliente, monto, metodo_pago, cantidad, cambio) VALUES (%s,%s,%s,%s,%s)"
+        valores = (id_cliente, monto, metodo_pago, cantidad, cambio)
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        conexion.close()
+        cursor.close()
+        generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cantidad, cambio)
+        return True
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos registrar el pago {err}")

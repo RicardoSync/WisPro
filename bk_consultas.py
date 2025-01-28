@@ -50,6 +50,7 @@ def consultarPaqueteID(nombrePaquete):
         return None
 
 def consultarClientes():
+
     try:
         conexion = conexionDB()
         cursor = conexion.cursor()
@@ -81,3 +82,24 @@ def consultarClientes():
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos consultar al cliente. Error: {err}")
         return None
+
+def consultarPaqueteNombre(nombrePaquete):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "SELECT precio FROM paquetes WHERE nombre = %s"
+        valores = (nombrePaquete,)
+        cursor.execute(sql, valores)
+        precioPaquete = cursor.fetchone()
+
+        cursor.close()
+        conexion.close()
+
+        if not precioPaquete:
+            messagebox.showerror("SpiderNet", "NO logramos obtener el precio del paquete")
+            return "Desconocido"
+        
+        return precioPaquete
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", "No logramos encontrar este paquete")

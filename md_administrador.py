@@ -10,6 +10,7 @@ from md_paquetes import creacionPaquetes
 from bk_delete import eliminarCliente
 from md_nuevo_cliente import nuevoCliente
 from md_actualizar_cliente import actualizarCliente
+from md_pago import registar_pago
 
 iconos = imagenes_ui()
 colores = colores_ui()
@@ -48,6 +49,20 @@ def enviarActualizacion(tablaClientes, panel):
 
     actualizarCliente(id_cliente, nombre, telefono, email, direccion, paquete)
 
+def enviarPago(tablaClientes):
+    seleccion = tablaClientes.selection()
+
+    if not seleccion:
+        messagebox.showerror("SpiderNet", "No podemos registrar un pago sin seleccionar un cliente")
+        return 
+    
+    identificado = tablaClientes.item(seleccion, "values")
+
+    id_cliente = identificado[0]
+    nombre = identificado[1]
+    paquete = identificado[6]
+    registar_pago(id_cliente, nombre, paquete)
+
 def contenedorTabla(panel):
     datosClientes = consultarClientes()
 
@@ -82,7 +97,7 @@ def contenedorTabla(panel):
     menu.add_command(label="Nuevo Cliente", command=nuevoCliente)
     menu.add_command(label="Editar", command=lambda:enviarActualizacion(tablaClientes, panel))
     menu.add_command(label="Eliminar", command=lambda:enviarEliminar(tablaClientes, panel))
-    menu.add_command(label="Pagar")
+    menu.add_command(label="Pagar", command=lambda:enviarPago(tablaClientes))
     menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel))
 
     def mostrar_menu(event):
@@ -93,7 +108,7 @@ def contenedorTabla(panel):
     tablaClientes.bind("<Button-3>", mostrar_menu)  # Evento clic derecho
 
 def panelAdmin(username, rol, windows):
-    #windows.destroy()
+    windows.destroy()
     panel = CTk()
     panel.title(f"Panel de control {username}")
     panel.geometry("1280x800")
