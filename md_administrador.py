@@ -11,6 +11,7 @@ from bk_delete import eliminarCliente
 from md_nuevo_cliente import nuevoCliente
 from md_actualizar_cliente import actualizarCliente
 from md_registro_pago import registar_pago
+from md_pagos import moduloPagos
 
 iconos = imagenes_ui()
 colores = colores_ui()
@@ -146,7 +147,8 @@ def panelAdmin(username, rol, windows):
                             fg_color=colores["boton"],
                             width=200,
                             text="Pagos",
-                            text_color="black"
+                            text_color="black",
+                            command=moduloPagos
                             )
     
     btnUsuarios =  CTkButton(banner, border_width=2, border_color=colores["marcos"],

@@ -76,8 +76,8 @@ def insertarPago(id_cliente, monto, metodo_pago, cantidad, cambio, nombre_client
     try:
         conexion = conexionDB()
         cursor = conexion.cursor()
-        sql = "INSERT INTO pagos (id_cliente, monto, metodo_pago, cantidad, cambio) VALUES (%s,%s,%s,%s,%s)"
-        valores = (id_cliente, monto, metodo_pago, cantidad, cambio)
+        sql = "INSERT INTO pagos (id_cliente, nombre, monto, metodo_pago, cantidad, cambio) VALUES (%s,%s,%s,%s,%s,%s)"
+        valores = (id_cliente, nombre_cliente, monto, metodo_pago, cantidad, cambio)
         cursor.execute(sql, valores)
 
         conexion.commit()

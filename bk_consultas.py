@@ -106,20 +106,61 @@ def consultarPaqueteNombre(nombrePaquete):
 
 def consultarPagos():
     try:
-        daniela = conexionDB()
-        cursor = daniela.cursor() #26/01/2025 me abandono
-        cursor.execute("SELECT id_cliente, monto, fecha_pago, metodo_pago FROM pagos")
-
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT id_cliente, nombre, monto, fecha_pago, metodo_pago FROM pagos")
+        
         pagos = cursor.fetchall()
+        conexion.close()  # Cerrar la conexión antes de retornar
 
         if not pagos:
             messagebox.showerror("SpiderNet", "No logramos obtener los pagos de la base de datos")
-            return False
+            return []
         
-        cursor.close()
-        daniela.close()
-
         return pagos
     
     except Exception as err:
-        messagebox.showerror("SpiderNet", f"No logramos cargar los pagos {err}")
+        messagebox.showerror("SpiderNet", f"No logramos cargar los pagos: {err}")
+        return []
+
+def consultarPagoNombre(nombreCliente):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "SELECT id_cliente, nombre, monto, fecha_pago, metodo_pago FROM pagos WHERE nombre LIKE %s"
+        valores = (f"%{nombreCliente}%",)  # Permitir búsqueda parcial con LIKE
+        cursor.execute(sql, valores)
+
+        pagosCliente = cursor.fetchall()  # Cambiado de fetchone() a fetchall()
+        conexion.close()
+
+        if not pagosCliente:
+            messagebox.showerror("SpiderNet", "No podemos encontrar este cliente")
+            return []
+        
+        return pagosCliente
+
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos conectar: {err}")
+        return []
+
+def consultarPagoID(idCliente):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "SELECT id_cliente, nombre, monto, fecha_pago, metodo_pago FROM pagos WHERE id_cliente = %s"
+        valores = (idCliente,)
+        cursor.execute(sql, valores)
+
+        pagoCliente = cursor.fetchall()
+        conexion.close()
+
+        if not pagoCliente:
+            messagebox.showerror("SpiderNet", "No se encontró un cliente con este ID")
+            return []
+        
+        return pagoCliente
+
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos conectar: {err}")
+        return []
