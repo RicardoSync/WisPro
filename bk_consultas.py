@@ -103,3 +103,23 @@ def consultarPaqueteNombre(nombrePaquete):
     
     except Exception as err:
         messagebox.showerror("SpiderNet", "No logramos encontrar este paquete")
+
+def consultarPagos():
+    try:
+        daniela = conexionDB()
+        cursor = daniela.cursor() #26/01/2025 me abandono
+        cursor.execute("SELECT id_cliente, monto, fecha_pago, metodo_pago FROM pagos")
+
+        pagos = cursor.fetchall()
+
+        if not pagos:
+            messagebox.showerror("SpiderNet", "No logramos obtener los pagos de la base de datos")
+            return False
+        
+        cursor.close()
+        daniela.close()
+
+        return pagos
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No logramos cargar los pagos {err}")

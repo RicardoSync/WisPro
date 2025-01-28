@@ -10,7 +10,7 @@ from md_paquetes import creacionPaquetes
 from bk_delete import eliminarCliente
 from md_nuevo_cliente import nuevoCliente
 from md_actualizar_cliente import actualizarCliente
-from md_pago import registar_pago
+from md_registro_pago import registar_pago
 
 iconos = imagenes_ui()
 colores = colores_ui()
