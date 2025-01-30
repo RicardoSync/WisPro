@@ -12,6 +12,10 @@ from md_nuevo_cliente import nuevoCliente
 from md_actualizar_cliente import actualizarCliente
 from md_registro_pago import registar_pago
 from md_pagos import moduloPagos
+from md_asignacin_equipo import asignacionEquipo
+from md_equipos import moduloEquipos
+from md_histotial_pagos import obtener_detalles_windows
+from md_equipo_asignado import obtener_detalles_equipo
 
 iconos = imagenes_ui()
 colores = colores_ui()
@@ -50,6 +54,19 @@ def enviarActualizacion(tablaClientes, panel):
 
     actualizarCliente(id_cliente, nombre, telefono, email, direccion, paquete)
 
+def asignacion_equipo(tablaClientes):
+    seleccionado = tablaClientes.selection()
+
+    if not seleccionado:
+        messagebox.showerror("SpiderNet", "No podemos asignar un equipo si no seleccionas un cliente")
+        return
+    
+    identificador = tablaClientes.item(seleccionado, "values")
+    id_cliente = identificador[0]
+    nombre = identificador[1]
+
+    asignacionEquipo(id_cliente, nombre)
+
 def enviarPago(tablaClientes):
     seleccion = tablaClientes.selection()
 
@@ -63,6 +80,25 @@ def enviarPago(tablaClientes):
     nombre = identificado[1]
     paquete = identificado[6]
     registar_pago(id_cliente, nombre, paquete)
+
+def enviarDetalles(tablaClientes):
+    seleccion = tablaClientes.selection()
+
+    if not seleccion:
+        messagebox.showerror("SpiderNet", "Por favot selecciona un cliente")
+    
+    identificador = tablaClientes.item(seleccion, "values")
+    obtener_detalles_windows(id_cliente=identificador[0], nombre=identificador[1])
+
+def obtenerAsignacion(tablaClientes):
+    seleccion = tablaClientes.selection()
+
+    if not seleccion:
+        messagebox.showerror("SpiderNet", "Por favot selecciona un cliente")
+    
+    identificador = tablaClientes.item(seleccion, "values")
+    obtener_detalles_equipo(id_cliente=identificador[0], nombre=identificador[1])
+
 
 def contenedorTabla(panel):
     datosClientes = consultarClientes()
@@ -90,15 +126,16 @@ def contenedorTabla(panel):
     contenedorTable.place(relx=0.2, rely=0.0, relwidth=0.8, relheight=1.0)
     tablaClientes.pack(expand=True, fill="both")
 
-    def test():
-        pass
 
     #creacion del menu contextual
     menu = Menu(tablaClientes, tearoff=0)
     menu.add_command(label="Nuevo Cliente", command=nuevoCliente)
+    menu.add_command(label="Asignar Equipo", command=lambda:asignacion_equipo(tablaClientes))
+    menu.add_command(label="Equipo Asignado", command=lambda:obtenerAsignacion(tablaClientes))
     menu.add_command(label="Editar", command=lambda:enviarActualizacion(tablaClientes, panel))
     menu.add_command(label="Eliminar", command=lambda:enviarEliminar(tablaClientes, panel))
-    menu.add_command(label="Pagar", command=lambda:enviarPago(tablaClientes))
+    menu.add_command(label="Registrar Pago", command=lambda:enviarPago(tablaClientes))
+    menu.add_command(label="Historial Pagos", command=lambda:enviarDetalles(tablaClientes))
     menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel))
 
     def mostrar_menu(event):
@@ -109,7 +146,7 @@ def contenedorTabla(panel):
     tablaClientes.bind("<Button-3>", mostrar_menu)  # Evento clic derecho
 
 def panelAdmin(username, rol, windows):
-    windows.destroy()
+    #windows.destroy()
     panel = CTk()
     panel.title(f"Panel de control {username}")
     panel.geometry("1280x800")
@@ -140,7 +177,8 @@ def panelAdmin(username, rol, windows):
                             fg_color=colores["boton"],
                             width=200,
                             text="Equipos",
-                            text_color="black"
+                            text_color="black",
+                            command=moduloEquipos
                             )
     
     btnPagos =  CTkButton(banner, border_width=2, border_color=colores["marcos"],

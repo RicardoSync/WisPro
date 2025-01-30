@@ -52,8 +52,11 @@ CREATE TABLE equipos (
 CREATE TABLE pagos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT NOT NULL,
+    nombre VARCHAR(255),
     monto DECIMAL(10,2) NOT NULL,
     fecha_pago DATETIME DEFAULT CURRENT_TIMESTAMP,
     metodo_pago ENUM('Efectivo', 'Transferencia', 'Tarjeta') NOT NULL,
+    cantidad INT NOT NULL,
+    cambio INT NOT NULL,
     FOREIGN KEY (id_cliente) REFERENCES clientes(id) ON DELETE CASCADE
 );

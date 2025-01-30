@@ -88,3 +88,20 @@ def insertarPago(id_cliente, monto, metodo_pago, cantidad, cambio, nombre_client
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos registrar el pago {err}")
+
+def insertarEquipo(nombre, tipo, marca, modelo, mac, serial, estado, id_cliente):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "INSERT INTO equipos (nombre, tipo, marca, modelo, mac, serial, estado, id_cliente) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+        valores = (nombre, tipo, marca, modelo, mac, serial, estado, id_cliente)
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+
+        return True
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos asigar el equipo, error {err}")

@@ -2,24 +2,15 @@ from customtkinter import CTkFrame, CTkEntry, CTkButton, CTkToplevel
 from tkinter import messagebox, ttk, END, Menu
 
 from bk_recursos import colores_ui
-from bk_consultas import consultarPagos, consultarPagoNombre, consultarPagoID
-from md_registro_pago import registar_pago
+from bk_consultas import consultarEquipoNombre, consultarEquipoID, consultarEquipos
 
 colores = colores_ui()
-pagos = consultarPagos()
-
-def enviar_detalles(tablaPagos):
-    seleccionado = tablaPagos.selection()
-
-    if not seleccionado:
-        messagebox.showerror("SpiderNet", "No podemos obtener detalles si no hay nada seleccionado")
-        return
-    identificador = tablaPagos.item(seleccionado, "values")
-    print(identificador)
+pagos = consultarEquipos()
 
 def actualizar_tabla(tablaPagos):
     """Consulta la base de datos y actualiza la tabla con los nuevos datos."""
-    pagos_actualizados = consultarPagos()
+    pagos_actualizados = consultarEquipos()
+
     insertarElementos(tablaPagos, pagos_actualizados)
 
 def enviarBusqueda(tablaPagos, nombreID, busquedaPor):
@@ -29,12 +20,12 @@ def enviarBusqueda(tablaPagos, nombreID, busquedaPor):
         return
 
     if busquedaPor == "nombre":
-        pagosBusqueda = consultarPagoNombre(valorBusqueda)
+        pagosBusqueda = consultarEquipoNombre(valorBusqueda)
     else:  # Búsqueda por ID
         if not valorBusqueda.isdigit():
             messagebox.showerror("SpiderNet", "El ID debe ser un número")
             return
-        pagosBusqueda = consultarPagoID(int(valorBusqueda))
+        pagosBusqueda = consultarEquipoID(int(valorBusqueda))
 
     insertarElementos(tablaPagos, pagosBusqueda)
 
@@ -50,12 +41,9 @@ def barraBusqueda(tablaPagos, ventana):
                             corner_radius=10, fg_color=colores["fondo"])
     
     nombreID = CTkEntry(frameBusqueda, border_color=colores["marcos"], border_width=2,
-                        corner_radius=10, width=420, placeholder_text="Nombre del cliente o ID")
+                        corner_radius=10, width=420, placeholder_text="ID del cliente")
     
-    btnBuscarNombre = CTkButton(frameBusqueda, text="Buscar Nombre", border_color=colores["marcos"],
-                                border_width=2, corner_radius=10, fg_color=colores["boton"],
-                                width=200, text_color="black",
-                                command=lambda: enviarBusqueda(tablaPagos, nombreID, "nombre"))
+
     
     btnBuscarID = CTkButton(frameBusqueda, text="Buscar ID", border_color=colores["marcos"],
                             border_width=2, corner_radius=10, fg_color=colores["boton"],
@@ -64,19 +52,23 @@ def barraBusqueda(tablaPagos, ventana):
 
     frameBusqueda.place(relx=0.0, rely=0.0, relwidth=1.0, relheight=0.1)
     nombreID.grid(column=0, row=0, padx=10, pady=20)
-    btnBuscarNombre.grid(column=1, row=0, padx=10, pady=20)
     btnBuscarID.grid(column=2, row=0, padx=10, pady=20)
 
 def tablaPagos(ventana):
     contenedorTabla = CTkFrame(ventana, border_color=colores["marcos"], border_width=2,
                                 corner_radius=10, fg_color="transparent")
 
-    tabla = ttk.Treeview(contenedorTabla, columns=("Id Cliente", "Nombre", "Monto", "Fecha", "Metodo"), show="headings")
-    tabla.heading("Id Cliente", text="Id Cliente")
+    tabla = ttk.Treeview(contenedorTabla, columns=("id", "Nombre", "Tipo", "Marca", "Modelo", "Estado", "id_cliente"), show="headings")
+    tabla.heading("id", text="id")
     tabla.heading("Nombre", text="Nombre")
-    tabla.heading("Monto", text="Monto")
-    tabla.heading("Fecha", text="Fecha")
-    tabla.heading("Metodo", text="Metodo")
+    tabla.heading("Tipo", text="Tipo")
+    tabla.heading("Marca", text="Marca")
+    tabla.heading("Modelo", text="Modelo")
+    tabla.heading("Estado", text="Estado")
+    tabla.heading("id_cliente", text="id_cliente")
+
+    tabla.column("id", width=60)
+    tabla.column("id_cliente", width=60)
 
     contenedorTabla.place(relx=0.0, rely=0.1, relwidth=1.0, relheight=0.9)
     insertarElementos(tabla, pagos)  # Pasamos los pagos al inicio
@@ -97,10 +89,10 @@ def tablaPagos(ventana):
 
     return tabla
 
-def moduloPagos():
+def moduloEquipos():
     ventana = CTkToplevel()
-    ventana.title("Pagos")
-    ventana.geometry("1000x700")
+    ventana.title("Equipos")
+    ventana.geometry("1200x700")
     ventana.resizable(False, False)
     ventana._set_appearance_mode("dark")
 

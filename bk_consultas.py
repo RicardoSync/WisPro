@@ -164,3 +164,64 @@ def consultarPagoID(idCliente):
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos conectar: {err}")
         return []
+
+def consultarEquipos():
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT id, nombre, tipo, marca, modelo, estado, id_cliente FROM equipos")
+        
+        pagos = cursor.fetchall()
+        conexion.close()  # Cerrar la conexión antes de retornar
+
+        if not pagos:
+            messagebox.showerror("SpiderNet", "No logramos obtener los pagos de la base de datos")
+            return []
+        
+        return pagos
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No logramos cargar los pagos: {err}")
+        return []
+    
+def consultarEquipoID(idCliente):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "SELECT id, nombre, tipo, marca, modelo, estado, id_cliente FROM equipos WHERE id_cliente = %s"
+        valores = (idCliente,)
+        cursor.execute(sql, valores)
+
+        pagoCliente = cursor.fetchall()
+        conexion.close()
+
+        if not pagoCliente:
+            messagebox.showerror("SpiderNet", "No se encontró un cliente con este ID")
+            return []
+        
+        return pagoCliente
+
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos conectar: {err}")
+        return []
+    
+def consultarEquipoNombre(nombreCliente):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "SELECT id, nombre, tipo, marca, modelo, estado, id_cliente FROM equipos WHERE nombre = %s"
+        valores = (f"%{nombreCliente}%",)  # Permitir búsqueda parcial con LIKE
+        cursor.execute(sql, valores)
+
+        pagosCliente = cursor.fetchall()  # Cambiado de fetchone() a fetchall()
+        conexion.close()
+
+        if not pagosCliente:
+            messagebox.showerror("SpiderNet", "No podemos encontrar este cliente")
+            return []
+        
+        return pagosCliente
+
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos conectar: {err}")
+        return []

@@ -106,6 +106,7 @@ def registar_pago(id_cliente, nombre, nombre_paquete):
     panel.geometry("600x300")
     panel.resizable(False, False)
     panel._set_appearance_mode("dark")
+    panel.configure(fg_color=colores["fondo"])
     formulario(id_cliente, nombre, nombre_paquete, panel)
 
     panel.mainloop()
