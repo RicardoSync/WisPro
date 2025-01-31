@@ -72,13 +72,8 @@ def consultarClientes():
         cursor.close()
         conexion.close()
 
-        # Verificar si hay datos antes de devolverlos
-        if datos:
-            return datos
-        else:
-            messagebox.showinfo("SpiderNet", "No se encontró el cliente con ID = 1")
-            return None
-    
+        return datos
+
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos consultar al cliente. Error: {err}")
         return None
@@ -113,10 +108,6 @@ def consultarPagos():
         pagos = cursor.fetchall()
         conexion.close()  # Cerrar la conexión antes de retornar
 
-        if not pagos:
-            messagebox.showerror("SpiderNet", "No logramos obtener los pagos de la base de datos")
-            return []
-        
         return pagos
     
     except Exception as err:
@@ -174,10 +165,6 @@ def consultarEquipos():
         pagos = cursor.fetchall()
         conexion.close()  # Cerrar la conexión antes de retornar
 
-        if not pagos:
-            messagebox.showerror("SpiderNet", "No logramos obtener los pagos de la base de datos")
-            return []
-        
         return pagos
     
     except Exception as err:

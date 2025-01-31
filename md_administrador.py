@@ -99,7 +99,6 @@ def obtenerAsignacion(tablaClientes):
     identificador = tablaClientes.item(seleccion, "values")
     obtener_detalles_equipo(id_cliente=identificador[0], nombre=identificador[1])
 
-
 def contenedorTabla(panel):
     datosClientes = consultarClientes()
 
@@ -165,6 +164,15 @@ def panelAdmin(username, rol, windows):
                     text_color="black")
     
     #creamos los botones
+
+    btnClientes = CTkButton(banner, border_width=2, border_color=colores["marcos"],
+                            fg_color=colores["boton"],
+                            width=200,
+                            text="Clientes",
+                            text_color="black",
+                            command=nuevoCliente
+                            )
+    
     btnPaquetes = CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
@@ -217,6 +225,7 @@ def panelAdmin(username, rol, windows):
     logo.pack(padx=10, pady=20)
     welcome.pack(padx=10, pady=10)
     fechaLabel.pack(padx=10, pady=10)
+    btnClientes.pack(padx=10, pady=10)
     btnPaquetes.pack(padx=10, pady=10)
     btnEquipos.pack(padx=10, pady=10)
     btnPagos.pack(padx=10, pady=10)
