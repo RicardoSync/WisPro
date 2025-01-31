@@ -146,7 +146,7 @@ def contenedorTabla(panel):
     tablaClientes.bind("<Button-3>", mostrar_menu)  # Evento clic derecho
 
 def panelAdmin(username, rol, windows):
-    #windows.destroy()
+    windows.destroy()
     panel = CTk()
     panel.title(f"Panel de control {username}")
     panel.geometry("1280x800")

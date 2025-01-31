@@ -84,3 +84,24 @@ def actualizacion_cliente(id, nombre, telefono, email, direccion, nombre_paquete
 
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos actualizar al cliente {nombre}. Error: {err}")
+
+def actualizacion_equipo(nombre, tipo, marca, modelo, mac, serial, estado, id_equipo):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """UPDATE equipos
+            SET nombre = %s, tipo = %s, marca = %s, modelo = %s, mac = %s, serial = %s, estado = %s
+            WHERE id = %s"""
+        valores = (nombre, tipo, marca, modelo, mac, serial, estado, id_equipo)
+        
+        cursor.execute(sql, valores)
+        conexion.commit()
+
+        cursor.close()
+        conexion.close()
+        
+        return True
+
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos actualizar el equipo: {err}")
+        return False

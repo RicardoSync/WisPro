@@ -225,3 +225,20 @@ def consultarEquipoNombre(nombreCliente):
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos conectar: {err}")
         return []
+
+def consutarEquiposActualizacion(id):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "SELECT nombre, tipo, marca, modelo, mac, serial, estado FROM equipos WHERE id =%s"
+        valores = (id,)
+        cursor.execute(sql, valores)
+
+        equiposDatos = cursor.fetchone()
+        cursor.close()
+        conexion.close()
+
+        return equiposDatos
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No logramos obtener nada")

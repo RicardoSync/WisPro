@@ -48,3 +48,21 @@ def eliminarCliente(id):
         messagebox.showinfo("SpiderNet", "El cliente fue eliminado")
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos eliminar al cliente {err}")
+
+def eliminarEquipo(id):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "DELETE FROM equipos WHERE id = %s"
+        valores = (id,)
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+
+        messagebox.showinfo("SpiderNet", "Equipo eliminado")
+        return True
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos eliminar el equipo por error {err}")
