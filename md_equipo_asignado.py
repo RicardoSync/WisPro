@@ -2,35 +2,24 @@ from customtkinter import CTkToplevel, CTkFrame, CTkLabel, CTkButton
 from tkinter import ttk, END, Menu, messagebox
 from bk_recursos import colores_ui, imagenes_ui
 from bk_consultas import consultarEquipoID, consutarEquiposActualizacion
-from bk_delete import eliminarEquipo
 from md_actualizar_equipo import editar_equipo_windows
 
 colores = colores_ui()
 iconos = imagenes_ui()
 
-def insetarElementos(tablaEquipos, idCliente):
+def insetarElementos(tablaEquipos, idCliente, panel):
 
     pagos = consultarEquipoID(idCliente)
-    for item in tablaEquipos.get_children():
-        tablaEquipos.delete(item)
-    
-    for historial_pagos in pagos:
-        tablaEquipos.insert('', END, values=historial_pagos)
 
-def enviarEliminacion(tablaEquipos):
-    seleccion = tablaEquipos.selection()
-
-    if not seleccion:
-        messagebox.showerror("SpiderNet", "Primero selecciona un elemento")
-    
-    identificador = tablaEquipos.item(seleccion, "values")
-    confirmacion = messagebox.askyesno("SpiderNet", "Deseas elimnar este equipo al cliente? ")
-
-    if confirmacion:
-        eliminarEquipo(id=identificador[0])
-    else:
-        return
+    if pagos:
+        for item in tablaEquipos.get_children():
+            tablaEquipos.delete(item)
         
+        for historial_pagos in pagos:
+            tablaEquipos.insert('', END, values=historial_pagos)
+    else:
+        panel.destroy()
+
 def enviar_actualizacion(tablaEquupos):
     seleccionado = tablaEquupos.selection()
 
@@ -99,8 +88,7 @@ def obtener_detalles_equipo(id_cliente, nombre):
     #creacion del menu contextual
     menu = Menu(tablaEquipos, tearoff=0)
     menu.add_command(label="Editar", command=lambda:enviar_actualizacion(tablaEquipos))
-    menu.add_command(label="Eliminar", command=lambda:enviarEliminacion(tablaEquipos))
-    menu.add_command(label="Actualizar", command=lambda:insetarElementos(tablaEquipos, id_cliente))
+    menu.add_command(label="Actualizar", command=lambda:insetarElementos(tablaEquipos, id_cliente, panel))
 
     def mostrar_menu(event):
         seleccion = tablaEquipos.selection()
@@ -115,5 +103,5 @@ def obtener_detalles_equipo(id_cliente, nombre):
     btnCancelar.pack(padx=10, pady=10)
     contenedorTabla.place(relx=0.2, rely=0.0, relwidth=0.8, relheight=1.0)
     tablaEquipos.pack(expand=True, fill="both")
-    insetarElementos(tablaEquipos, id_cliente)
+    insetarElementos(tablaEquipos, id_cliente, panel)
     panel.mainloop()

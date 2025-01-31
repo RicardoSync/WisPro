@@ -2,10 +2,49 @@ from customtkinter import CTkFrame, CTkEntry, CTkButton, CTkToplevel
 from tkinter import messagebox, ttk, END, Menu
 
 from bk_recursos import colores_ui
-from bk_consultas import consultarEquipoNombre, consultarEquipoID, consultarEquipos
+from bk_consultas import consultarEquipoNombre, consultarEquipoID, consultarEquipos, consutarEquiposActualizacion
+from md_actualizar_equipo import editar_equipo_windows
+from bk_delete import eliminarEquipo
 
 colores = colores_ui()
 pagos = consultarEquipos()
+
+
+def enviarEliminacion(tabla):
+    seleccion = tabla.selection()
+
+    if not seleccion:
+        messagebox.showerror("SpiderNet", "Primero selecciona un elemento")
+    
+    identificador = tabla.item(seleccion, "values")
+    confirmacion = messagebox.askyesno("SpiderNet", "Deseas elimnar este equipo al cliente? ")
+
+    if confirmacion:
+        eliminarEquipo(id=identificador[0])
+    else:
+        return
+
+def enviar_actualizacion(tablaEquupos):
+    seleccionado = tablaEquupos.selection()
+
+    if not seleccionado:
+        messagebox.showerror("SpiderNet", "Selecciona primero un elemento")
+        return
+    
+    identidicador = tablaEquupos.item(seleccionado, "values")
+
+    datos = consutarEquiposActualizacion(id=identidicador[0])
+    id_equipo = identidicador[0] #el id lo obtener directo de la tabla sin consultas
+    nombre = datos[0]
+    tipo_equipo_obtenido = datos[1]
+    marca = datos[2]
+    modelo = datos[3]
+    mac= datos[4]
+    serial = datos[5]
+    estado_equipo_obtenido = datos[6]
+
+
+    editar_equipo_windows(nombre, tipo_equipo_obtenido, marca, modelo, mac, serial, estado_equipo_obtenido, id_equipo)
 
 def actualizar_tabla(tablaPagos):
     """Consulta la base de datos y actualiza la tabla con los nuevos datos."""
@@ -77,13 +116,14 @@ def tablaPagos(ventana):
 
     #creacion del menu contextual
     menu = Menu(tabla, tearoff=0)
+    menu.add_command(label="Editar", command=lambda:enviar_actualizacion(tabla))
     menu.add_command(label="Actualizar", command=lambda:actualizar_tabla(tabla))
+
 
 
     def mostrar_menu(event):
         seleccion = tabla.selection()
-        if seleccion:  # Solo mostrar menú si hay un ítem seleccionado
-            menu.post(event.x_root, event.y_root)
+        menu.post(event.x_root, event.y_root)
 
     tabla.bind("<Button-3>", mostrar_menu)  # Evento clic derecho
 
@@ -98,5 +138,5 @@ def moduloEquipos():
 
     tabla = tablaPagos(ventana)  # Guardamos la referencia a la tabla
     barraBusqueda(tabla, ventana)  # Pasamos la tabla correctamente
-
+    actualizar_tabla(tabla)
     ventana.mainloop()

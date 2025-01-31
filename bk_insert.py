@@ -105,3 +105,22 @@ def insertarEquipo(nombre, tipo, marca, modelo, mac, serial, estado, id_cliente)
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos asigar el equipo, error {err}")
+
+
+def insertarEquipo_solo(nombre, tipo, marca, modelo, mac, serial, estado):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "INSERT INTO equipos (nombre, tipo, marca, modelo, mac, serial, estado) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+        valores = (nombre, tipo, marca, modelo, mac, serial, estado)
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+
+        return True
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos asigar el equipo, error {err}")
+

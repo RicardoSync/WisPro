@@ -183,8 +183,8 @@ def consultarEquipoID(idCliente):
         conexion.close()
 
         if not pagoCliente:
-            messagebox.showerror("SpiderNet", "No se encontró un cliente con este ID")
-            return []
+            messagebox.showerror("SpiderNet", "No se encontró equipos asignados a este cliente")
+            return False
         
         return pagoCliente
 
@@ -217,7 +217,7 @@ def consutarEquiposActualizacion(id):
     try:
         conexion = conexionDB()
         cursor = conexion.cursor()
-        sql = "SELECT nombre, tipo, marca, modelo, mac, serial, estado FROM equipos WHERE id =%s"
+        sql = "SELECT nombre, tipo, marca, modelo, mac, serial, estado, id_cliente FROM equipos WHERE id =%s"
         valores = (id,)
         cursor.execute(sql, valores)
 

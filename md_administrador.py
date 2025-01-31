@@ -99,13 +99,21 @@ def obtenerAsignacion(tablaClientes):
     identificador = tablaClientes.item(seleccion, "values")
     obtener_detalles_equipo(id_cliente=identificador[0], nombre=identificador[1])
 
-def contenedorTabla(panel):
+def insertarElementos(tablaClientes):
     datosClientes = consultarClientes()
+
+    for item in tablaClientes.get_children():
+        tablaClientes.delete(item)
+    
+    for clientes in datosClientes:
+        tablaClientes.insert("", END, values=clientes)
+
+
+def contenedorTabla(panel):
 
     contenedorTable = CTkFrame(panel, border_width=2, corner_radius=0, fg_color=colores["fondo"],
                     border_color=colores["marcos"])
     
-
     tablaClientes = ttk.Treeview(contenedorTable, columns=("ID", "Nombre", "Telefono", "Email", "Direccion", "Instalacion", "Paquete"), show="headings")
     tablaClientes.heading("ID", text="ID")
     tablaClientes.heading("Nombre", text="Nombre")
@@ -115,11 +123,6 @@ def contenedorTabla(panel):
     tablaClientes.heading("Instalacion", text="Instalacion")
     tablaClientes.heading("Paquete", text="Paquete")
 
-    for item in tablaClientes.get_children():
-        tablaClientes.delete(item)
-    
-    for clientes in datosClientes:
-        tablaClientes.insert("", END, values=clientes)
     
     #posicion elementos
     contenedorTable.place(relx=0.2, rely=0.0, relwidth=0.8, relheight=1.0)
@@ -139,13 +142,15 @@ def contenedorTabla(panel):
 
     def mostrar_menu(event):
         seleccion = tablaClientes.selection()
-        if seleccion:  # Solo mostrar menú si hay un ítem seleccionado
-            menu.post(event.x_root, event.y_root)
+        #if seleccion:  # Solo mostrar menú si hay un ítem seleccionado
+        menu.post(event.x_root, event.y_root)
 
     tablaClientes.bind("<Button-3>", mostrar_menu)  # Evento clic derecho
 
+
+    insertarElementos(tablaClientes)
+
 def panelAdmin(username, rol, windows):
-    windows.destroy()
     panel = CTk()
     panel.title(f"Panel de control {username}")
     panel.geometry("1280x800")

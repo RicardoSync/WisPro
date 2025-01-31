@@ -7,7 +7,7 @@ def conexionDB():
             host="localhost",
             user="root",
             password="MinuzaFea265/",
-            database="wisp_control"
+            database="dedos"
         )
         return conn
     except mysql.connector.Error as err:

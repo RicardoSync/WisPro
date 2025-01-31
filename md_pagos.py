@@ -90,8 +90,7 @@ def tablaPagos(ventana):
 
     def mostrar_menu(event):
         seleccion = tabla.selection()
-        if seleccion:  # Solo mostrar menú si hay un ítem seleccionado
-            menu.post(event.x_root, event.y_root)
+        menu.post(event.x_root, event.y_root)
 
     tabla.bind("<Button-3>", mostrar_menu)  # Evento clic derecho
 

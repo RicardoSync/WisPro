@@ -2,28 +2,32 @@ from customtkinter import CTkToplevel, CTkEntry, CTkButton, CTkLabel, CTkComboBo
 from tkinter import messagebox
 
 from bk_recursos import colores_ui, imagenes_ui
-from bk_insert import insertarEquipo
+from bk_insert import insertarEquipo_solo
 
 colores = colores_ui()
 iconos = imagenes_ui()
 tipo_equipo = ["Router", "Antena", "ONU", "Otro"]
 tipo_estado = ["Rentado", "Vendido", "Propio"]
 
-def enviarEquipos(nombreEquipoEntry, tipoEquipo, marcaEquipo, modeloEquipo, macEquipo, numeroSerialEquipo, estadoEquipo, id_cliente, ventana):
+def enviar_guardar(nombreEquipoEntry, tipoEquipo, marcarEquipo, modeloEquipo, macEquipo, numeroSerialEquipo,
+                                                            estadoEquipo, ventana):
     nombre = nombreEquipoEntry.get()
     tipo = tipoEquipo.get()
-    marca = marcaEquipo.get()
+    marca = marcarEquipo.get()
     modelo = modeloEquipo.get()
     mac = macEquipo.get()
     serial = numeroSerialEquipo.get()
     estado = estadoEquipo.get()
 
-    if insertarEquipo(nombre, tipo, marca, modelo, mac, serial, estado, id_cliente):
-        messagebox.showinfo("SpiderNet", "Asignacion lista")
+    if not nombre or not tipo or not marca or not modelo or not mac or not serial or not estado:
+        messagebox.showerror("SpiderNet", "Todos los campos son necesarios")
+        return
+    
+    if insertarEquipo_solo(nombre, tipo, marca, modelo, mac, serial, estado):
+        messagebox.showinfo("SpiderNet", "Equipo almacenado con exito")
         ventana.destroy()
 
-
-def formularioEquipo(ventana, id_cliente, nombre):
+def formularioEquipo(ventana):
     contenedorFormulario = CTkFrame(ventana, border_color=colores["marcos"], border_width=2, 
                                 corner_radius=0, fg_color=colores["fondo"]
                                 )
@@ -90,8 +94,9 @@ def formularioEquipo(ventana, id_cliente, nombre):
                                 fg_color="white", text_color="black",
                                 width=200,
                                 height=30,
-                                command=lambda:enviarEquipos(nombreEquipoEntry, tipoEquipo, marcarEquipo, modeloEquipo, macEquipo,
-                                                            numeroSerialEquipo, estadoEquipo, id_cliente, ventana))
+                                command=lambda:enviar_guardar(nombreEquipoEntry, tipoEquipo, marcarEquipo, modeloEquipo, macEquipo, numeroSerialEquipo,
+                                                            estadoEquipo, ventana)
+                                )
 
     btnCancelar = CTkButton(contenedorFormulario, text="Cancelar", border_color=colores["marcos-xp"],
                                 border_width=2, corner_radius=6,
@@ -112,9 +117,9 @@ def formularioEquipo(ventana, id_cliente, nombre):
     btnAsignar.grid(column=0, row=3, padx=10, pady=10)
     btnCancelar.grid(column=1, row=3, padx=10, pady=10)
 
-def asignacionEquipo(id_cliente, nombre):
+def creacionEquipo():
     ventana = CTkToplevel()
-    ventana.title(f"Asignacion equipo {nombre}")
+    ventana.title("Creacion de equipo")
     ventana.geometry("900x200")
     ventana.resizable(False, False)
 
@@ -129,6 +134,6 @@ def asignacionEquipo(id_cliente, nombre):
     #posicion del elementos
     contenedorImagen.place(relx=0.0, rely=0.0, relwidth=0.2, relheight=1.0)
     imagen.pack(padx=10, pady=10)
-    formularioEquipo(ventana, id_cliente, nombre)
+    formularioEquipo(ventana)
     ventana.mainloop()
 

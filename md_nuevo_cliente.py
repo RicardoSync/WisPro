@@ -29,6 +29,11 @@ def enviarDatos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paquetes
         windows.destroy()
 
 def formulario(windows):
+    # Consultar paquetes cada vez que se abre la ventana
+    paquetes = consultarPaquetes()
+    nombre_paquetes = [paquete[1] for paquete in paquetes]  # Extraer solo los nombres de los paquetes
+
+
     contenedorFormulario = CTkFrame(windows, border_color=colores["marcos"], border_width=2,
                                 corner_radius=0, fg_color=colores["fondo"])
     
@@ -62,7 +67,7 @@ def formulario(windows):
     
     paquetesLabel = CTkLabel(contenedorFormulario, text="Paquetes Disponibles" , font=("Arial", 20), text_color="black")
 
-    paquetesEntry = CTkComboBox(contenedorFormulario, values=nombre_paquetes,
+    paquetesEntry = CTkComboBox(contenedorFormulario, values=nombre_paquetes,  # Ahora usa la lista actualizada
                         border_color=colores["marcos"], border_width=2,
                         corner_radius=10,
                         width=250)
@@ -95,6 +100,9 @@ def formulario(windows):
     btnGuardar.grid(column=0, row=6, padx=10, pady=10)
     btnCancelar.grid(column=1, row=6, padx=10, pady=10)
 
+    return paquetesEntry  # Devolver el ComboBox para poder actualizarlo después si es necesario
+
+
 def nuevoCliente():
     windows = CTkToplevel()
     windows.title("Nuevo Cliente")
@@ -106,10 +114,11 @@ def nuevoCliente():
                                 corner_radius=0, fg_color=colores["fondo"])
     
     icono = CTkLabel(contenedorOpciones, text="", image=iconos["cliente"])
-    
 
     contenedorOpciones.place(relx=0.0, rely=0.0, relwidth=0.2, relheight=1.0)
     icono.pack(padx=10, pady=10)
-    formulario(windows)
-    windows.mainloop()
 
+    # Llamamos a la función formulario para que consulte los paquetes en tiempo real
+    formulario(windows)
+
+    windows.mainloop()
