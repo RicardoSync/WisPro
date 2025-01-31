@@ -105,3 +105,20 @@ def actualizacion_equipo(nombre, tipo, marca, modelo, mac, serial, estado, id_eq
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos actualizar el equipo: {err}")
         return False
+
+def actualizar_falla(id_falla, nuevo_estado, id_tecnico):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """
+            UPDATE fallas 
+            SET estado = %s, fecha_reparacion = NOW(), id_tecnico = %s 
+            WHERE id = %s;
+        """
+        cursor.execute(sql, (nuevo_estado, id_tecnico, id_falla))
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+        print("✅ Falla actualizada correctamente.")
+    except Exception as e:
+        print(f"❌ Error al actualizar la falla: {e}")

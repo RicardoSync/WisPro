@@ -229,3 +229,23 @@ def consutarEquiposActualizacion(id):
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No logramos obtener nada")
+
+def listar_fallas():
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """
+            SELECT f.id, c.nombre, f.tipo_falla, f.descripcion, f.estado, f.fecha_reporte
+            FROM fallas f
+            INNER JOIN clientes c ON f.id_cliente = c.id
+            WHERE f.estado IN (0,1);
+        """
+        cursor.execute(sql)
+        fallas = cursor.fetchall()
+        cursor.close()
+        conexion.close()
+        return fallas
+    except Exception as e:
+        print(f"❌ Error al consultar las fallas: {e}")
+        return []
+

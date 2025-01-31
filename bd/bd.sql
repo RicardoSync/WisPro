@@ -60,3 +60,29 @@ CREATE TABLE pagos (
     cambio INT NOT NULL,
     FOREIGN KEY (id_cliente) REFERENCES clientes(id) ON DELETE CASCADE
 );
+
+CREATE TABLE fallas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    tipo_falla ENUM('Sin conexión', 'Intermitencia', 'Baja velocidad', 'Otros') NOT NULL,
+    descripcion TEXT NOT NULL,
+    estado TINYINT NOT NULL DEFAULT 0 CHECK (estado IN (0,1,2)), -- 0 = Activo, 1 = Revisión, 2 = Solucionado
+    fecha_reporte DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fecha_reparacion DATETIME NULL,
+    id_tecnico INT NULL, -- Técnico que resolvió la falla
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_tecnico) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+CREATE TABLE tickets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    categoria ENUM('Soporte técnico', 'Facturación', 'Instalación', 'Otro') NOT NULL,
+    descripcion TEXT NOT NULL,
+    estado ENUM('Pendiente', 'En proceso', 'Resuelto', 'Cerrado') DEFAULT 'Pendiente',
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fecha_cierre DATETIME NULL,
+    id_responsable INT NULL,  -- Usuario (técnico/cajero) que resolvió el problema
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_responsable) REFERENCES usuarios(id) ON DELETE SET NULL
+);

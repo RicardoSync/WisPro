@@ -213,7 +213,7 @@ def panelAdmin(username, rol, windows):
     btnConfiguracion =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
-                            text="Network",
+                            text="Herramientas",
                             text_color="black"
                             )
 
