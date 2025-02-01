@@ -249,3 +249,23 @@ def listar_fallas():
         print(f"❌ Error al consultar las fallas: {e}")
         return []
 
+def consultar_nombre_cliente(nombre):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "SELECT id FROM clientes WHERE nombre = %s"
+        valores = (nombre, )
+        cursor.execute(sql, valores)
+        nombre_cliente = cursor.fetchone()
+
+        if not nombre_cliente:
+            messagebox.showerror("SpiderNet", "No logramos cargar ningun cliente")
+            return False
+        
+        conexion.close()
+        cursor.close()
+
+        return nombre_cliente
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No logramos consultar a los clientes {err}")

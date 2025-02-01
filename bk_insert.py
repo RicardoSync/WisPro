@@ -2,6 +2,7 @@ from bk_connect import conexionDB
 from tkinter import messagebox
 from bk_consultas import consultarPaqueteID
 from bk_generar_pago import generar_recibo
+import mysql.connector
 
 def insertarUsuarios(nombre, username, password, rol):
     try:
@@ -27,7 +28,6 @@ def insertarUsuarios(nombre, username, password, rol):
         return 0
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos insertar el usuario {err}")
-
 
 def insertarPaquete(nombre, velocidad, precio):
     try:
@@ -106,7 +106,6 @@ def insertarEquipo(nombre, tipo, marca, modelo, mac, serial, estado, id_cliente)
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos asigar el equipo, error {err}")
 
-
 def insertarEquipo_solo(nombre, tipo, marca, modelo, mac, serial, estado):
     try:
         conexion = conexionDB()
@@ -124,3 +123,21 @@ def insertarEquipo_solo(nombre, tipo, marca, modelo, mac, serial, estado):
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos asigar el equipo, error {err}")
 
+def insertarFalla(id_cliente, tipo_falla, descripcion, estado):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "INSERT INTO fallas (id_cliente, tipo_falla, descripcion, estado) VALUES (%s,%s,%s,%s)"
+        valores = (id_cliente, tipo_falla, descripcion, estado)
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+
+        return True
+    
+    except mysql.connector.Error as err:
+        #messagebox.showerror("SpiderNet", f"No logramos generar el reporte de falla {err}")
+        print(f"{err}")
+        return False

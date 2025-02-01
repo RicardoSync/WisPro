@@ -17,7 +17,25 @@ def imagenes_ui():
         
         "equipo": CTkImage(light_image=Image.open("img/equipo.png"),
                         dark_image=Image.open("img/equipo.png"),
-                        size=(150, 150))
+                        size=(150, 150)),
+        
+        "usuario": CTkImage(light_image=Image.open("img/usuario.png"),
+                        dark_image=Image.open("img/usuario.png"),
+                        size=(100, 100)),
+
+        "ticket": CTkImage(light_image=Image.open("img/ticket.png"),
+                        dark_image=Image.open("img/ticket.png"),
+                        size=(100, 100)),
+
+        "falla": CTkImage(light_image=Image.open("img/falla.png"),
+                        dark_image=Image.open("img/falla.png"),
+                        size=(100, 100)),
+
+
+        "solucion": CTkImage(light_image=Image.open("img/solucion.png"),
+                        dark_image=Image.open("img/solucion.png"),
+                        size=(100, 100))
+
     }
     return imagenes
 

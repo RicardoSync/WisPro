@@ -5,7 +5,6 @@ from tkinter import ttk, END, messagebox, Menu
 #cargamos los modulos
 from bk_recursos import imagenes_ui, colores_ui
 from bk_consultas import consultarClientes
-from md_usuarios import creacionUsuarios
 from md_paquetes import creacionPaquetes
 from bk_delete import eliminarCliente
 from md_nuevo_cliente import nuevoCliente
@@ -16,6 +15,7 @@ from md_asignacin_equipo import asignacionEquipo
 from md_equipos import moduloEquipos
 from md_histotial_pagos import obtener_detalles_windows
 from md_equipo_asignado import obtener_detalles_equipo
+from md_reportar_falla import reportar_falla_windows
 
 iconos = imagenes_ui()
 colores = colores_ui()
@@ -123,6 +123,9 @@ def contenedorTabla(panel):
     tablaClientes.heading("Instalacion", text="Instalacion")
     tablaClientes.heading("Paquete", text="Paquete")
 
+    tablaClientes.column("ID", width=30)
+    tablaClientes.column("Instalacion", width=100)
+
     
     #posicion elementos
     contenedorTable.place(relx=0.2, rely=0.0, relwidth=0.8, relheight=1.0)
@@ -202,20 +205,28 @@ def panelAdmin(username, rol, windows):
                             command=moduloPagos
                             )
     
-    btnUsuarios =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+    btnGenerarFalla =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
-                            text="Usuarios",
+                            text="Reportar Falla",
                             text_color="black",
-                            command=creacionUsuarios
+                            command=reportar_falla_windows
                             )
-    
-    btnConfiguracion =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+
+    btnAtenderFalla =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
-                            text="Herramientas",
+                            text="Antender Falla",
                             text_color="black"
                             )
+    
+    btnGenerarTicket =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+                            fg_color=colores["boton"],
+                            width=200,
+                            text="Generar Ticket",
+                            text_color="black"
+                            )
+    
 
     btnCancelar =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
@@ -234,8 +245,9 @@ def panelAdmin(username, rol, windows):
     btnPaquetes.pack(padx=10, pady=10)
     btnEquipos.pack(padx=10, pady=10)
     btnPagos.pack(padx=10, pady=10)
-    btnUsuarios.pack(padx=10, pady=10)
-    btnConfiguracion.pack(padx=10, pady=10)
+    btnGenerarFalla.pack(padx=10, pady=10)
+    btnAtenderFalla.pack(padx=10, pady=10)
+    btnGenerarTicket.pack(padx=10, pady=10)
     btnCancelar.pack(padx=10, pady=10)
 
 

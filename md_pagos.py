@@ -6,7 +6,6 @@ from bk_consultas import consultarPagos, consultarPagoNombre, consultarPagoID
 from md_registro_pago import registar_pago
 
 colores = colores_ui()
-pagos = consultarPagos()
 
 def enviar_detalles(tablaPagos):
     seleccionado = tablaPagos.selection()
@@ -67,7 +66,7 @@ def barraBusqueda(tablaPagos, ventana):
     btnBuscarNombre.grid(column=1, row=0, padx=10, pady=20)
     btnBuscarID.grid(column=2, row=0, padx=10, pady=20)
 
-def tablaPagos(ventana):
+def tablaPagos(ventana, pagos):
     contenedorTabla = CTkFrame(ventana, border_color=colores["marcos"], border_width=2,
                                 corner_radius=10, fg_color="transparent")
 
@@ -102,8 +101,9 @@ def moduloPagos():
     ventana.geometry("1000x700")
     ventana.resizable(False, False)
     ventana._set_appearance_mode("dark")
+    pagos = consultarPagos()
 
-    tabla = tablaPagos(ventana)  # Guardamos la referencia a la tabla
+    tabla = tablaPagos(ventana, pagos)  # Guardamos la referencia a la tabla
     barraBusqueda(tabla, ventana)  # Pasamos la tabla correctamente
 
     ventana.mainloop()

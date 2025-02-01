@@ -1,2 +1,0 @@
-from bk_consultas import listar_fallas
-from bk_update import actualizar_falla
