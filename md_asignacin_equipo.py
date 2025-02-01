@@ -22,7 +22,6 @@ def enviarEquipos(nombreEquipoEntry, tipoEquipo, marcaEquipo, modeloEquipo, macE
         messagebox.showinfo("SpiderNet", "Asignacion lista")
         ventana.destroy()
 
-
 def formularioEquipo(ventana, id_cliente, nombre):
     contenedorFormulario = CTkFrame(ventana, border_color=colores["marcos"], border_width=2, 
                                 corner_radius=0, fg_color=colores["fondo"]

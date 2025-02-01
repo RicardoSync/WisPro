@@ -268,8 +268,6 @@ def detalles_fallas():
         print(f"❌ Error al consultar las fallas: {e}")
         return []
 
-
-
 def consultar_nombre_cliente(nombre):
     try:
         conexion = conexionDB()

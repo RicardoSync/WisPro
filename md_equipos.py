@@ -1,14 +1,16 @@
-from customtkinter import CTkFrame, CTkEntry, CTkButton, CTkToplevel
+from customtkinter import CTkFrame, CTkEntry, CTkButton, CTkToplevel, CTkComboBox
 from tkinter import messagebox, ttk, END, Menu
 
 from bk_recursos import colores_ui
 from bk_consultas import consultarEquipoNombre, consultarEquipoID, consultarEquipos, consutarEquiposActualizacion
 from md_actualizar_equipo import editar_equipo_windows
 from bk_delete import eliminarEquipo
+from md_asignacin_equipo import asignacionEquipo
+from bk_consultas import consultarClientes, consultar_nombre_cliente
+from bk_update import actualizar_asignacion
 
 colores = colores_ui()
 pagos = consultarEquipos()
-
 
 def enviarEliminacion(tabla):
     seleccion = tabla.selection()
@@ -93,6 +95,51 @@ def barraBusqueda(tablaPagos, ventana):
     nombreID.grid(column=0, row=0, padx=10, pady=20)
     btnBuscarID.grid(column=2, row=0, padx=10, pady=20)
 
+
+def bk_asignacion(datos_equipo, clienteEntry):
+    nombre = clienteEntry.get()
+
+    id_cliente = consultar_nombre_cliente(nombre)
+
+    if id_cliente:
+        id_equipo = datos_equipo[0]
+        if actualizar_asignacion(id_equipo, id_cliente[0]):
+            messagebox.showinfo("SpiderNet", "Equipo asignado al cliente")
+        else:
+            messagebox.showerror("SpiderNet", "No podemos asignar el equipo")
+    else:
+        messagebox.showerror("SpiderNrt", "No encontramos el id de ese cliente")
+
+
+def asigancion_cliente_windows(tabla):
+    seleccion = tabla.selection()
+
+    if not seleccion:
+        messagebox.showerror("SpiderNet", "No podemos asignar un equipo, sin seleccionar")
+        return
+    
+    datos_equipo = tabla.item(seleccion, "values")
+
+    lista_clientes = consultarClientes()
+    nombre_clientes = [clientes[1] for clientes in lista_clientes]
+
+    windows = CTkToplevel()
+    windows.title("Selecciona el cliente")
+    windows.geometry("400x600")
+    windows.resizable(False, False)
+
+    clienteEntry = CTkComboBox(windows, border_color=colores["marcos"], border_width=2,
+                            corner_radius=8, values=nombre_clientes, width=320)
+    
+    btnAsignar = CTkButton(windows, text="Asignar cliente", border_color=colores["marcos"],
+                        border_width=2, corner_radius=6, fg_color=colores["boton"],
+                        text_color="black", width=320,
+                        command=lambda:bk_asignacion(datos_equipo, clienteEntry))
+    
+    clienteEntry.pack(padx=10, pady=10)
+    btnAsignar.pack(padx=10, pady=10)
+    windows.mainloop()
+
 def tablaPagos(ventana):
     contenedorTabla = CTkFrame(ventana, border_color=colores["marcos"], border_width=2,
                                 corner_radius=10, fg_color="transparent")
@@ -116,6 +163,8 @@ def tablaPagos(ventana):
 
     #creacion del menu contextual
     menu = Menu(tabla, tearoff=0)
+    menu.add_command(label="Asignar a cliente", command=lambda:asigancion_cliente_windows(tabla))
+    menu.add_command(label="Registrar Equipo", command=lambda:asignacionEquipo(id_cliente=None, nombre="SpiderNet"))
     menu.add_command(label="Editar", command=lambda:enviar_actualizacion(tabla))
     menu.add_command(label="Actualizar", command=lambda:actualizar_tabla(tabla))
 
