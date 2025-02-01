@@ -20,10 +20,11 @@ def getDatos(usuarioEntry, passwordEntry, windows):
     credenciales = login(username, password)
 
     if credenciales:
-        rol = credenciales[2]
+        rol = credenciales[3]
+        id_usuario = credenciales[0]
 
         if rol == 0:
-            panelAdmin(username, rol, windows)
+            panelAdmin(username, id_usuario, windows)
         elif rol == 1:
             print("panel de tecnico")
         elif rol == 2:

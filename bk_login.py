@@ -5,7 +5,7 @@ def login(username, password):
     try:
         conn = conexionDB()
         cursor = conn.cursor()
-        sql = """SELECT usuario, password, rol FROM usuarios WHERE usuario = %s AND password = %s"""
+        sql = """SELECT id, usuario, password, rol FROM usuarios WHERE usuario = %s AND password = %s"""
         valores = (username, password)
         cursor.execute(sql, valores)
 

@@ -16,6 +16,7 @@ from md_equipos import moduloEquipos
 from md_histotial_pagos import obtener_detalles_windows
 from md_equipo_asignado import obtener_detalles_equipo
 from md_reportar_falla import reportar_falla_windows
+from md_usuarios import creacionUsuarios
 
 iconos = imagenes_ui()
 colores = colores_ui()
@@ -108,7 +109,6 @@ def insertarElementos(tablaClientes):
     for clientes in datosClientes:
         tablaClientes.insert("", END, values=clientes)
 
-
 def contenedorTabla(panel):
 
     contenedorTable = CTkFrame(panel, border_width=2, corner_radius=0, fg_color=colores["fondo"],
@@ -154,6 +154,7 @@ def contenedorTabla(panel):
     insertarElementos(tablaClientes)
 
 def panelAdmin(username, rol, windows):
+    windows.destroy()
     panel = CTk()
     panel.title(f"Panel de control {username}")
     panel.geometry("1280x800")
@@ -210,14 +211,7 @@ def panelAdmin(username, rol, windows):
                             width=200,
                             text="Reportar Falla",
                             text_color="black",
-                            command=reportar_falla_windows
-                            )
-
-    btnAtenderFalla =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
-                            fg_color=colores["boton"],
-                            width=200,
-                            text="Antender Falla",
-                            text_color="black"
+                            command=lambda:reportar_falla_windows(rol)
                             )
     
     btnGenerarTicket =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
@@ -226,7 +220,14 @@ def panelAdmin(username, rol, windows):
                             text="Generar Ticket",
                             text_color="black"
                             )
-    
+
+    btnUsuarios =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+                            fg_color=colores["boton"],
+                            width=200,
+                            text="Usuarios",
+                            text_color="black",
+                            command=creacionUsuarios
+                            )
 
     btnCancelar =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
@@ -246,7 +247,7 @@ def panelAdmin(username, rol, windows):
     btnEquipos.pack(padx=10, pady=10)
     btnPagos.pack(padx=10, pady=10)
     btnGenerarFalla.pack(padx=10, pady=10)
-    btnAtenderFalla.pack(padx=10, pady=10)
+    btnUsuarios.pack(padx=10, pady=10)
     btnGenerarTicket.pack(padx=10, pady=10)
     btnCancelar.pack(padx=10, pady=10)
 
