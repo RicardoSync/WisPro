@@ -50,7 +50,6 @@ def consultarPaqueteID(nombrePaquete):
         return None
 
 def consultarClientes():
-
     try:
         conexion = conexionDB()
         cursor = conexion.cursor()
@@ -62,9 +61,9 @@ def consultarClientes():
                 c.email,
                 c.direccion, 
                 c.fecha_registro, 
-                p.nombre AS Paquete
+                COALESCE(p.nombre, 'Sin paquete') AS Paquete
             FROM clientes c
-            INNER JOIN paquetes p ON c.id_paquete = p.id;
+            LEFT JOIN paquetes p ON c.id_paquete = p.id;
         """
         cursor.execute(sql)
         datos = cursor.fetchall()
@@ -77,6 +76,7 @@ def consultarClientes():
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos consultar al cliente. Error: {err}")
         return None
+
 
 def consultarPaqueteNombre(nombrePaquete):
     try:
@@ -212,6 +212,16 @@ def consultarEquipoNombre(nombreCliente):
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos conectar: {err}")
         return []
+
+def consultarEquiposSinCliente():
+    """Consulta todos los equipos que no tienen cliente asignado (id_cliente es NULL)."""
+    conexion = conexionDB()
+    cursor = conexion.cursor()
+    query = "SELECT * FROM equipos WHERE id_cliente IS NULL"
+    cursor.execute(query)
+    resultados = cursor.fetchall()
+    conexion.close()
+    return resultados
 
 def consutarEquiposActualizacion(id):
     try:

@@ -6,7 +6,7 @@ from bk_consultas import consultarEquipoNombre, consultarEquipoID, consultarEqui
 from md_actualizar_equipo import editar_equipo_windows
 from bk_delete import eliminarEquipo
 from md_asignacin_equipo import asignacionEquipo
-from bk_consultas import consultarClientes, consultar_nombre_cliente
+from bk_consultas import consultarClientes, consultar_nombre_cliente, consultarEquiposSinCliente
 from bk_update import actualizar_asignacion
 
 colores = colores_ui()
@@ -77,23 +77,39 @@ def insertarElementos(tablaPagos, pagosBusqueda):
     for pago in pagosBusqueda:
         tablaPagos.insert("", END, values=pago)
 
+def filtrarEquiposSinCliente(tablaPagos):
+    equipos_sin_cliente = consultarEquiposSinCliente()
+    insertarElementos(tablaPagos, equipos_sin_cliente)
+
+
 def barraBusqueda(tablaPagos, ventana):
     frameBusqueda = CTkFrame(ventana, border_color=colores["marcos"], border_width=2,
                             corner_radius=10, fg_color=colores["fondo"])
     
     nombreID = CTkEntry(frameBusqueda, border_color=colores["marcos"], border_width=2,
-                        corner_radius=10, width=420, placeholder_text="ID del cliente")
-    
+                        corner_radius=10, width=320, placeholder_text="Buscar equipo por nombre o ID")
 
-    
+    btnBuscarNombre = CTkButton(frameBusqueda, text="Buscar Nombre", border_color=colores["marcos"],
+                                border_width=2, corner_radius=10, fg_color=colores["boton"],
+                                width=180, text_color="black",
+                                command=lambda: enviarBusqueda(tablaPagos, nombreID, "nombre"))
+
     btnBuscarID = CTkButton(frameBusqueda, text="Buscar ID", border_color=colores["marcos"],
                             border_width=2, corner_radius=10, fg_color=colores["boton"],
-                            width=200, text_color="black",
+                            width=180, text_color="black",
                             command=lambda: enviarBusqueda(tablaPagos, nombreID, "id"))
+
+    btnFiltrarNulos = CTkButton(frameBusqueda, text="Equipos sin Cliente", border_color=colores["marcos"],
+                                border_width=2, corner_radius=10, fg_color="red",
+                                width=200, text_color="black",
+                                command=lambda: filtrarEquiposSinCliente(tablaPagos))
 
     frameBusqueda.place(relx=0.0, rely=0.0, relwidth=1.0, relheight=0.1)
     nombreID.grid(column=0, row=0, padx=10, pady=20)
+    btnBuscarNombre.grid(column=1, row=0, padx=10, pady=20)
     btnBuscarID.grid(column=2, row=0, padx=10, pady=20)
+    btnFiltrarNulos.grid(column=3, row=0, padx=10, pady=20)
+
 
 
 def bk_asignacion(datos_equipo, clienteEntry):

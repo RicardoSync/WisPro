@@ -6,14 +6,14 @@ config = {
     "host": "localhost",
     "user": "root",
     "password": "MinuzaFea265/",
-    "database": "wisp_control"
+    "database": "dedos"
 }
 
 # Listas de datos de ejemplo
 tipos_equipos = ["Router", "Antena", "ONU"]
 marcas = {
     "Router": ["TP-Link", "Mikrotik", "Cisco"],
-    "Antena": ["Ubiquiti", "Cambium", "Mimosa"],
+    "Antena": ["Ubiquiti", "Cambium", "Mimosa", "LiteBeam"],
     "ONU": ["Huawei", "ZTE", "Nokia"]
 }
 modelos = {
@@ -25,7 +25,8 @@ modelos = {
     "Mimosa": ["C5x", "B5c"],
     "Huawei": ["HG8245H", "EG8145X6"],
     "ZTE": ["F660", "ZXHN F680"],
-    "Nokia": ["G-240G-E", "G-140W-C"]
+    "Nokia": ["G-240G-E", "G-140W-C"],
+    "LiteBeam": ["M5", "AC", "Nano"]
 }
 estados = ["Rentado", "Vendido", "Propio"]
 
@@ -49,10 +50,10 @@ try:
         estado = random.choice(estados)
 
         sql = """
-        INSERT INTO equipos (nombre, tipo, marca, modelo, mac, serial, estado, id_cliente)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO equipos (nombre, tipo, marca, modelo, mac, serial, estado)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(sql, (f"{tipo} {marca}", tipo, marca, modelo, mac, serial, estado, cliente_id))
+        cursor.execute(sql, (f"{tipo} {marca}", tipo, marca, modelo, mac, serial, estado))
 
     conn.commit()
     print("Equipos registrados exitosamente.")

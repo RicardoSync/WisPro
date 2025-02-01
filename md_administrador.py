@@ -248,7 +248,7 @@ def panelAdmin(username, rol, windows):
     btnPagos.pack(padx=10, pady=10)
     btnGenerarFalla.pack(padx=10, pady=10)
     btnUsuarios.pack(padx=10, pady=10)
-    btnGenerarTicket.pack(padx=10, pady=10)
+    #btnGenerarTicket.pack(padx=10, pady=10)
     btnCancelar.pack(padx=10, pady=10)
 
 
