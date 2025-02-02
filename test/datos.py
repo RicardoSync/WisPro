@@ -3,10 +3,11 @@ import random
 
 # Configuración de conexión
 config = {
-    "host": "localhost",
-    "user": "root",
+    "host": "200.234.227.222",
+    "port": 3389,
+    "user": "cisco",
     "password": "MinuzaFea265/",
-    "database": "dedos"
+    "database": "pedos"
 }
 
 # Listas de datos de ejemplo
@@ -35,7 +36,7 @@ try:
     conn = mysql.connector.connect(**config)
     cursor = conn.cursor()
 
-    for cliente_id in range(13, 319):  # Clientes del ID 13 al 318
+    for cliente_id in range(1, 1200):  # Clientes del ID 13 al 318
         tipo = random.choice(tipos_equipos)
         marca = random.choice(marcas[tipo])
         modelo = random.choice(modelos[marca])

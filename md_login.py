@@ -1,18 +1,14 @@
-from customtkinter import CTk, CTkEntry, CTkButton, CTkLabel, CTkImage
+from customtkinter import CTk, CTkEntry, CTkButton, CTkLabel, CTkImage, CTkFrame
 from PIL import Image
 from tkinter import messagebox
 
 #modulos de la aplicacion
 from bk_login import login
 from md_administrador import panelAdmin
+from bk_recursos import colores_ui, imagenes_ui
 
-def cargarImagenes():
-    imagenes = {
-        "logo": CTkImage(light_image=Image.open("img/logo.png"),
-                        dark_image=Image.open("img/logo.png"),
-                        size=(200,200))
-    }
-    return imagenes
+colores = colores_ui()
+iconos = imagenes_ui()
 
 def getDatos(usuarioEntry, passwordEntry, windows):
     username = usuarioEntry.get()
@@ -39,45 +35,34 @@ def getDatos(usuarioEntry, passwordEntry, windows):
 def inicioSesion():
     windows = CTk()
     windows.title("Inicio de Sesion")
-    windows.geometry("600x800")
+    windows.geometry("400x500")
     windows.resizable(False, False)
     windows._set_appearance_mode("dark")
-    icono = cargarImagenes()
 
-    #cargamos la imagen
-    logo = CTkLabel(windows, text="", image=icono["logo"])
-    welcome = CTkLabel(windows, text="Bienvenido a SpiderNet", font=("Monospace", 25, "bold"),
-                    text_color="white")
+    contenedorElementos = CTkFrame(windows, border_color=colores["marcos"], border_width=2,
+                                corner_radius=10, fg_color=colores["fondo"])
     
+    usuarioLabel = CTkLabel(contenedorElementos, text="Usuario", text_color="black", font=("Arial", 28, "bold"))
+    usuarioEntry = CTkEntry(contenedorElementos, placeholder_text="Usuario spidernet", border_color=colores["marcos"],
+                            border_width=2, corner_radius=8, width=320)
+    
+    passwordLabel = CTkLabel(contenedorElementos, text="Contraseña", text_color="black", font=("Arial", 28, "bold"))
+    passwordEntry = CTkEntry(contenedorElementos, placeholder_text="Contraseña de usuario", border_color=colores["marcos"],
+                            border_width=2, corner_radius=8, width=320, show="*")
 
-    usurioLabel = CTkLabel(windows, text="Username", font=("Arial", 18),
-                        text_color="white")
-    
-    passwordLabel = CTkLabel(windows, text="Pssword", font=("Arial", 18),
-                        text_color="white")
-    
-    usuarioEntry = CTkEntry(windows, border_width=2, corner_radius=10,
-                            placeholder_text="username", width=320)
-    
-    passwordEntry = CTkEntry(windows, border_width=2, corner_radius=10,
-                            placeholder_text="password", width=320,
-                            show="*")
-    
-    btnIniciar = CTkButton(windows, text="Iniciar", border_width=2, corner_radius=10,
-                        width=320,
+    btnIniciar = CTkButton(contenedorElementos, border_color=colores["marcos"], border_width=2,
+                        corner_radius=8, fg_color=colores["boton"], width=320,
+                        text_color="black",
+                        text="Iniciar Sesión",
                         command=lambda:getDatos(usuarioEntry, passwordEntry, windows))
-    
-    btnCancelar = CTkButton(windows, text="Cancelar", border_width=2, corner_radius=10,
-                            width=320,
-                            command=windows.destroy)
-    
-    logo.pack(padx=10, pady=10)
-    welcome.pack(padx=10, pady=10)
-    usurioLabel.pack(padx=10, pady=10)
+
+    copyLabel = CTkLabel(contenedorElementos, text="Sotware desarrollado por Ricardo Escobedo 2025", font=("Arial", 15))
+
+    contenedorElementos.place(relx=0.0, rely=0.0, relwidth=1.0, relheight=1.0)
+    usuarioLabel.pack(padx=10, pady=10)
     usuarioEntry.pack(padx=10, pady=10)
     passwordLabel.pack(padx=10, pady=10)
     passwordEntry.pack(padx=10, pady=10)
     btnIniciar.pack(padx=10, pady=10)
-    btnCancelar.pack(padx=10, pady=10)
-
+    copyLabel.place(relx=0.1, rely=0.9)
     windows.mainloop()

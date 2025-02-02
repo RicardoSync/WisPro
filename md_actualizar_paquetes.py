@@ -1,4 +1,4 @@
-from customtkinter import CTkToplevel, CTkEntry, CTkButton, CTkComboBox, CTkLabel
+from customtkinter import CTkToplevel, CTkEntry, CTkButton, CTkComboBox, CTkLabel, CTkFrame
 from bk_recursos import colores_ui
 from bk_update import actualizarPaquete
 from tkinter import messagebox
@@ -35,7 +35,7 @@ def actualizarPaquetes(id, nombre, velocidad, precio):
     panel.resizable(False, False)
     panel._set_appearance_mode("dark")
 
-
+    panel.configure(fg_color=colores["fondo"])
 
     nombreLabel = CTkLabel(panel, text="Nombre del Paquete", font=("Arial", 20, "bold"), text_color="white")
     velocidadLabel = CTkLabel(panel, text="Velocidad", font=("Arial", 20, "bold"), text_color="white")
