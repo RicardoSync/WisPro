@@ -53,26 +53,27 @@ def mostrar_detalles_falla(tablaFallas, rol):
             detallesWindow.geometry("500x650")
             detallesWindow.resizable(False, False)
             detallesWindow._set_appearance_mode("dark")
+            detallesWindow.configure(fg_color=colores["fondo"])
 
-            CTkLabel(detallesWindow, text="Cliente:", font=("Arial", 16, "bold")).pack(pady=5)
-            CTkLabel(detallesWindow, text=cliente, font=("Arial", 14)).pack(pady=5)
+            CTkLabel(detallesWindow, text="Cliente:", font=("Arial", 16, "bold"), text_color="black").pack(pady=5)
+            CTkLabel(detallesWindow, text=cliente, font=("Arial", 14), text_color="black").pack(pady=5)
 
-            CTkLabel(detallesWindow, text="Tipo de Falla:", font=("Arial", 16, "bold")).pack(pady=5)
-            CTkLabel(detallesWindow, text=tipo_falla, font=("Arial", 14)).pack(pady=5)
+            CTkLabel(detallesWindow, text="Tipo de Falla:", font=("Arial", 16, "bold"), text_color="black").pack(pady=5)
+            CTkLabel(detallesWindow, text=tipo_falla, font=("Arial", 14), text_color="black").pack(pady=5)
 
-            CTkLabel(detallesWindow, text="Descripción:", font=("Arial", 16, "bold")).pack(pady=5)
+            CTkLabel(detallesWindow, text="Descripción:", font=("Arial", 16, "bold"), text_color="black").pack(pady=5)
             descripcionText = CTkTextbox(detallesWindow, width=450, height=150, wrap="word")
             descripcionText.insert("0.0", descripcion)
             descripcionText.configure(state="disabled")
             descripcionText.pack(pady=5)
 
-            CTkLabel(detallesWindow, text="Estado actual:", font=("Arial", 16, "bold")).pack(pady=5)
+            CTkLabel(detallesWindow, text="Estado actual:", font=("Arial", 16, "bold"), text_color="black").pack(pady=5)
             estadoCombo = CTkComboBox(detallesWindow, values=["Pendiente", "En revisión", "Solucionado"])
             estadoCombo.set(estado_texto)
             estadoCombo.pack(pady=5)
 
-            CTkLabel(detallesWindow, text="Fecha de Reporte:", font=("Arial", 16, "bold")).pack(pady=5)
-            CTkLabel(detallesWindow, text=fecha, font=("Arial", 14)).pack(pady=5)
+            CTkLabel(detallesWindow, text="Fecha de Reporte:", font=("Arial", 16, "bold"), text_color="black").pack(pady=5)
+            CTkLabel(detallesWindow, text=fecha, font=("Arial", 14), text_color="black").pack(pady=5)
 
             def actualizar_estado(rol):
                 nuevo_estado_texto = estadoCombo.get()

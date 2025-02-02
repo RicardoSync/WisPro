@@ -40,16 +40,16 @@ def actualizarUsuariosWindows(id, nombre, usuario, password, rol):
     panel.geometry("600x800")
     panel.resizable(False, False)
     panel._set_appearance_mode("dark")
-
+    panel.configure(fg_color=colores["fondo"])
     tipo_usuario = ["Admin", "Tecnico", "Cajero"]
 
 
 
-    nombreLabel = CTkLabel(panel, text="Nombre del Usuario", font=("Arial", 20, "bold"), text_color="white")
-    usuarioLabel = CTkLabel(panel, text="Usuario", font=("Arial", 20, "bold"), text_color="white")
-    passwordLabel = CTkLabel(panel, text="Password", font=("Arial", 20, "bold"), text_color="white")
-    rolLabel = CTkLabel(panel, text="Tipo de Usuario Actual", font=("Arial", 20, "bold"), text_color="white")
-    nuevoRolLabel = CTkLabel(panel, text="TIpo de Usuario Nuevo", font=("Arial", 20, "bold"), text_color="white")
+    nombreLabel = CTkLabel(panel, text="Nombre del Usuario", font=("Arial", 20, "bold"), text_color="black")
+    usuarioLabel = CTkLabel(panel, text="Usuario", font=("Arial", 20, "bold"), text_color="black")
+    passwordLabel = CTkLabel(panel, text="Password", font=("Arial", 20, "bold"), text_color="black")
+    rolLabel = CTkLabel(panel, text="Tipo de Usuario Actual", font=("Arial", 20, "bold"), text_color="black")
+    nuevoRolLabel = CTkLabel(panel, text="TIpo de Usuario Nuevo", font=("Arial", 20, "bold"), text_color="black")
 
     nombreEntry = CTkEntry(panel, border_width=2, border_color=colores["marcos"], corner_radius=10, width=320)
     usuarioEntry = CTkEntry(panel, border_width=2, border_color=colores["marcos"], corner_radius=10, width=320)

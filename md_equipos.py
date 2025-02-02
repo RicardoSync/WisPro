@@ -121,7 +121,7 @@ def barraBusqueda(tablaPagos, ventana):
     btnFiltrarTipo.grid(column=1, row=0, padx=10, pady=10)
     btnFiltrarNulos.grid(column=3, row=0, padx=10, pady=20)
 
-def bk_asignacion(datos_equipo, clienteEntry):
+def bk_asignacion(datos_equipo, clienteEntry, windows):
     nombre = clienteEntry.get()
 
     id_cliente = consultar_nombre_cliente(nombre)
@@ -129,6 +129,7 @@ def bk_asignacion(datos_equipo, clienteEntry):
     if id_cliente:
         id_equipo = datos_equipo[0]
         if actualizar_asignacion(id_equipo, id_cliente[0]):
+            windows.destroy()
             messagebox.showinfo("SpiderNet", "Equipo asignado al cliente")
         else:
             messagebox.showerror("SpiderNet", "No podemos asignar el equipo")
@@ -151,14 +152,14 @@ def asigancion_cliente_windows(tabla):
     windows.title("Selecciona el cliente")
     windows.geometry("400x600")
     windows.resizable(False, False)
-
+    windows.configure(fg_color=colores["fondo"])
     clienteEntry = CTkComboBox(windows, border_color=colores["marcos"], border_width=2,
                             corner_radius=8, values=nombre_clientes, width=320)
     
     btnAsignar = CTkButton(windows, text="Asignar cliente", border_color=colores["marcos"],
                         border_width=2, corner_radius=6, fg_color=colores["boton"],
                         text_color="black", width=320,
-                        command=lambda:bk_asignacion(datos_equipo, clienteEntry))
+                        command=lambda:bk_asignacion(datos_equipo, clienteEntry, windows))
     
     clienteEntry.pack(padx=10, pady=10)
     btnAsignar.pack(padx=10, pady=10)

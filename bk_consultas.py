@@ -226,7 +226,7 @@ def consultarEquiposSinCliente():
 def consultar_equipo_tipo(tipo_equipo):
     conexion = conexionDB()
     cursor = conexion.cursor()
-    query = "SELECT * FROM equipos WHERE tipo = %s"
+    query = "SELECT * FROM equipos WHERE tipo = %s AND id_cliente IS NULL"
     valores = (tipo_equipo,)  # Asegurar que sea una tupla
     cursor.execute(query, valores)  # Aquí estaba el error
     equipos_filtrados = cursor.fetchall()

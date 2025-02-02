@@ -1,6 +1,7 @@
 from customtkinter import CTk, CTkFrame, CTkButton, CTkLabel
 from datetime import datetime
 from tkinter import ttk, END, messagebox, Menu
+import webbrowser
 
 #cargamos los modulos
 from bk_recursos import imagenes_ui, colores_ui
@@ -214,10 +215,10 @@ def panelAdmin(username, rol, windows):
                             command=lambda:reportar_falla_windows(rol)
                             )
     
-    btnGenerarTicket =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+    btnFallasResueltas =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
-                            text="Generar Ticket",
+                            text="Fallas Resueltas",
                             text_color="black"
                             )
 
@@ -229,6 +230,14 @@ def panelAdmin(username, rol, windows):
                             command=creacionUsuarios
                             )
 
+    btnContacto =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+                            fg_color=colores["boton"],
+                            width=200,
+                            text="Informacion",
+                            text_color="black",
+                            command=lambda:webbrowser.open("https://youtube.com/@tecnoflowz4850?si=V1hMUfxIdD5QAR4Q")
+                            )
+
     btnCancelar =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
@@ -237,6 +246,9 @@ def panelAdmin(username, rol, windows):
                             command=panel.destroy
                             )
 
+    informacionLabel = CTkLabel(banner, text="Software Escobedo", text_color="black",
+                                font=("Arial", 15, "bold"))
+    
     #posicion de los elementos 
     banner.place(relx=0.0, rely=0.0, relwidth=0.2, relheight=1.0)
     logo.pack(padx=10, pady=20)
@@ -247,9 +259,11 @@ def panelAdmin(username, rol, windows):
     btnEquipos.pack(padx=10, pady=10)
     btnPagos.pack(padx=10, pady=10)
     btnGenerarFalla.pack(padx=10, pady=10)
+    btnFallasResueltas.pack(padx=10, pady=10)
     btnUsuarios.pack(padx=10, pady=10)
-    #btnGenerarTicket.pack(padx=10, pady=10)
+    btnContacto.pack(padx=10, pady=10)
     btnCancelar.pack(padx=10, pady=10)
+    informacionLabel.pack(padx=10, pady=10)
 
 
     contenedorTabla(panel)

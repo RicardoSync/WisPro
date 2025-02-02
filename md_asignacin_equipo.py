@@ -116,7 +116,7 @@ def asignacionEquipo(id_cliente, nombre):
     ventana.title(f"Asignacion equipo {nombre}")
     ventana.geometry("900x200")
     ventana.resizable(False, False)
-
+    ventana.configure(fg_color=colores["fondo"])
     #frame contenedor
     contenedorImagen = CTkFrame(ventana, border_color=colores["marcos"], border_width=2,
                                 corner_radius=0, fg_color=colores["fondo"])
