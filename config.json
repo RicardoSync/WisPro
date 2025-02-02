@@ -1,0 +1,7 @@
+{
+    "host" : "192.168.10.251",
+    "port" : 3306,
+    "user"  : "ricardo",
+    "password": "MinuzaFea265/",
+    "database" : "server_mint"
+}

@@ -1,6 +1,6 @@
-from md_administrador import panelAdmin
-from bk_consultas import consultarPaquetes
-from customtkinter import CTk, CTkComboBox
+import json
 
-panelAdmin(username="ricardo", rol=0, windows=None)
+with open("config.json", "r") as j:
+    mydata = json.load(j)
 
+    print(mydata["host"])

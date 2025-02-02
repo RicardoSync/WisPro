@@ -7,7 +7,7 @@ from bk_insert import insertarEquipo
 colores = colores_ui()
 iconos = imagenes_ui()
 tipo_equipo = ["Router", "Antena", "ONU", "Otro"]
-tipo_estado = ["Rentado", "Vendido", "Propio"]
+tipo_estado = ["Rentado", "Vendido", "Propio", "Almacenado"]
 
 def enviarEquipos(nombreEquipoEntry, tipoEquipo, marcaEquipo, modeloEquipo, macEquipo, numeroSerialEquipo, estadoEquipo, id_cliente, ventana):
     nombre = nombreEquipoEntry.get()

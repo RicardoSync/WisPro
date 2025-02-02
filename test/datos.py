@@ -3,11 +3,11 @@ import random
 
 # Configuración de conexión
 config = {
-    "host": "200.234.227.222",
-    "port": 3389,
-    "user": "cisco",
+    "host": "192.168.10.251",
+    "port": 3306,
+    "user": "ricardo",
     "password": "MinuzaFea265/",
-    "database": "pedos"
+    "database": "server_mint"
 }
 
 # Listas de datos de ejemplo
@@ -31,12 +31,21 @@ modelos = {
 }
 estados = ["Rentado", "Vendido", "Propio"]
 
-# Conectar a la base de datos
 try:
+    # Conectar a la base de datos
     conn = mysql.connector.connect(**config)
     cursor = conn.cursor()
+    
+    # Query SQL para inserción
+    sql = """
+    INSERT INTO equipos (nombre, tipo, marca, modelo, mac, serial, estado)
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """
 
-    for cliente_id in range(1, 1200):  # Clientes del ID 13 al 318
+    # Lista para almacenar los valores a insertar en lotes
+    datos_insertar = []
+    
+    for _ in range(50_000):  # Generar 30,000 equipos
         tipo = random.choice(tipos_equipos)
         marca = random.choice(marcas[tipo])
         modelo = random.choice(modelos[marca])
@@ -47,18 +56,29 @@ try:
             random.randint(0, 255),
             random.randint(0, 255)
         )
-        serial = f"SN{random.randint(100000, 999999)}"
+        serial = f"SN{random.randint(1000000, 9999999)}"  # Serial más largo
         estado = random.choice(estados)
 
-        sql = """
-        INSERT INTO equipos (nombre, tipo, marca, modelo, mac, serial, estado)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """
-        cursor.execute(sql, (f"{tipo} {marca}", tipo, marca, modelo, mac, serial, estado))
+        datos_insertar.append((f"{tipo} {marca}", tipo, marca, modelo, mac, serial, estado))
 
-    conn.commit()
-    print("Equipos registrados exitosamente.")
+        # Insertar en lotes de 1000 para mayor eficiencia
+        if len(datos_insertar) >= 1000:
+            cursor.executemany(sql, datos_insertar)
+            conn.commit()
+            datos_insertar = []  # Limpiar lista
+
+    # Insertar cualquier dato restante
+    if datos_insertar:
+        cursor.executemany(sql, datos_insertar)
+        conn.commit()
+
+    print("30,000 equipos registrados exitosamente.")
 
 except mysql.connector.Error as e:
     print("Error al conectar a MySQL:", e)
 
+finally:
+    if cursor:
+        cursor.close()
+    if conn:
+        conn.close()

@@ -86,7 +86,6 @@ def filtrar_tipo(tablaPagos, tipoEquipo):
     fitro_tipo = consultar_equipo_tipo(tipo_equipo)
     insertarElementos(tablaPagos, fitro_tipo)
 
-
 def barraBusqueda(tablaPagos, ventana):
     frameBusqueda = CTkFrame(ventana, border_color=colores["marcos"], border_width=2,
                             corner_radius=10, fg_color=colores["fondo"])
@@ -122,8 +121,6 @@ def barraBusqueda(tablaPagos, ventana):
     btnFiltrarTipo.grid(column=1, row=0, padx=10, pady=10)
     btnFiltrarNulos.grid(column=3, row=0, padx=10, pady=20)
 
-
-
 def bk_asignacion(datos_equipo, clienteEntry):
     nombre = clienteEntry.get()
 
@@ -137,7 +134,6 @@ def bk_asignacion(datos_equipo, clienteEntry):
             messagebox.showerror("SpiderNet", "No podemos asignar el equipo")
     else:
         messagebox.showerror("SpiderNrt", "No encontramos el id de ese cliente")
-
 
 def asigancion_cliente_windows(tabla):
     seleccion = tabla.selection()

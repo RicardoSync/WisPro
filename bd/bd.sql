@@ -42,7 +42,7 @@ CREATE TABLE equipos (
     modelo VARCHAR(50),
     mac VARCHAR(50) UNIQUE,
     serial VARCHAR(50) UNIQUE,
-    estado ENUM('Rentado', 'Vendido', 'Propio') NOT NULL, -- Estado del equipo
+    estado ENUM('Rentado', 'Vendido', 'Propio', 'Almacenado') NOT NULL, -- Estado del equipo
     id_cliente INT, -- Cliente al que está asignado (puede ser NULL)
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_cliente) REFERENCES clientes(id) ON DELETE SET NULL
