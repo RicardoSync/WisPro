@@ -18,6 +18,7 @@ from md_histotial_pagos import obtener_detalles_windows
 from md_equipo_asignado import obtener_detalles_equipo
 from md_reportar_falla import reportar_falla_windows
 from md_usuarios import creacionUsuarios
+from md_fallas_resueltas import moduloFallasResueltas
 
 iconos = imagenes_ui()
 colores = colores_ui()
@@ -219,7 +220,8 @@ def panelAdmin(username, rol, windows):
                             fg_color=colores["boton"],
                             width=200,
                             text="Fallas Resueltas",
-                            text_color="black"
+                            text_color="black",
+                            command=moduloFallasResueltas
                             )
 
     btnUsuarios =  CTkButton(banner, border_width=2, border_color=colores["marcos"],

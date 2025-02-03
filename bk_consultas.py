@@ -233,7 +233,6 @@ def consultar_equipo_tipo(tipo_equipo):
     conexion.close()
     return equipos_filtrados
 
-
 def consutarEquiposActualizacion(id):
     try:
         conexion = conexionDB()
@@ -269,6 +268,39 @@ def listar_fallas():
     except Exception as e:
         print(f"❌ Error al consultar las fallas: {e}")
         return []
+
+def listar_fallas_resueltas():
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """
+        SELECT 
+            c.id AS id_cliente,
+            c.nombre AS nombre_cliente,
+            f.tipo_falla,
+            f.descripcion,
+            f.estado,
+            f.fecha_reporte,
+            f.fecha_reparacion,
+            t.id AS id_usuario,
+            t.nombre AS nombre_usuario
+        FROM clientes c
+        INNER JOIN fallas f ON c.id = f.id_cliente
+        INNER JOIN usuarios t ON f.id = t.id;
+                
+        """
+        cursor.execute(sql)
+        resueltas = cursor.fetchall()
+
+        cursor.close()
+        conexion.close()
+
+        return resueltas
+    
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No logramos obtener las fallas resueltas {err}")
+        return []
+
 
 def detalles_fallas():
     try:
