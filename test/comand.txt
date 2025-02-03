@@ -13,3 +13,7 @@ pip install --no-cache-dir pillow
                 p.precio
             FROM clientes c
             INNER JOIN paquetes p ON c.id_paquete = p.id;
+
+        
+        
+pyinstaller --onefile --noconsole --hidden-import=PIL._tkinter_finder WisPro.py
