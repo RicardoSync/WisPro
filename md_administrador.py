@@ -137,7 +137,7 @@ def contenedorTabla(panel):
     menu = Menu(tablaClientes, tearoff=0)
     menu.add_command(label="Nuevo Cliente", command=nuevoCliente)
     menu.add_command(label="Asignar Equipo", command=lambda:asignacion_equipo(tablaClientes))
-    menu.add_command(label="Equipo Asignado", command=lambda:obtenerAsignacion(tablaClientes))
+    menu.add_command(label="Equipos Instalados", command=lambda:obtenerAsignacion(tablaClientes))
     menu.add_command(label="Editar", command=lambda:enviarActualizacion(tablaClientes, panel))
     menu.add_command(label="Eliminar", command=lambda:enviarEliminar(tablaClientes, panel))
     menu.add_command(label="Registrar Pago", command=lambda:enviarPago(tablaClientes))

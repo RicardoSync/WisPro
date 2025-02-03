@@ -3,6 +3,7 @@ from tkinter import ttk, END, Menu, messagebox
 from bk_recursos import colores_ui, imagenes_ui
 from bk_consultas import consultarEquipoID, consutarEquiposActualizacion
 from md_actualizar_equipo import editar_equipo_windows
+from bk_update import elimnar_equipo_de_cliente
 
 colores = colores_ui()
 iconos = imagenes_ui()
@@ -19,6 +20,17 @@ def insetarElementos(tablaEquipos, idCliente, panel):
             tablaEquipos.insert('', END, values=historial_pagos)
     else:
         panel.destroy()
+
+def eliminar_equipo(tablaEquipos, idCliente, panel):
+    seleccion = tablaEquipos.selection()
+
+    if not seleccion:
+        messagebox.showerror("SpiderNet", "Para poder eliminar un equipo, primero seleccionalo")
+        return
+    
+    identificador = tablaEquipos.item(seleccion, "values")
+    if elimnar_equipo_de_cliente(id_equipo=identificador[0]):
+        insetarElementos(tablaEquipos, idCliente, panel)
 
 def enviar_actualizacion(tablaEquupos):
     seleccionado = tablaEquupos.selection()
@@ -87,6 +99,8 @@ def obtener_detalles_equipo(id_cliente, nombre):
 
     #creacion del menu contextual
     menu = Menu(tablaEquipos, tearoff=0)
+
+    menu.add_command(label="Eliminar", command=lambda:eliminar_equipo(tablaEquipos, id_cliente, panel))
     menu.add_command(label="Editar", command=lambda:enviar_actualizacion(tablaEquipos))
     menu.add_command(label="Actualizar", command=lambda:insetarElementos(tablaEquipos, id_cliente, panel))
 

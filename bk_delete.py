@@ -83,3 +83,4 @@ def eliminar_falla(id):
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos eliminar la falla por error {err}")
+

@@ -127,6 +127,27 @@ def actualizar_asignacion(id_equipo, id_cliente):
         messagebox.showerror("SpiderNet", f"No podemos actualizar el equipo: {err}")
         return False
 
+
+def elimnar_equipo_de_cliente(id_equipo):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """UPDATE equipos
+            SET id_cliente = NULL
+            WHERE id = %s"""
+        cursor.execute(sql, (id_equipo,))
+        conexion.commit()
+
+        cursor.close()
+        conexion.close()
+        
+        return True
+
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos actualizar el equipo: {err}")
+        return False
+
+
 def actualizar_falla(id_falla, nuevo_estado, id_tecnico):
     try:
         conexion = conexionDB()
