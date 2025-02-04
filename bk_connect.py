@@ -23,4 +23,4 @@ def conexionDB():
         return conn
     
     except mysql.connector.Error as err:
-        messagebox.showerror("SpiderNet", f"Error critica al establecer conexion con el servidor {err}")
+        return False

@@ -1,7 +1,8 @@
-from customtkinter import CTk, CTkFrame, CTkButton, CTkLabel
+from customtkinter import CTk, CTkFrame, CTkButton, CTkLabel, CTkImage
 from datetime import datetime
 from tkinter import ttk, END, messagebox, Menu
 import webbrowser
+from PIL import Image
 
 #cargamos los modulos
 from bk_recursos import imagenes_ui, colores_ui
@@ -160,7 +161,7 @@ def panelAdmin(username, rol, windows):
     panel = CTk()
     panel.title(f"Panel de control {username}")
     panel.geometry("1280x800")
-    panel._set_appearance_mode("dark")
+    panel.configure(fg_color=colores["fondo"])
 
     #creamos el panel
     banner = CTkFrame(panel, border_width=2, corner_radius=0, fg_color=colores["fondo"],
