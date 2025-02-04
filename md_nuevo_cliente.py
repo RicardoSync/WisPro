@@ -108,7 +108,6 @@ def nuevoCliente():
     windows.title("Nuevo Cliente")
     windows.geometry("800x400")
     windows.resizable(False, False)
-    windows._set_appearance_mode("dark")
 
     contenedorOpciones = CTkFrame(windows, border_color=colores["marcos"], border_width=2,
                                 corner_radius=0, fg_color=colores["fondo"])

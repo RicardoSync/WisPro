@@ -39,7 +39,6 @@ def actualizarUsuariosWindows(id, nombre, usuario, password, rol):
     panel.title(f"Actualizar Usuario {nombre}")
     panel.geometry("600x800")
     panel.resizable(False, False)
-    panel._set_appearance_mode("dark")
     panel.configure(fg_color=colores["fondo"])
     tipo_usuario = ["Admin", "Tecnico", "Cajero"]
 

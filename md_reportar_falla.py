@@ -52,7 +52,6 @@ def mostrar_detalles_falla(tablaFallas, rol):
             detallesWindow.title(f"Detalles de la Falla #{id_falla}")
             detallesWindow.geometry("500x650")
             detallesWindow.resizable(False, False)
-            detallesWindow._set_appearance_mode("dark")
             detallesWindow.configure(fg_color=colores["fondo"])
 
             CTkLabel(detallesWindow, text="Cliente:", font=("Arial", 16, "bold"), text_color="black").pack(pady=5)
@@ -149,7 +148,6 @@ def reportar_falla_windows(rol):
     fallaWindows.title("Reportar Falla")
     fallaWindows.geometry("1280x700")
     fallaWindows.resizable(False, False)
-    fallaWindows._set_appearance_mode("dark")
 
     contenedorDatos = CTkFrame(fallaWindows, border_color=colores["marcos"], border_width=2,
                             corner_radius=0, fg_color=colores["fondo"])

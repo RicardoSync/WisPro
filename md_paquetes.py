@@ -137,7 +137,6 @@ def creacionPaquetes():
     windows.title("Nuevo Paquete")
     windows.geometry("1280x800")
     windows.resizable(False, False)
-    windows._set_appearance_mode("dark")
 
 
     #creamos el banner de formulario

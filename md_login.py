@@ -37,7 +37,6 @@ def inicioSesion():
     windows.title("Inicio de Sesion")
     windows.geometry("400x500")
     windows.resizable(False, False)
-    windows._set_appearance_mode("dark")
 
     contenedorElementos = CTkFrame(windows, border_color=colores["marcos"], border_width=2,
                                 corner_radius=10, fg_color=colores["fondo"])

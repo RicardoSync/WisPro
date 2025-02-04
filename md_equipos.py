@@ -208,7 +208,6 @@ def moduloEquipos():
     ventana.title("Equipos")
     ventana.geometry("1200x700")
     ventana.resizable(False, False)
-    ventana._set_appearance_mode("dark")
 
     tabla = tablaPagos(ventana)  # Guardamos la referencia a la tabla
     barraBusqueda(tabla, ventana)  # Pasamos la tabla correctamente

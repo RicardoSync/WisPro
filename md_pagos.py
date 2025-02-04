@@ -100,7 +100,6 @@ def moduloPagos():
     ventana.title("Pagos")
     ventana.geometry("1000x700")
     ventana.resizable(False, False)
-    ventana._set_appearance_mode("dark")
     pagos = consultarPagos()
 
     tabla = tablaPagos(ventana, pagos)  # Guardamos la referencia a la tabla

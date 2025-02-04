@@ -61,7 +61,6 @@ def obtener_detalles_equipo(id_cliente, nombre):
     panel.title(f"Equipo asignado de {nombre}")
     panel.geometry("1200x600")
     panel.resizable(False, False)
-    panel._set_appearance_mode("dark")
 
     #creamos el frame
     contenedor = CTkFrame(panel, border_color=colores["marcos"],

@@ -33,7 +33,6 @@ def actualizarPaquetes(id, nombre, velocidad, precio):
     panel.title(f"Actualizar Paquete {nombre}")
     panel.geometry("600x500")
     panel.resizable(False, False)
-    panel._set_appearance_mode("dark")
 
     panel.configure(fg_color=colores["fondo"])
 
