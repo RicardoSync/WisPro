@@ -72,7 +72,7 @@ def asignacion_equipo(tablaClientes):
 
     asignacionEquipo(id_cliente, nombre)
 
-def enviarPago(tablaClientes):
+def enviarPago(tablaClientes, nombre_admin):
     seleccion = tablaClientes.selection()
 
     if not seleccion:
@@ -84,7 +84,7 @@ def enviarPago(tablaClientes):
     id_cliente = identificado[0]
     nombre = identificado[1]
     paquete = identificado[6]
-    registar_pago(id_cliente, nombre, paquete)
+    registar_pago(id_cliente, nombre, paquete, nombre_admin)
 
 def enviarDetalles(tablaClientes):
     seleccion = tablaClientes.selection()
@@ -113,7 +113,7 @@ def insertarElementos(tablaClientes):
     for clientes in datosClientes:
         tablaClientes.insert("", END, values=clientes)
 
-def contenedorTabla(panel):
+def contenedorTabla(panel, nombre_admin):
 
     contenedorTable = CTkFrame(panel, border_width=2, corner_radius=0, fg_color=colores["fondo"],
                     border_color=colores["marcos"])
@@ -143,10 +143,9 @@ def contenedorTabla(panel):
     menu.add_command(label="Eliminar", command=lambda:enviarEliminar(tablaClientes, panel))
     menu.add_command(label="Asignar Equipo", command=lambda:asignacion_equipo(tablaClientes))
     menu.add_command(label="Equipos Instalados", command=lambda:obtenerAsignacion(tablaClientes))
-    menu.add_command(label="Registrar Pago", command=lambda:enviarPago(tablaClientes))
+    menu.add_command(label="Registrar Pago", command=lambda:enviarPago(tablaClientes, nombre_admin))
     menu.add_command(label="Historial Pagos", command=lambda:enviarDetalles(tablaClientes))
-    menu.add_command(label="Bloquear cliente")
-    menu.add_command(label="Desbloquear cliente")
+    menu.add_command(label="Bloquear / Desbloquear cliente")
     menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel))
 
     def mostrar_menu(event):
@@ -252,6 +251,13 @@ def panelAdmin(username, rol, windows):
                             command=modulo_microtik
                             )
 
+    btnWhatsApp =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+                            fg_color=colores["boton"],
+                            width=200,
+                            text="WhatsApp",
+                            text_color="black"
+                            )
+
     btnCancelar =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
@@ -274,6 +280,7 @@ def panelAdmin(username, rol, windows):
     btnPagos.pack(padx=10, pady=10)
     btnGenerarFalla.pack(padx=10, pady=10)
     btnFallasResueltas.pack(padx=10, pady=10)
+    btnWhatsApp.pack(padx=10, pady=10)
     btnMicrotik.pack(padx=10, pady=10)
     btnUsuarios.pack(padx=10, pady=10)
     btnContacto.pack(padx=10, pady=10)
@@ -281,5 +288,5 @@ def panelAdmin(username, rol, windows):
     informacionLabel.pack(padx=10, pady=10)
 
 
-    contenedorTabla(panel)
+    contenedorTabla(panel, nombre_admin=username)
     panel.mainloop()

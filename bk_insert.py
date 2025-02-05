@@ -72,7 +72,7 @@ def insertarCliente(nombre, telefono, email, direccion, paquete, ip_cliente, dia
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos almacenar al cliente {err}")
 
-def insertarPago(id_cliente, monto, metodo_pago, cantidad, cambio, nombre_cliente, paquete):
+def insertarPago(id_cliente, monto, metodo_pago, cantidad, cambio, nombre_cliente, paquete, nombre_admin):
     try:
         conexion = conexionDB()
         cursor = conexion.cursor()
@@ -83,7 +83,7 @@ def insertarPago(id_cliente, monto, metodo_pago, cantidad, cambio, nombre_client
         conexion.commit()
         conexion.close()
         cursor.close()
-        generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cantidad, cambio)
+        generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cantidad, cambio, nombre_admin)
         return True
     
     except Exception as err:

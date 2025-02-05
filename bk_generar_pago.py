@@ -5,7 +5,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
 
-def generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cantidad, cambio):
+def generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cantidad, cambio, nombre_admin):
     width, height = 400, 600  # Tamaño más parecido a un recibo térmico
     image = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(image)
@@ -33,8 +33,9 @@ def generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cant
     draw.text((20, 240), f"Método de Pago: {metodo_pago}", font=font, fill="black")
     draw.text((20, 270), f"Cantidad Entregada: ${cantidad:.2f}", font=font, fill="black")
     draw.text((20, 300), f"Cambio: ${cambio:.2f}", font=font, fill="black")
-    draw.line((20, 330, width - 20, 330), fill="black", width=2)
-    
+    draw.text((20, 330), f"Le atendio el usuario: {nombre_admin}", font=font, fill="black")
+    draw.line((20, 190, width - 20, 190), fill="black", width=1)
+
     draw.text((100, 360), "¡Gracias por su pago!", font=small_font, fill="black")
     
     # Guardar la imagen en el escritorio en la carpeta Recibos SpiderNet

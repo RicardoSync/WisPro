@@ -11,7 +11,7 @@ iconos = imagenes_ui()
 
 meotodos = ["Efectivo", "Transferencia", "Tarjeta"]
 
-def enviarPago(id_cliente, montoEntry, metodoEntry, cantidadEntry, planActual, panel, nombre_cliente):
+def enviarPago(id_cliente, montoEntry, metodoEntry, cantidadEntry, planActual, panel, nombre_cliente, nombre_admin):
     try:
         monto = float(montoEntry.get())  # Convertir a número
         cantidad = float(cantidadEntry.get())  # Convertir a número
@@ -19,12 +19,12 @@ def enviarPago(id_cliente, montoEntry, metodoEntry, cantidadEntry, planActual, p
         paquete = planActual.get()
 
         cambio = cantidad - monto  # No es necesario convertir a `int`, ya que el cambio puede ser decimal
-        insertarCambio(id_cliente, monto, metodo, cantidad, panel, cambio, nombre_cliente, paquete)
+        insertarCambio(id_cliente, monto, metodo, cantidad, panel, cambio, nombre_cliente, paquete, nombre_admin)
 
     except ValueError:
         messagebox.showerror("SpiderNet", "Error: Ingrese valores numéricos válidos en monto y cantidad")
 
-def insertarCambio(id_cliente, monto, metodo_pago, cantidad ,panel, cambio, nombre_cliente, paquete):
+def insertarCambio(id_cliente, monto, metodo_pago, cantidad ,panel, cambio, nombre_cliente, paquete, nombre_admin):
     cambioLabel = CTkLabel(panel, text="Cambio $", font=("Arial", 18, "bold"), text_color="white")
     cambioEntry  = CTkEntry(panel, border_color=colores["marcos"],
                         border_width=2, corner_radius=10,
@@ -33,7 +33,7 @@ def insertarCambio(id_cliente, monto, metodo_pago, cantidad ,panel, cambio, nomb
     cambioEntry.delete(0, END)    
     cambioEntry.insert(0, cambio)
 
-    if insertarPago(id_cliente, monto, metodo_pago, cantidad, cambio, nombre_cliente, paquete):
+    if insertarPago(id_cliente, monto, metodo_pago, cantidad, cambio, nombre_cliente, paquete, nombre_admin):
         print("pago generado")
     else:
         messagebox.showerror("SpiderNet", "No podemos registrar el pago en base de datos")
@@ -50,7 +50,7 @@ def insertarElementos(nombre_paquete, planActual, montoEntry):
     planActual.insert(0, nombre_paquete)
     montoEntry.insert(0, precio[0])
 
-def formulario(id_cliente, nombre, nombre_paquete, panel):
+def formulario(id_cliente, nombre, nombre_paquete, panel, nombre_admin):
     planActualLabel = CTkLabel(panel, text="Plan Actual", font=("Arial", 18, "bold"), text_color="white")
     planActual  = CTkEntry(panel, border_color=colores["marcos"],
                         border_width=2, corner_radius=10,
@@ -82,7 +82,9 @@ def formulario(id_cliente, nombre, nombre_paquete, panel):
                             corner_radius=10, fg_color=colores["boton"],
                             text_color="black",
                             width=250,
-                            command=lambda:enviarPago(id_cliente, montoEntry, metodoEntry, cantidadEntry, planActual ,panel, nombre_cliente=nombre))
+                            #command=lambda:enviarPago(id_cliente, montoEntry, metodoEntry, cantidadEntry, planActual ,panel, nombre_cliente=nombre, nombre_admin))
+                            command=lambda:enviarPago(id_cliente, montoEntry, metodoEntry, cantidadEntry, planActual, panel, nombre_cliente=nombre, nombre_admin=nombre_admin)
+                            )
 
     #posicion de los elementos
     planActualLabel.grid(column=0, row=0, padx=10, pady=10)
@@ -99,13 +101,13 @@ def formulario(id_cliente, nombre, nombre_paquete, panel):
 
     insertarElementos(nombre_paquete, planActual, montoEntry)
 
-def registar_pago(id_cliente, nombre, nombre_paquete):
+def registar_pago(id_cliente, nombre, nombre_paquete, nombre_admin):
 
     panel = CTkToplevel()
     panel.title(f"Registro de pago {nombre}")
     panel.geometry("600x300")
     panel.resizable(False, False)
     panel.configure(fg_color=colores["fondo"])
-    formulario(id_cliente, nombre, nombre_paquete, panel)
+    formulario(id_cliente, nombre, nombre_paquete, panel, nombre_admin)
 
     panel.mainloop()
