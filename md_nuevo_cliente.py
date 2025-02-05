@@ -11,19 +11,23 @@ colores = colores_ui()
 paquetes = consultarPaquetes()
 iconos = imagenes_ui()
 nombre_paquetes = [paquete[1] for paquete in paquetes]
+dias_corte = [str(day) for day in range(1, 32)]
 
-def enviarDatos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paquetesEntry, windows):
+
+def enviarDatos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paquetesEntry, windows, ipClienteEntry, diaCorteEntry):
     nombre = nombreEntry.get()
     telefono = telefonoEntry.get()
     email = emailEntry.get()
     direccion = direccionEntry.get()
     paquete = paquetesEntry.get()
+    ip_cliente = ipClienteEntry.get()
+    dia_corte = diaCorteEntry.get()
 
-    if not nombre or not telefono or not email or not direccion or not paquete:
+    if not nombre or not telefono or not email or not direccion or not paquete or not ip_cliente or not dia_corte:
         messagebox.showerror("SpiderNet", "Todos los campos son necesarios")
         return
     
-    enviado = insertarCliente(nombre, telefono, email, direccion, paquete)
+    enviado = insertarCliente(nombre, telefono, email, direccion, paquete, ip_cliente, dia_corte)
 
     if enviado:
         windows.destroy()
@@ -72,11 +76,32 @@ def formulario(windows):
                         corner_radius=10,
                         width=250)
 
+    
+    ipClienteLabel = CTkLabel(contenedorFormulario, text="Ip del Cliente" , font=("Arial", 20), text_color="black")
+
+    ipClienteEntry = CTkEntry(contenedorFormulario,  # Ahora usa la lista actualizada
+                        border_color=colores["marcos"], border_width=2,
+                        corner_radius=10,
+                        width=250,
+                        placeholder_text="192.168.10.254")
+
+    diaCorteLabel = CTkLabel(contenedorFormulario, text="Dia de Corte" , font=("Arial", 20), text_color="black")
+
+    diaCorteEntry = CTkComboBox(contenedorFormulario, values=dias_corte,  # Ahora usa la lista actualizada
+                        border_color=colores["marcos"], border_width=2,
+                        corner_radius=10,
+                        width=250
+                        )
+
+
+    
+
     btnGuardar = CTkButton(contenedorFormulario, text="Guardar", border_color=colores["marcos"],
                         border_width=2, corner_radius=10, fg_color=colores["boton"],
                         text_color="black",
                         width=250,
-                        command=lambda:enviarDatos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paquetesEntry, windows))
+                        command=lambda:enviarDatos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paquetesEntry, windows, ipClienteEntry,
+                                                diaCorteEntry))
 
 
     btnCancelar = CTkButton(contenedorFormulario, text="Cancelar", border_color=colores["marcos"],
@@ -96,9 +121,13 @@ def formulario(windows):
     emailEntry.grid(column=0, row=3, padx=10, pady=10)
     direccionEntry.grid(column=1, row=3, padx=10, pady=10)
     paquetesLabel.grid(column=0, row=4, padx=10, pady=10)
+    ipClienteLabel.grid(column=1, row=4, padx=10, pady=10)
     paquetesEntry.grid(column=0, row=5, padx=10, pady=10)
-    btnGuardar.grid(column=0, row=6, padx=10, pady=10)
-    btnCancelar.grid(column=1, row=6, padx=10, pady=10)
+    ipClienteEntry.grid(column=1, row=5, padx=10, pady=10)
+    diaCorteLabel.grid(column=0, row=6, padx=10, pady=10)
+    diaCorteEntry.grid(column=0, row=7, padx=10, pady=10)
+    btnGuardar.grid(column=1, row=7, padx=10, pady=10)
+
 
     return paquetesEntry  # Devolver el ComboBox para poder actualizarlo después si es necesario
 

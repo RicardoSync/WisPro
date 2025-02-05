@@ -46,7 +46,7 @@ def insertarPaquete(nombre, velocidad, precio):
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos insertar el paquete debido a {err}")
 
-def insertarCliente(nombre, telefono, email, direccion, paquete):
+def insertarCliente(nombre, telefono, email, direccion, paquete, ip_cliente, dia_corte):
 
 
     idPaquete = consultarPaqueteID(paquete)
@@ -58,8 +58,8 @@ def insertarCliente(nombre, telefono, email, direccion, paquete):
     try:
         conexion = conexionDB()
         cursor = conexion.cursor()
-        sql = "INSERT INTO clientes (nombre, telefono, email, direccion, id_paquete) VALUES (%s,%s,%s,%s,%s)"
-        valores = (nombre, telefono, email, direccion, idPaquete)
+        sql = "INSERT INTO clientes (nombre, telefono, email, direccion, id_paquete, ip_cliente, dia_corte) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+        valores = (nombre, telefono, email, direccion, idPaquete, ip_cliente, dia_corte)
         cursor.execute(sql, valores)
 
         conexion.commit()
