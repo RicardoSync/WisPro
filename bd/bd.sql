@@ -28,6 +28,8 @@ CREATE TABLE clientes (
     direccion TEXT NOT NULL,
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
     id_paquete INT,
+    ip_cliente VARCHAR(100),
+    dia_corte INT,
     FOREIGN KEY (id_paquete) REFERENCES paquetes(id) ON DELETE SET NULL
 );
 
@@ -85,4 +87,13 @@ CREATE TABLE tickets (
     id_responsable INT NULL,  -- Usuario (técnico/cajero) que resolvió el problema
     FOREIGN KEY (id_cliente) REFERENCES clientes(id) ON DELETE CASCADE,
     FOREIGN KEY (id_responsable) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+-- Tabla de microtik
+CREATE TABLE credenciales_microtik (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    ip VARCHAR(100),
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(100)
 );

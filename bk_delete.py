@@ -84,3 +84,20 @@ def eliminar_falla(id):
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos eliminar la falla por error {err}")
 
+def eliminar_microtik(id):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "DELETE FROM credenciales_microtik WHERE id = %s"
+        valores = (id, )
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+
+        return True
+    
+    except Exception as err:
+        print("error tipo {err}")
+        return False

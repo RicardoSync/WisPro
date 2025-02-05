@@ -20,6 +20,7 @@ from md_equipo_asignado import obtener_detalles_equipo
 from md_reportar_falla import reportar_falla_windows
 from md_usuarios import creacionUsuarios
 from md_fallas_resueltas import moduloFallasResueltas
+from md_microtik import modulo_microtik
 
 iconos = imagenes_ui()
 colores = colores_ui()
@@ -138,12 +139,14 @@ def contenedorTabla(panel):
     #creacion del menu contextual
     menu = Menu(tablaClientes, tearoff=0)
     menu.add_command(label="Nuevo Cliente", command=nuevoCliente)
-    menu.add_command(label="Asignar Equipo", command=lambda:asignacion_equipo(tablaClientes))
-    menu.add_command(label="Equipos Instalados", command=lambda:obtenerAsignacion(tablaClientes))
     menu.add_command(label="Editar", command=lambda:enviarActualizacion(tablaClientes, panel))
     menu.add_command(label="Eliminar", command=lambda:enviarEliminar(tablaClientes, panel))
+    menu.add_command(label="Asignar Equipo", command=lambda:asignacion_equipo(tablaClientes))
+    menu.add_command(label="Equipos Instalados", command=lambda:obtenerAsignacion(tablaClientes))
     menu.add_command(label="Registrar Pago", command=lambda:enviarPago(tablaClientes))
     menu.add_command(label="Historial Pagos", command=lambda:enviarDetalles(tablaClientes))
+    menu.add_command(label="Bloquear cliente")
+    menu.add_command(label="Desbloquear cliente")
     menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel))
 
     def mostrar_menu(event):
@@ -241,6 +244,14 @@ def panelAdmin(username, rol, windows):
                             command=lambda:webbrowser.open("https://youtube.com/@tecnoflowz4850?si=V1hMUfxIdD5QAR4Q")
                             )
 
+    btnMicrotik =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+                            fg_color=colores["boton"],
+                            width=200,
+                            text="Microtik",
+                            text_color="black",
+                            command=modulo_microtik
+                            )
+
     btnCancelar =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
@@ -265,6 +276,7 @@ def panelAdmin(username, rol, windows):
     btnFallasResueltas.pack(padx=10, pady=10)
     btnUsuarios.pack(padx=10, pady=10)
     btnContacto.pack(padx=10, pady=10)
+    btnMicrotik.pack(padx=10, pady=10)
     btnCancelar.pack(padx=10, pady=10)
     informacionLabel.pack(padx=10, pady=10)
 

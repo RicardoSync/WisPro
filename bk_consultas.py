@@ -301,7 +301,6 @@ def listar_fallas_resueltas():
         messagebox.showerror("SpiderNet", f"No logramos obtener las fallas resueltas {err}")
         return []
 
-
 def detalles_fallas():
     try:
         conexion = conexionDB()
@@ -341,3 +340,19 @@ def consultar_nombre_cliente(nombre):
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No logramos consultar a los clientes {err}")
+
+def consultar_microtiks():
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT id, nombre, username, ip, password FROM credenciales_microtik")
+        resultado = cursor.fetchall()
+
+        conexion.close()
+        cursor.close()
+
+        return resultado
+    
+    except Exception as err:
+        print(f"Error al consultar microtikd {err}")
+        return False

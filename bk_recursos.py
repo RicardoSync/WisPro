@@ -35,7 +35,6 @@ def imagenes_ui():
         "solucion": CTkImage(light_image=Image.open("img/solucion.png"),
                         dark_image=Image.open("img/solucion.png"),
                         size=(100, 100))
-
     }
     return imagenes
 

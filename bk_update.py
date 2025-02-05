@@ -127,7 +127,6 @@ def actualizar_asignacion(id_equipo, id_cliente):
         messagebox.showerror("SpiderNet", f"No podemos actualizar el equipo: {err}")
         return False
 
-
 def elimnar_equipo_de_cliente(id_equipo):
     try:
         conexion = conexionDB()
@@ -147,6 +146,23 @@ def elimnar_equipo_de_cliente(id_equipo):
         messagebox.showerror("SpiderNet", f"No podemos actualizar el equipo: {err}")
         return False
 
+def actualizar_microtik(id, username, password, ip, nombre):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """UPDATE credenciales_microtik
+        SET nombre = %s, ip = %s, username = %s, password = %s WHERE id = %s"""
+        valores = (nombre, ip, username, password, id)
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+
+        return True
+    except Exception as err:
+        print(f"No podemos actualizar {err}")
+        return False
 
 def actualizar_falla(id_falla, nuevo_estado, id_tecnico):
     try:

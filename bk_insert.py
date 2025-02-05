@@ -141,3 +141,22 @@ def insertarFalla(id_cliente, tipo_falla, descripcion, estado):
         #messagebox.showerror("SpiderNet", f"No logramos generar el reporte de falla {err}")
         print(f"{err}")
         return False
+
+def insertar_microtik(nombre, username, password, ip):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "INSERT INTO credenciales_microtik(nombre, ip, username, password) VALUES (%s,%s,%s,%s)"
+        valores = (nombre, ip, username, password)
+        cursor.execute(sql, valores)
+
+        conexion.commit()
+        
+        cursor.close()
+        conexion.close()
+
+        return True
+    
+    except Exception as err:
+        print(f"Error {err}")
+        return False

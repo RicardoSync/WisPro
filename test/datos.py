@@ -3,11 +3,11 @@ import random
 
 # Configuración de conexión
 config = {
-    "host": "192.168.10.251",
+    "host": "localhost",
     "port": 3306,
-    "user": "ricardo",
+    "user": "root",
     "password": "MinuzaFea265/",
-    "database": "server_mint"
+    "database": "spidernet"
 }
 
 # Listas de datos de ejemplo
