@@ -274,9 +274,9 @@ def panelAdmin(username, rol, windows):
     btnPagos.pack(padx=10, pady=10)
     btnGenerarFalla.pack(padx=10, pady=10)
     btnFallasResueltas.pack(padx=10, pady=10)
+    btnMicrotik.pack(padx=10, pady=10)
     btnUsuarios.pack(padx=10, pady=10)
     btnContacto.pack(padx=10, pady=10)
-    btnMicrotik.pack(padx=10, pady=10)
     btnCancelar.pack(padx=10, pady=10)
     informacionLabel.pack(padx=10, pady=10)
 

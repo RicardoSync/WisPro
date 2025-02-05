@@ -8,7 +8,6 @@ from bk_update import actualizacion_cliente
 
 #variables necesarias
 colores = colores_ui()
-paquetes = consultarPaquetes()
 iconos = imagenes_ui()
 
 def enviar_actualizacion(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, id, windows):
@@ -28,6 +27,7 @@ def insertarElementos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, pa
     direccionEntry.insert(0, direccion)
 
 def formulario(id, nombre, telefono, email, direccion, paquete, windows):
+    paquetes = consultarPaquetes()
     nombre_paquetes = [paquete[1] for paquete in paquetes]
     nombre_paquetes.insert(0, paquete)
 
