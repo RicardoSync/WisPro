@@ -1,4 +1,4 @@
-from customtkinter import CTk, CTkFrame, CTkButton, CTkLabel, CTkImage
+from customtkinter import CTk, CTkFrame, CTkButton, CTkLabel, CTkImage, CTkOptionMenu
 from datetime import datetime
 from tkinter import ttk, END, messagebox, Menu
 import webbrowser
@@ -6,7 +6,7 @@ from PIL import Image
 
 #cargamos los modulos
 from bk_recursos import imagenes_ui, colores_ui
-from bk_consultas import consultarClientes
+from bk_consultas import consultarClientes, detalles_cliente
 from md_paquetes import creacionPaquetes
 from bk_delete import eliminarCliente
 from md_nuevo_cliente import nuevoCliente
@@ -21,6 +21,8 @@ from md_reportar_falla import reportar_falla_windows
 from md_usuarios import creacionUsuarios
 from md_fallas_resueltas import moduloFallasResueltas
 from md_microtik import modulo_microtik
+from md_block import panel_bloqueo
+from md_detalles_cliente import detalles_cliente
 
 iconos = imagenes_ui()
 colores = colores_ui()
@@ -113,6 +115,17 @@ def insertarElementos(tablaClientes):
     for clientes in datosClientes:
         tablaClientes.insert("", END, values=clientes)
 
+def enviar_bloqueo(tablaClientes):
+    seleccion = tablaClientes.selection()
+    if not seleccion:
+        messagebox.showwarning("SpiderNet", "Para bloquear o desbloquear selecciona un cliente")
+        return
+    
+    identificador = tablaClientes.item(seleccion, "values")
+    id_cliente = identificador[0]
+    nombre = identificador[1]
+    panel_bloqueo(nombreCliente=nombre, id=id_cliente)
+
 def contenedorTabla(panel, nombre_admin):
 
     contenedorTable = CTkFrame(panel, border_width=2, corner_radius=0, fg_color=colores["fondo"],
@@ -145,8 +158,8 @@ def contenedorTabla(panel, nombre_admin):
     menu.add_command(label="Equipos Instalados", command=lambda:obtenerAsignacion(tablaClientes))
     menu.add_command(label="Registrar Pago", command=lambda:enviarPago(tablaClientes, nombre_admin))
     menu.add_command(label="Historial Pagos", command=lambda:enviarDetalles(tablaClientes))
-    menu.add_command(label="Bloquear / Desbloquear cliente")
-    menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel))
+    menu.add_command(label="Bloquear / Desbloquear cliente", command=lambda:enviar_bloqueo(tablaClientes))
+    menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel, nombre_admin))
 
     def mostrar_menu(event):
         seleccion = tablaClientes.selection()
@@ -157,6 +170,32 @@ def contenedorTabla(panel, nombre_admin):
 
 
     insertarElementos(tablaClientes)
+
+def enviar_detalles(tablaClientes):
+    selecition = tablaClientes.selection()
+
+    if not selecition:
+        messagebox.showwarning("SpiderNet", "Por favor selecciona primero un cliente")
+        return
+    
+    identificador = tablaClientes.item(selecition, "values")
+    datos = detalles_cliente(id=identificador[0])
+
+    if datos:
+        id = identificador[0]
+        nombre = identificador[1]
+        telefono = identificador[2]
+        email = identificador[3]
+        direccion = identificador[4]
+        fechaRegistro = identificador[5]
+        paquete = identificador[6]
+        ipCliente = datos[0]
+        diaCorte = datos[1]
+        detalles_cliente(id, nombre, telefono, email, direccion, fechaRegistro, ipPaquete=paquete, ipCliente=ipCliente, diaCorte=diaCorte)
+
+def seleccionar_opcion(valor):
+    print(f"Seleccionaste: {valor}")  # Puedes cambiar esto por otra acción
+
 
 def panelAdmin(username, rol, windows):
     windows.destroy()
@@ -176,7 +215,8 @@ def panelAdmin(username, rol, windows):
     
     fechaLabel = CTkLabel(banner, text=f"Fecha: {fecha}", font=("Arial", 18, "bold"),
                     text_color="black")
-    
+
+
     #creamos los botones
 
     btnClientes = CTkButton(banner, border_width=2, border_color=colores["marcos"],
@@ -251,6 +291,22 @@ def panelAdmin(username, rol, windows):
                             command=modulo_microtik
                             )
 
+    btnConfiguracion =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+                            fg_color=colores["boton"],
+                            width=200,
+                            text="Configuracion",
+                            text_color="black",
+                            command=modulo_microtik
+                            )
+
+    btnRedes =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+                            fg_color=colores["boton"],
+                            width=200,
+                            text="Cortes de internet",
+                            text_color="black",
+                            command=modulo_microtik
+                            )
+
     btnWhatsApp =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
@@ -271,7 +327,7 @@ def panelAdmin(username, rol, windows):
     
     #posicion de los elementos 
     banner.place(relx=0.0, rely=0.0, relwidth=0.2, relheight=1.0)
-    logo.pack(padx=10, pady=20)
+    logo.pack(padx=10, pady=10)
     welcome.pack(padx=10, pady=10)
     fechaLabel.pack(padx=10, pady=10)
     btnClientes.pack(padx=10, pady=10)
@@ -280,7 +336,6 @@ def panelAdmin(username, rol, windows):
     btnPagos.pack(padx=10, pady=10)
     btnGenerarFalla.pack(padx=10, pady=10)
     btnFallasResueltas.pack(padx=10, pady=10)
-    btnWhatsApp.pack(padx=10, pady=10)
     btnMicrotik.pack(padx=10, pady=10)
     btnUsuarios.pack(padx=10, pady=10)
     btnContacto.pack(padx=10, pady=10)

@@ -5,9 +5,27 @@ from md_microtik_credenciales import panelMicrotik
 from bk_consultas import consultar_microtiks
 from bk_delete import eliminar_microtik
 from bk_update import actualizar_microtik
+from bk_prueba_conexion_microtik import prueba_conexion
 
 colores = colores_ui()
 iconos = imagenes_ui()
+
+def probar_conexion(contenedorTable):
+    seleccion = contenedorTable.selection()
+
+    if not seleccion:
+        messagebox.showwarning("SpiderNet", "Antes de probar, selecciona un equipo")
+        return
+    
+    elementos = contenedorTable.item(seleccion, "values")
+    
+    username = elementos[2]
+    ip = elementos[3]
+    password = elementos[4]
+    if prueba_conexion(mikrotik_ip=ip, port=22, username=username, password=password):
+        messagebox.showinfo("SpiderNet", "Conexion correcta")
+    else:
+        messagebox.showerror("SpiderNet", "No podemos establecer comunicacion")
 
 def enviar_datos(id, username, passwordEntry, ipEntry, nombreEntry):
     username = username.get()
@@ -143,13 +161,13 @@ def tabla(windows):
     menu.add_command(label="Eliminar", command=lambda:eliminar(contenedorTable))
     menu.add_command(label="Agregar", command=panelMicrotik)
     menu.add_command(label="Actualizar", command=lambda:insertar_elementos(contenedorTable))
+    menu.add_command(label="Probar conexion", command=lambda:probar_conexion(contenedorTable))
 
     def mostrar_menu(event):
         seleccion = contenedorTable.selection()
         menu.post(event.x_root, event.y_root)
 
     contenedorTable.bind("<Button-3>", mostrar_menu)  # Evento clic derecho
-
 
 def modulo_microtik():
     windows = CTkToplevel()

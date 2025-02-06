@@ -29,7 +29,7 @@ def consultarPaquetes():
         return paquetes
     
     except Exception as err:
-        messagebox.showerror("SpiderNet", f"No podemos realizar la consulta de los paquetes {err}")
+        messagebox.showerror("SpiderNet", "No tenemos conexion con el servidor, revisa eso primero")
 
 def consultarPaqueteID(nombrePaquete):
     try:
@@ -60,7 +60,7 @@ def consultarClientes():
                 c.telefono, 
                 c.email,
                 c.direccion, 
-                c.fecha_registro, 
+                c.fecha_registro,
                 COALESCE(p.nombre, 'Sin paquete') AS Paquete
             FROM clientes c
             LEFT JOIN paquetes p ON c.id_paquete = p.id;
@@ -77,7 +77,23 @@ def consultarClientes():
         messagebox.showerror("SpiderNet", f"No podemos consultar al cliente. Error: {err}")
         return None
 
+def detalles_cliente(id):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """SELECT ip_cliente, dia_corte FROM clientes WHERE id = %s"""
+        cursor.execute(sql, id)
+        datos = cursor.fetchall()
 
+        cursor.close()
+        conexion.close()
+
+        return datos
+
+    except Exception as err:
+        messagebox.showerror("SpiderNet", f"No podemos consultar al cliente. Error: {err}")
+        return None
+    
 def consultarPaqueteNombre(nombrePaquete):
     try:
         conexion = conexionDB()
@@ -355,4 +371,42 @@ def consultar_microtiks():
     
     except Exception as err:
         print(f"Error al consultar microtikd {err}")
+        return False
+    
+def consultar_ip_cliente(id):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "SELECT ip_cliente FROM clientes WHERE id = %s"
+        valores = (id, )
+        cursor.execute(sql, valores)
+
+        ip_cliente = cursor.fetchone()
+
+        conexion.close()
+        cursor.close()
+
+        return ip_cliente
+    
+    except Exception as err:
+        print(f"Error al obtener la ip del cliente {err}")
+        return False
+
+def consultar_ip_microtik(nombre):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = "SELECT ip, username, password FROM credenciales_microtik WHERE nombre = %s"
+        valores = (nombre, )
+        cursor.execute(sql, valores)
+
+        ip_microtik = cursor.fetchone()
+
+        conexion.close()
+        cursor.close()
+
+        return ip_microtik
+    
+    except Exception as err:
+        print(f"Error al obtener la ip del microtik {err}")
         return False

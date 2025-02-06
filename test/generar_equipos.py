@@ -3,11 +3,11 @@ import random
 
 # Configuración de conexión
 config = {
-    "host": "localhost",
+    "host": "192.168.10.251",
     "port": 3306,
-    "user": "root",
+    "user": "ricardo",
     "password": "MinuzaFea265/",
-    "database": "spidernet"
+    "database": "doblenet"
 }
 
 # Listas de datos de ejemplo
@@ -45,7 +45,7 @@ try:
     # Lista para almacenar los valores a insertar en lotes
     datos_insertar = []
     
-    for _ in range(50_000):  # Generar 30,000 equipos
+    for _ in range(50):  # Generar 30,000 equipos
         tipo = random.choice(tipos_equipos)
         marca = random.choice(marcas[tipo])
         modelo = random.choice(modelos[marca])
