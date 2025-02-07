@@ -30,6 +30,7 @@ CREATE TABLE clientes (
     id_paquete INT,
     ip_cliente VARCHAR(100),
     dia_corte INT,
+    estado VARCHAR(100),
     FOREIGN KEY (id_paquete) REFERENCES paquetes(id) ON DELETE SET NULL
 );
 

@@ -47,10 +47,7 @@ def insertarPaquete(nombre, velocidad, precio):
         messagebox.showerror("SpiderNet", f"No podemos insertar el paquete debido a {err}")
 
 def insertarCliente(nombre, telefono, email, direccion, paquete, ip_cliente, dia_corte):
-
-
     idPaquete = consultarPaqueteID(paquete)
-
     if not idPaquete:
         messagebox.showerror("SpiderNet", "No logramos encontrar ese paquete, intenta una vex mas")
         return
@@ -58,8 +55,9 @@ def insertarCliente(nombre, telefono, email, direccion, paquete, ip_cliente, dia
     try:
         conexion = conexionDB()
         cursor = conexion.cursor()
-        sql = "INSERT INTO clientes (nombre, telefono, email, direccion, id_paquete, ip_cliente, dia_corte) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-        valores = (nombre, telefono, email, direccion, idPaquete, ip_cliente, dia_corte)
+        estado = "Activo"
+        sql = "INSERT INTO clientes (nombre, telefono, email, direccion, id_paquete, ip_cliente, dia_corte, estado) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+        valores = (nombre, telefono, email, direccion, idPaquete, ip_cliente, dia_corte, estado)
         cursor.execute(sql, valores)
 
         conexion.commit()

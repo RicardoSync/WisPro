@@ -180,3 +180,42 @@ def actualizar_falla(id_falla, nuevo_estado, id_tecnico):
         print("✅ Falla actualizada correctamente.")
     except Exception as e:
         print(f"❌ Error al actualizar la falla: {e}")
+
+def actualizar_bloqueo(id):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """
+        UPDATE clientes
+        SET estado = "Bloqueado" WHERE id = %s"""
+        cursor.execute(sql, (id, ))
+        conexion.commit()
+
+        cursor.close()
+        conexion.close()
+
+        return True
+    
+    except Exception as err:
+        print(f"No podemos actualizar el bloque del cliente {err} en base de datos")
+        return False
+    
+
+def actualizar_desbloqueo(id):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        sql = """
+        UPDATE clientes
+        SET estado = "Activo" WHERE id = %s"""
+        cursor.execute(sql, (id, ))
+        conexion.commit()
+
+        cursor.close()
+        conexion.close()
+
+        return True
+    
+    except Exception as err:
+        print(f"No podemos actualizar el bloque del cliente {err} en base de datos")
+        return False

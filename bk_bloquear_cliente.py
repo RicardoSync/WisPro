@@ -1,7 +1,8 @@
 import paramiko
 from tkinter import messagebox
+from bk_update import actualizar_bloqueo, actualizar_desbloqueo
 
-def bloquear_ip(host, user, password, ip_bloqueo):
+def bloquear_ip(host, user, password, ip_bloqueo, id):
     try:
         # Iniciar conexión SSH
         client = paramiko.SSHClient()
@@ -17,14 +18,20 @@ def bloquear_ip(host, user, password, ip_bloqueo):
         # Mostrar salida del comando
         print(stdout.read().decode())
 
-        # Cerrar conexión
-        client.close()
-        return True
+
+        bloqueo = actualizar_bloqueo(id)
+        if bloqueo:
+            # Cerrar conexión
+            client.close()
+            return True
+        else:
+            client.close()
+
 
     except Exception as e:
         messagebox.showerror("SpiderNet", f"Error al bloquear la IP: {e}")
 
-def desbloquear_ip(host, user, password, ip_bloqueo):
+def desbloquear_ip(host, user, password, ip_bloqueo, id):
     try:
         # Iniciar conexión SSH
         client = paramiko.SSHClient()
@@ -39,10 +46,14 @@ def desbloquear_ip(host, user, password, ip_bloqueo):
 
         # Mostrar salida del comando
         print(stdout.read().decode())
-
-        # Cerrar conexión
-        client.close()
-        return True
+        
+        desbloqueo = actualizar_desbloqueo(id)
+        if desbloqueo:
+            # Cerrar conexión
+            client.close()
+            return True
+        else:
+            client.close()
 
     except Exception as e:
                 messagebox.showerror("SpiderNet", f"Error al desbloquear la IP: {e}")

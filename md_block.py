@@ -13,7 +13,7 @@ def get_datos(id, microtik, windows):
 
     if ip_cliente:
         if ip_microtik:
-            if bloquear_ip(host=ip_microtik[0], user=ip_microtik[1], password=ip_microtik[2], ip_bloqueo=ip_cliente[0]):
+            if bloquear_ip(host=ip_microtik[0], user=ip_microtik[1], password=ip_microtik[2], ip_bloqueo=ip_cliente[0], id=id):
                 windows.destroy()
                 messagebox.showinfo("SpiderNet", "El cliente se bloqueo con exito")
         else:
@@ -27,7 +27,7 @@ def get_desbloqueo(id, microtik, windows):
 
     if ip_cliente:
         if ip_microtik:
-            if desbloquear_ip(host=ip_microtik[0], user=ip_microtik[1], password=ip_microtik[2], ip_bloqueo=ip_cliente[0]):
+            if desbloquear_ip(host=ip_microtik[0], user=ip_microtik[1], password=ip_microtik[2], ip_bloqueo=ip_cliente[0], id=id):
                 windows.destroy()
                 messagebox.showinfo("SpiderNet", "El cliente se desbloqueo con exito")
         else:

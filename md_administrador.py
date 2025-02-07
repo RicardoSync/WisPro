@@ -108,11 +108,27 @@ def obtenerAsignacion(tablaClientes):
 def insertarElementos(tablaClientes):
     datosClientes = consultarClientes()
 
+    # Limpiar la tabla antes de insertar nuevos datos
     for item in tablaClientes.get_children():
         tablaClientes.delete(item)
     
-    for clientes in datosClientes:
-        tablaClientes.insert("", END, values=clientes)
+    # Insertar nuevos datos con el tag adecuado
+    for cliente in datosClientes:
+        estado = cliente[6]  # Suponiendo que el estado está en la columna 7 (índice 6)
+
+        # Aplicar el tag correspondiente según el estado
+        if estado == "Activo":
+            tag = "Activo"
+        elif estado == "Suspendido":
+            tag = "Suspendido"
+        elif estado == "Bloqueado":
+            tag = "Bloqueado"
+        elif estado == "Cancelado":
+            tag = "Cancelado"
+        else:
+            tag = ""  # Si el estado no coincide, sin estilo
+
+        tablaClientes.insert("", END, values=cliente, tags=(tag,))
 
 def enviar_bloqueo(tablaClientes):
     seleccion = tablaClientes.selection()
@@ -136,25 +152,28 @@ def enviar_reporte_falla(rol, tablaClientes):
 
     reportar_falla_windows_cliente(nombre_cliente=identificador[1], rol=rol)
 
-
 def contenedorTabla(panel, nombre_admin, rol):
 
     contenedorTable = CTkFrame(panel, border_width=2, corner_radius=0, fg_color=colores["fondo"],
                     border_color=colores["marcos"])
     
-    tablaClientes = ttk.Treeview(contenedorTable, columns=("ID", "Nombre", "Telefono", "Email", "Direccion", "Instalacion", "Paquete"), show="headings")
-    tablaClientes.heading("ID", text="ID")
-    tablaClientes.heading("Nombre", text="Nombre")
-    tablaClientes.heading("Telefono", text="Telefono")
-    tablaClientes.heading("Email", text="Email")
-    tablaClientes.heading("Direccion", text="Direccion")
-    tablaClientes.heading("Instalacion", text="Instalacion")
-    tablaClientes.heading("Paquete", text="Paquete")
+    columnas =("ID", "Nombre", "Telefono", "Dia Corte", "Direccion", "Instalacion", "Estado", "Paquete")
+
+    tablaClientes = ttk.Treeview(contenedorTable, columns=columnas, show="headings")
+    for col in columnas:
+        tablaClientes.heading(col, text=col)
+
 
     tablaClientes.column("ID", width=30)
     tablaClientes.column("Instalacion", width=100)
 
-    
+    # Configurar las etiquetas de estilo
+    tablaClientes.tag_configure("Activo", background="lightgreen")
+    tablaClientes.tag_configure("Suspendido", background="lightcoral")
+    tablaClientes.tag_configure("Bloqueado", background="lightgray")
+    tablaClientes.tag_configure("Cancelado", background="red")
+
+
     #posicion elementos
     contenedorTable.place(relx=0.2, rely=0.0, relwidth=0.8, relheight=1.0)
     tablaClientes.pack(expand=True, fill="both")
@@ -170,8 +189,10 @@ def contenedorTabla(panel, nombre_admin, rol):
     menu.add_command(label="Registrar Pago", command=lambda:enviarPago(tablaClientes, nombre_admin))
     menu.add_command(label="Historial Pagos", command=lambda:enviarDetalles(tablaClientes))
     menu.add_command(label="Bloquear / Desbloquear cliente", command=lambda:enviar_bloqueo(tablaClientes))
+    menu.add_command(label="Suspender")
+    menu.add_command(label="Cancelar servicio")
     menu.add_command(label="Reportar falla", command=lambda:enviar_reporte_falla(rol, tablaClientes))
-    menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel, nombre_admin))
+    menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel, nombre_admin, rol))
 
     def mostrar_menu(event):
         seleccion = tablaClientes.selection()
@@ -207,7 +228,6 @@ def enviar_detalles(tablaClientes):
 
 def seleccionar_opcion(valor):
     print(f"Seleccionaste: {valor}")  # Puedes cambiar esto por otra acción
-
 
 def panelAdmin(username, rol, windows):
     windows.destroy()

@@ -1,0 +1,11 @@
+1- Agregar bloqueo por dias. Ejemplo bloqueo de todos los clientes con dia de corte 20
+2 - Cambiar de color la columna si es Bloqueado, Activo, Suspendio y Cancelado - Listo
+
+3 - Agregar las opciones en el menu desplegable de Suspender, Cancelar
+    Al suspender el cliente se bloquea, se cambia estado a suspendido
+    Al cancelar se bloquea el cliente, se actualizan los equipo con id_cliente Null 
+
+4 - Intrgrar whatsapp, enviar mensajes a todos los clientes con dia de corte 20
+5 - Crear PDF con todos los clientes 
+6 - Poder mostrar los pagos generales en un rango de fechas
+7 -  
