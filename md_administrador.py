@@ -17,9 +17,8 @@ from md_asignacin_equipo import asignacionEquipo
 from md_equipos import moduloEquipos
 from md_histotial_pagos import obtener_detalles_windows
 from md_equipo_asignado import obtener_detalles_equipo
-from md_reportar_falla import reportar_falla_windows
+from md_reportar_falla import reportar_falla_windows, reportar_falla_windows_cliente
 from md_usuarios import creacionUsuarios
-from md_fallas_resueltas import moduloFallasResueltas
 from md_microtik import modulo_microtik
 from md_block import panel_bloqueo
 from md_detalles_cliente import detalles_cliente
@@ -126,7 +125,19 @@ def enviar_bloqueo(tablaClientes):
     nombre = identificador[1]
     panel_bloqueo(nombreCliente=nombre, id=id_cliente)
 
-def contenedorTabla(panel, nombre_admin):
+def enviar_reporte_falla(rol, tablaClientes):
+    selection = tablaClientes.selection()
+
+    if not selection:
+        messagebox.showwarning("SpiderNet", "No podemos reportar si no selecciona un cliente")
+        return
+    
+    identificador = tablaClientes.item(selection, "values")
+
+    reportar_falla_windows_cliente(nombre_cliente=identificador[1], rol=rol)
+
+
+def contenedorTabla(panel, nombre_admin, rol):
 
     contenedorTable = CTkFrame(panel, border_width=2, corner_radius=0, fg_color=colores["fondo"],
                     border_color=colores["marcos"])
@@ -151,7 +162,7 @@ def contenedorTabla(panel, nombre_admin):
 
     #creacion del menu contextual
     menu = Menu(tablaClientes, tearoff=0)
-    menu.add_command(label="Nuevo Cliente", command=nuevoCliente)
+    menu.add_command(label="Crear Cliente", command=nuevoCliente)
     menu.add_command(label="Editar", command=lambda:enviarActualizacion(tablaClientes, panel))
     menu.add_command(label="Eliminar", command=lambda:enviarEliminar(tablaClientes, panel))
     menu.add_command(label="Asignar Equipo", command=lambda:asignacion_equipo(tablaClientes))
@@ -159,6 +170,7 @@ def contenedorTabla(panel, nombre_admin):
     menu.add_command(label="Registrar Pago", command=lambda:enviarPago(tablaClientes, nombre_admin))
     menu.add_command(label="Historial Pagos", command=lambda:enviarDetalles(tablaClientes))
     menu.add_command(label="Bloquear / Desbloquear cliente", command=lambda:enviar_bloqueo(tablaClientes))
+    menu.add_command(label="Reportar falla", command=lambda:enviar_reporte_falla(rol, tablaClientes))
     menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel, nombre_admin))
 
     def mostrar_menu(event):
@@ -259,14 +271,6 @@ def panelAdmin(username, rol, windows):
                             command=lambda:reportar_falla_windows(rol)
                             )
     
-    btnFallasResueltas =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
-                            fg_color=colores["boton"],
-                            width=200,
-                            text="Fallas Resueltas",
-                            text_color="black",
-                            command=moduloFallasResueltas
-                            )
-
     btnUsuarios =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
@@ -291,29 +295,6 @@ def panelAdmin(username, rol, windows):
                             command=modulo_microtik
                             )
 
-    btnConfiguracion =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
-                            fg_color=colores["boton"],
-                            width=200,
-                            text="Configuracion",
-                            text_color="black",
-                            command=modulo_microtik
-                            )
-
-    btnRedes =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
-                            fg_color=colores["boton"],
-                            width=200,
-                            text="Cortes de internet",
-                            text_color="black",
-                            command=modulo_microtik
-                            )
-
-    btnWhatsApp =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
-                            fg_color=colores["boton"],
-                            width=200,
-                            text="WhatsApp",
-                            text_color="black"
-                            )
-
     btnCancelar =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
@@ -335,7 +316,6 @@ def panelAdmin(username, rol, windows):
     btnEquipos.pack(padx=10, pady=10)
     btnPagos.pack(padx=10, pady=10)
     btnGenerarFalla.pack(padx=10, pady=10)
-    btnFallasResueltas.pack(padx=10, pady=10)
     btnMicrotik.pack(padx=10, pady=10)
     btnUsuarios.pack(padx=10, pady=10)
     btnContacto.pack(padx=10, pady=10)
@@ -343,5 +323,5 @@ def panelAdmin(username, rol, windows):
     informacionLabel.pack(padx=10, pady=10)
 
 
-    contenedorTabla(panel, nombre_admin=username)
+    contenedorTabla(panel, nombre_admin=username, rol=rol)
     panel.mainloop()

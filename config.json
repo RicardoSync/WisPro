@@ -1,7 +1,7 @@
 {
-    "host" : "localhost",
+    "host" : "192.168.10.251",
     "port" : 3306,
-    "user"  : "root",
+    "user"  : "ricardo",
     "password": "MinuzaFea265/",
-    "database" : "spidernet"
+    "database" : "doblenet"
 }

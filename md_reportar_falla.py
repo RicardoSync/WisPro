@@ -1,4 +1,4 @@
-from customtkinter import CTkToplevel, CTkComboBox, CTkLabel, CTkFrame, CTkTextbox, CTkButton
+from customtkinter import CTkToplevel, CTkComboBox, CTkLabel, CTkFrame, CTkTextbox, CTkButton, CTkEntry
 from tkinter import messagebox, ttk, END, Menu
 from bk_consultas import consultar_nombre_cliente, listar_fallas, detalles_fallas
 from bk_insert import insertarFalla
@@ -6,7 +6,7 @@ from bk_delete import eliminar_falla
 from bk_consultas import consultarClientes
 from bk_recursos import colores_ui
 from bk_update import actualizar_falla
-
+from md_fallas_resueltas import moduloFallasResueltas
 
 colores = colores_ui()
 
@@ -140,6 +140,7 @@ def tabla(fallaWindows, rol):
     tablaFallas.bind("<Button-3>", mostrar_menu)  # Evento clic derecho
 
 def reportar_falla_windows(rol):
+
     lista_clientes = consultarClientes()
     nombre_clientes = [cliente[1] for cliente in lista_clientes]
     fallas_posibles = ['Sin conexión', 'Intermitencia', 'Baja velocidad', 'Otros']
@@ -161,12 +162,17 @@ def reportar_falla_windows(rol):
                                 values=fallas_posibles, width=240)
     
     descripcionEntry = CTkTextbox(contenedorDatos, border_color=colores["marcos"], border_width=2,
-                                corner_radius=0, width=400, height=400)
+                                corner_radius=0, width=400, height=380)
     
     btnRegistrar = CTkButton(contenedorDatos, border_color=colores["marcos"], border_width=2, corner_radius=6,
                             fg_color=colores["boton"], text="Generar reporte", text_color="black",
                             width=320,
                             command=lambda: obtener_datos(descripcionEntry, nombreClientes, erroresEnrey, fallaWindows))
+    
+    btnFallas = CTkButton(contenedorDatos, border_color=colores["marcos"], border_width=2, corner_radius=6,
+                        fg_color=colores["boton"], text="Fallas Resueltas", text_color="black",
+                        width=320,
+                        command=moduloFallasResueltas)
     
     contenedorDatos.place(relx=0.0, rely=0.0, relwidth=0.2, relheight=1.0)
     nombreLabel.pack(padx=10, pady=10)
@@ -175,6 +181,53 @@ def reportar_falla_windows(rol):
     erroresEnrey.pack(padx=10, pady=10)
     descripcionEntry.pack(padx=10, pady=10)
     btnRegistrar.pack(padx=10, pady=10)
+    btnFallas.pack(padx=10, pady=10)
+    tabla(fallaWindows, rol)
+
+    fallaWindows.mainloop()
+
+def reportar_falla_windows_cliente(nombre_cliente, rol):
+    fallas_posibles = ['Sin conexión', 'Intermitencia', 'Baja velocidad', 'Otros']
+
+    fallaWindows = CTkToplevel()
+    fallaWindows.title("Reportar Falla")
+    fallaWindows.geometry("1280x700")
+    fallaWindows.resizable(False, False)
+
+    contenedorDatos = CTkFrame(fallaWindows, border_color=colores["marcos"], border_width=2,
+                            corner_radius=0, fg_color=colores["fondo"])
+
+    nombreLabel = CTkLabel(contenedorDatos, text="Selecciona el cliente", font=("Arial", 18, "bold"), text_color="white")
+    nombreClientes = CTkEntry(contenedorDatos, border_color=colores["marcos"], border_width=2, corner_radius=8,
+                                width=240)
+    
+    erroresLabel = CTkLabel(contenedorDatos, text="Falla reportada", font=("Arial", 18, "bold"), text_color="white")
+    erroresEnrey = CTkComboBox(contenedorDatos, border_color=colores["marcos"], border_width=2, corner_radius=8,
+                                values=fallas_posibles, width=240)
+    
+    descripcionEntry = CTkTextbox(contenedorDatos, border_color=colores["marcos"], border_width=2,
+                                corner_radius=0, width=400, height=380)
+    
+    btnRegistrar = CTkButton(contenedorDatos, border_color=colores["marcos"], border_width=2, corner_radius=6,
+                            fg_color=colores["boton"], text="Generar reporte", text_color="black",
+                            width=320,
+                            command=lambda: obtener_datos(descripcionEntry, nombreClientes, erroresEnrey, fallaWindows))
+    
+    btnFallas = CTkButton(contenedorDatos, border_color=colores["marcos"], border_width=2, corner_radius=6,
+                        fg_color=colores["boton"], text="Fallas Resueltas", text_color="black",
+                        width=320,
+                        command=moduloFallasResueltas)
+    
+    contenedorDatos.place(relx=0.0, rely=0.0, relwidth=0.2, relheight=1.0)
+    nombreLabel.pack(padx=10, pady=10)
+    nombreClientes.pack(padx=10, pady=10)
+    erroresLabel.pack(padx=10, pady=10)
+    erroresEnrey.pack(padx=10, pady=10)
+    descripcionEntry.pack(padx=10, pady=10)
+    btnRegistrar.pack(padx=10, pady=10)
+    btnFallas.pack(padx=10, pady=10)
+
+    nombreClientes.insert(0, nombre_cliente)
     tabla(fallaWindows, rol)
 
     fallaWindows.mainloop()
