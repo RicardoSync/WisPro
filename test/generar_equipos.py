@@ -3,11 +3,11 @@ import random
 
 # Configuración de conexión
 config = {
-    "host": "192.168.10.251",
+    "host": "localhost",
     "port": 3306,
     "user": "ricardo",
     "password": "MinuzaFea265/",
-    "database": "doblenet"
+    "database": "local_2024"
 }
 
 # Listas de datos de ejemplo

@@ -200,7 +200,6 @@ def actualizar_bloqueo(id):
         print(f"No podemos actualizar el bloque del cliente {err} en base de datos")
         return False
     
-
 def actualizar_desbloqueo(id):
     try:
         conexion = conexionDB()
@@ -218,4 +217,32 @@ def actualizar_desbloqueo(id):
     
     except Exception as err:
         print(f"No podemos actualizar el bloque del cliente {err} en base de datos")
+        return False
+
+def actualizar_suspencion(id):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        cursor.execute("""UPDATE clientes SET estado = "Suspendido" WHERE id = %s""", (id, ))
+        conexion.commit()
+        conexion.close()
+        cursor.close()
+
+        return True
+    except Exception as err:
+        print(f"No podemos actualizar el estado a suspendido de la base de datos {err}")
+        return False
+    
+def actualizar_cancelacion(id):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        cursor.execute("""UPDATE clientes SET estado = "Cancelado" WHERE id = %s""", (id, ))
+        conexion.commit()
+        conexion.close()
+        cursor.close()
+
+        return True
+    except Exception as err:
+        print(f"No podemos actualizar el estado a cancelado de la base de datos {err}")
         return False

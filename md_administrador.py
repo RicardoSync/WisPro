@@ -5,6 +5,7 @@ import webbrowser
 from PIL import Image
 
 #cargamos los modulos
+from bk_update import actualizar_suspencion, actualizar_cancelacion
 from bk_recursos import imagenes_ui, colores_ui
 from bk_consultas import consultarClientes, detalles_cliente
 from md_paquetes import creacionPaquetes
@@ -22,6 +23,7 @@ from md_usuarios import creacionUsuarios
 from md_microtik import modulo_microtik
 from md_block import panel_bloqueo
 from md_detalles_cliente import detalles_cliente
+from md_bloqueo_desbloqueo import modulo_bloqueo_desbloqueo
 
 iconos = imagenes_ui()
 colores = colores_ui()
@@ -84,7 +86,7 @@ def enviarPago(tablaClientes, nombre_admin):
 
     id_cliente = identificado[0]
     nombre = identificado[1]
-    paquete = identificado[6]
+    paquete = identificado[7]
     registar_pago(id_cliente, nombre, paquete, nombre_admin)
 
 def enviarDetalles(tablaClientes):
@@ -152,6 +154,38 @@ def enviar_reporte_falla(rol, tablaClientes):
 
     reportar_falla_windows_cliente(nombre_cliente=identificador[1], rol=rol)
 
+def enviar_suspencion(tablaClientes):
+    seleccion = tablaClientes.selection()
+
+    if not seleccion:
+        messagebox.showwarning("SpiderNet", "Selecciona un cliente para poder suspenderlo")
+        return
+    
+    identificador = tablaClientes.item(seleccion, "values")
+    id_cliente = identificador[0]
+
+    suspender = actualizar_suspencion(id=id_cliente)
+    if suspender:
+        insertarElementos(tablaClientes)
+    else:
+        messagebox.showerror("SpiderNet", "No podemos suspender al usuario, verifica el log")
+
+def enviar_cancelacion(tablaClientes):
+    seleccion = tablaClientes.selection()
+
+    if not seleccion:
+        messagebox.showwarning("SpiderNet", "Selecciona un cliente para poder suspenderlo")
+        return
+    
+    identificador = tablaClientes.item(seleccion, "values")
+    id_cliente = identificador[0]
+
+    suspender = actualizar_cancelacion(id=id_cliente)
+    if suspender:
+        insertarElementos(tablaClientes)
+    else:
+        messagebox.showerror("SpiderNet", "No podemos cancelar al usuario, verifica el log")
+
 def contenedorTabla(panel, nombre_admin, rol):
 
     contenedorTable = CTkFrame(panel, border_width=2, corner_radius=0, fg_color=colores["fondo"],
@@ -189,8 +223,8 @@ def contenedorTabla(panel, nombre_admin, rol):
     menu.add_command(label="Registrar Pago", command=lambda:enviarPago(tablaClientes, nombre_admin))
     menu.add_command(label="Historial Pagos", command=lambda:enviarDetalles(tablaClientes))
     menu.add_command(label="Bloquear / Desbloquear cliente", command=lambda:enviar_bloqueo(tablaClientes))
-    menu.add_command(label="Suspender")
-    menu.add_command(label="Cancelar servicio")
+    menu.add_command(label="Suspender", command=lambda:enviar_suspencion(tablaClientes))
+    menu.add_command(label="Cancelar servicio", command=lambda:enviar_cancelacion(tablaClientes))
     menu.add_command(label="Reportar falla", command=lambda:enviar_reporte_falla(rol, tablaClientes))
     menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel, nombre_admin, rol))
 
@@ -225,9 +259,6 @@ def enviar_detalles(tablaClientes):
         ipCliente = datos[0]
         diaCorte = datos[1]
         detalles_cliente(id, nombre, telefono, email, direccion, fechaRegistro, ipPaquete=paquete, ipCliente=ipCliente, diaCorte=diaCorte)
-
-def seleccionar_opcion(valor):
-    print(f"Seleccionaste: {valor}")  # Puedes cambiar esto por otra acción
 
 def panelAdmin(username, rol, windows):
     windows.destroy()
@@ -274,6 +305,14 @@ def panelAdmin(username, rol, windows):
                             text_color="black",
                             command=moduloEquipos
                             )
+    
+    btnBloqueos =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
+                            fg_color=colores["boton"],
+                            width=200,
+                            text="Bloqueos / Activaciones",
+                            text_color="black",
+                            command=modulo_bloqueo_desbloqueo
+                            )    
     
     btnPagos =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
@@ -335,6 +374,7 @@ def panelAdmin(username, rol, windows):
     btnPaquetes.pack(padx=10, pady=10)
     btnEquipos.pack(padx=10, pady=10)
     btnPagos.pack(padx=10, pady=10)
+    btnBloqueos.pack(padx=10, pady=10)
     btnGenerarFalla.pack(padx=10, pady=10)
     btnMicrotik.pack(padx=10, pady=10)
     btnUsuarios.pack(padx=10, pady=10)

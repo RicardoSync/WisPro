@@ -1,4 +1,5 @@
 1- Agregar bloqueo por dias. Ejemplo bloqueo de todos los clientes con dia de corte 20
+
 2 - Cambiar de color la columna si es Bloqueado, Activo, Suspendio y Cancelado - Listo
 
 3 - Agregar las opciones en el menu desplegable de Suspender, Cancelar
@@ -8,4 +9,10 @@
 4 - Intrgrar whatsapp, enviar mensajes a todos los clientes con dia de corte 20
 5 - Crear PDF con todos los clientes 
 6 - Poder mostrar los pagos generales en un rango de fechas
-7 -  
+7 - Modulo de configuracion de servidor
+8 - Modulo creacion de base de datos (local)
+
+9 - Al iniciar el programa verificar la existencia del config.json si no existe llamar al modulo de Configuracion MySQL
+    para poder conectarse a una base de datos o llamar al script de creacion local.
+    Si el archivo existe optener la ip del host, mandar un ping. Si responde iniciar el modulo de inicio de sesion
+    si no responde alertar al usuario y decirle que cambio de red accesible o llamar al modulo de configuracion MySQL

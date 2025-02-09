@@ -373,6 +373,22 @@ def consultar_microtiks():
     except Exception as err:
         print(f"Error al consultar microtikd {err}")
         return False
+
+def consultar_microtiks_bloqueos(nombre):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT id, nombre, username, ip, password FROM credenciales_microtik WHERE nombre = %s", (nombre, ))
+        resultado = cursor.fetchone()
+
+        conexion.close()
+        cursor.close()
+
+        return resultado
+    
+    except Exception as err:
+        print(f"Error al consultar microtikd {err}")
+        return False
     
 def consultar_ip_cliente(id):
     try:
@@ -410,4 +426,20 @@ def consultar_ip_microtik(nombre):
     
     except Exception as err:
         print(f"Error al obtener la ip del microtik {err}")
+        return False
+    
+def consultar_ips_clientes(dia_corte):
+    try:
+        conexion = conexionDB()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT id, ip_cliente FROM clientes WHERE dia_corte = %s", (dia_corte, ))
+        ips_clientes = cursor.fetchall()
+
+        conexion.close()
+        cursor.close()
+
+        return ips_clientes
+
+    except Exception as err:
+        print(f"No podemos encontrar las ips de los clientes {err}")
         return False
