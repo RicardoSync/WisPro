@@ -2,6 +2,7 @@ from pathlib import Path
 import subprocess
 import platform
 import json
+from tkinter import messagebox
 
 def enviar_pint(host):
     so = platform.system().lower() #detectamos el sistema operativo
@@ -41,7 +42,10 @@ if configuracion.exists():
             from md_login import inicioSesion
             inicioSesion()
         else:
-            print("El host no responde, llamando al modulo de server")
+            messagebox.showwarning("SpiderNet", f"""No podemos establecer conexion con el servidor.\nEn caso de que uses el servicio online de Software Escobedo, verifica tu conexion a internet.\nSi usas tu propio servidor local o en la nube verifica que estes dentro de la misma red que tu host {host}.\nSi el problema persiste o no encuentras la solucion contacta con nosotros al numero +5214981442266""")
+
 else:
-    print("EL archivo no existe, llamar al modulo Configuracion Server")
-    #aqui llamamos al modulo para crear la conexion y guardar el archivo
+    """
+    Aqui si el archivo.json no existe entonces llamamos al modulo para configurar las credenciales, host y generar la base de datos
+    """
+    print("llamando al modulo")
