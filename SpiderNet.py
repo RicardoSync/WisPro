@@ -16,7 +16,7 @@ if configuracion.exists():
     with open(configuracion, "r") as j: #abrimos el json en formato de lectura
         mydata = json.load(j) 
         host = mydata["host"]
-        ping_exitoso = enviar_pint(host)
+        ping_exitoso = enviar_pint(host, repeticiones=3)
 
         if ping_exitoso:
             print("Llamando al modulo de login")
@@ -31,3 +31,4 @@ else:
     """
     print("llamando al modulo")
     md_registro_windows()
+
