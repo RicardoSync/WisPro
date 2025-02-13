@@ -63,8 +63,6 @@ def insertarCliente(nombre, telefono, email, direccion, paquete, ip_cliente, dia
         conexion.commit()
         conexion.close()
         cursor.close()
-
-        messagebox.showinfo("SpiderNet", f"El cliente {nombre} se registro con exito")
         return True
     
     except Exception as err:
