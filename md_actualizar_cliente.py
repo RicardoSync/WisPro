@@ -68,7 +68,8 @@ def formulario(id, nombre, telefono, email, direccion, paquete, windows):
                         border_color=colores["marcos"], border_width=2,
                         corner_radius=10,
                         width=250)
-    
+
+ 
 
     btnGuardar = CTkButton(contenedorFormulario, text="Actualizar", border_color=colores["marcos"],
                         border_width=2, corner_radius=10, fg_color=colores["boton"],

@@ -24,7 +24,7 @@ from md_microtik import modulo_microtik
 from md_block import panel_bloqueo
 from md_detalles_cliente import detalles_cliente
 from md_bloqueo_desbloqueo import modulo_bloqueo_desbloqueo
-
+from md_pruebas_red import md_enviar_ping
 iconos = imagenes_ui()
 colores = colores_ui()
 fecha = datetime.now().strftime("%d/%m/%Y")
@@ -58,7 +58,7 @@ def enviarActualizacion(tablaClientes, panel):
     telefono = identificador[2]
     email = identificador[3]
     direccion = identificador[4]
-    paquete = identificador[6]
+    paquete = identificador[7]
 
     actualizarCliente(id_cliente, nombre, telefono, email, direccion, paquete)
 
@@ -330,6 +330,15 @@ def panelAdmin(username, rol, windows):
                             command=lambda:reportar_falla_windows(rol)
                             )
     
+    btnHerramientasRed = CTkButton(banner, border_width=2, border_color=colores["marcos"],
+                            fg_color=colores["boton"],
+                            width=200,
+                            text="Pruebas de RED",
+                            text_color="black",
+                            command=md_enviar_ping
+                            )
+
+
     btnUsuarios =  CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
@@ -377,6 +386,7 @@ def panelAdmin(username, rol, windows):
     btnBloqueos.pack(padx=10, pady=10)
     btnGenerarFalla.pack(padx=10, pady=10)
     btnMicrotik.pack(padx=10, pady=10)
+    btnHerramientasRed.pack(padx=10, pady=10)
     btnUsuarios.pack(padx=10, pady=10)
     btnContacto.pack(padx=10, pady=10)
     btnCancelar.pack(padx=10, pady=10)

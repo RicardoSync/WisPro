@@ -3,27 +3,8 @@ import subprocess
 import platform
 import json
 from tkinter import messagebox
-
-def enviar_pint(host):
-    so = platform.system().lower() #detectamos el sistema operativo
-
-    if so == "windows":
-        comando = ["ping", "-n", "1", host]
-    else:
-        comando = ["ping", "-c", "1", host]
-
-    try:
-        resultado = subprocess.run(comando, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        
-        if resultado.returncode == 0:
-            print(f"✅ {host} está respondiendo.")
-            return True
-        else:
-            print(f"❌ {host} no responde.")
-            return False
-    except Exception as e:
-        print(f"⚠️ Error al hacer ping: {e}")
-        return False
+from bk_ping import enviar_pint
+from md_registro import md_registro_windows
 
 configuracion = Path("config.json") #le indicamos que archivo
 
@@ -49,3 +30,4 @@ else:
     Aqui si el archivo.json no existe entonces llamamos al modulo para configurar las credenciales, host y generar la base de datos
     """
     print("llamando al modulo")
+    md_registro_windows()
