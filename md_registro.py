@@ -35,11 +35,11 @@ def obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, tel
     if enviar_datos(username, password, nombreISP, nombre, telefono, email, direccion, nombre_db):
         # Datos base para la configuración
         config = {
-            "host": "localhost",
-            "port": 3306,
-            "user": "ricardo",
-            "password": "zerocuatro04",
-            "database": nombre_db
+            "host": "servidores_escobedo",
+            "port": 3389,
+            "user": "usuario_escobedo",
+            "password": "password_escobed",
+            "database": nombre_bd
         }
 
         # Guardar en un archivo JSON
@@ -67,6 +67,10 @@ def contenedor_imagen(windows):
     frameImagen.place(relx=0.0, rely=0.0, relwidth=0.5, relheight=1.0)
     logo.pack(padx=10, pady=10)
     info_label.pack(padx=10, pady=10)
+
+def inicioSesion():
+        from md_login import inicioSesion
+        inicioSesion()
 
 def formulario_cliente(windows):
     #frame con las opciones
@@ -114,6 +118,12 @@ def formulario_cliente(windows):
                         border_width=2, corner_radius=6,
                         fg_color=colores["boton"], width=300,
                         command=lambda:md_cuenta_existente(windows))
+    
+    btnINicio = CTkButton(frameCuenta, text="Inicias Sesion",
+                        text_color="black", border_color=colores["marcos"],
+                        border_width=2, corner_radius=6,
+                        fg_color=colores["boton"], width=300,
+                        command=inicioSesion)
     
     btnProyecto = CTkButton(frameCuenta, text="Proyecto GitHub",
                         text_color="black", border_color=colores["marcos"],

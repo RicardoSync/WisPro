@@ -29,10 +29,10 @@ def obtener_datos(nombreentry, telefonoEntry, correoEntry):
     if database:
         # Datos base para la configuración
         config = {
-            "host": "localhost",
-            "port": 3306,
-            "user": "ricardo",
-            "password": "zerocuatro04",
+            "host": "servidores_escobedo",
+            "port": 3389,
+            "user": "usuario_escobedo",
+            "password": "password_escobed",
             "database": database[0]
         }
 

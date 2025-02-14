@@ -5,10 +5,10 @@ from bk_create_sql import crear_base_datos
 def conexion():
     try:
         conn = Connect(
-            host="localhost",
-            port=3306,
-            user="ricardo",
-            password="zerocuatro04",
+            host="200.234.227.222",
+            port=3389,
+            user="cisco",
+            password="MinuzaFea265/",
             database="spider_user"
         )
         return conn
