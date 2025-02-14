@@ -1,12 +1,13 @@
 from mysql.connector import Connect, Error 
 from tkinter import messagebox
 from bk_create_sql import crear_base_datos
+
 def conexion():
     try:
         conn = Connect(
-            host="200.234.227.222",
-            port=3389,
-            user="cisco",
+            host="localhost",
+            port=3306,
+            user="root",
             password="MinuzaFea265/",
             database="spider_user"
         )
@@ -20,7 +21,7 @@ def enviar_datos(username, password, nombreISP, nombre, telefono, email, direcci
     try:
         server = conexion()
         cursor = server.cursor()
-        sql = """INSERT INTO clientes (nombre_isp, nombre, telefono, email, direccion, nombre_db) VALUES
+        sql = """INSERT INTO usuarios_spider (nombre_isp, nombre, telefono, email, direccion, nombre_db) VALUES
                 (%s,%s,%s,%s,%s,%s)"""
         valores = (nombreISP, nombre, telefono, email, direccion, nombre_db)
         cursor.execute(sql, valores)
@@ -37,3 +38,20 @@ def enviar_datos(username, password, nombreISP, nombre, telefono, email, direcci
     
     except Exception as err:
         messagebox.showerror("SpiderNet", f"Tenemos un problema al almacenar el nuevo usuario {err}")
+
+def obtener_database(numero):
+    try:
+        server = conexion()
+        cursor = server.cursor()
+        cursor.execute("SELECT nombre_db FROM usuarios_spider WHERE telefono = %s", (numero, ))
+        
+        db_name = cursor.fetchone()
+
+        cursor.close()
+        server.close()
+
+        return db_name
+    
+    except Exception as e:
+        print(f"No podemos obtener los datos {e}")
+        return False

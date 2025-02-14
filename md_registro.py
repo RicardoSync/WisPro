@@ -34,9 +34,9 @@ def obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, tel
     if enviar_datos(username, password, nombreISP, nombre, telefono, email, direccion, nombre_db):
         # Datos base para la configuración
         config = {
-            "host": "200.234.227.222",
-            "port": 3389,
-            "user": "cisco",
+            "host": "localhost",
+            "port": 3306,
+            "user": "root",
             "password": "MinuzaFea265/",
             "database": nombre_db
         }
@@ -113,7 +113,7 @@ def formulario_cliente(windows):
                         fg_color=colores["boton"], width=300,
                         command=lambda:obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, telefonoEntry, emailEntry, direccionEntry))
 
-    btnIniciarSesion = CTkButton(frameCuenta, text="Iniciar Sesión",
+    btnIniciarSesion = CTkButton(frameCuenta, text="Ya tengo cuenta!",
                         text_color="black", border_color=colores["marcos"],
                         border_width=2, corner_radius=6,
                         fg_color=colores["boton"], width=300,
