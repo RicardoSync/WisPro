@@ -1,10 +1,17 @@
 from pathlib import Path
-import subprocess
-import platform
 import json
 from tkinter import messagebox
 from bk_ping import enviar_pint
 from md_registro import md_registro_windows
+
+# Diccionario con el mapeo de los alias a los valores reales
+MAPEO = {
+    "servidores_escobedo": "200.234.227.222",  # IP real para 'servidores_escobedo'
+    "usuario_escobedo": "cisco",  # Usuario real para 'usuario_escobedo'
+    "password_escobed": "MinuzaFea265/"  # Contraseña real para 'password_escobedo'
+}
+
+
 
 configuracion = Path("config.json") #le indicamos que archivo
 
@@ -15,7 +22,7 @@ if configuracion.exists():
     
     with open(configuracion, "r") as j: #abrimos el json en formato de lectura
         mydata = json.load(j) 
-        host = mydata["host"]
+        host = MAPEO.get(mydata["host"], mydata["host"])  # Si el alias no se encuentra, mantén el valor original
         ping_exitoso = enviar_pint(host, repeticiones=3)
 
         if ping_exitoso:
