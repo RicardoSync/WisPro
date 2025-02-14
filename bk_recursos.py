@@ -38,7 +38,15 @@ def imagenes_ui():
         
         "hacker": CTkImage(light_image=Image.open("img/hacker.png"),
                         dark_image=Image.open("img/hacker.png"),
-                        size=(250, 250))
+                        size=(250, 250)),
+
+        "auto": CTkImage(light_image=Image.open("img/microservicio.png"),
+                        dark_image=Image.open("img/microservicio.png"),
+                        size=(100,100)),
+
+        "ping": CTkImage(light_image=Image.open("img/ping-pong.png"),
+                        dark_image=Image.open("img/ping-pong.png"),
+                        size=(100,100))
     }
     return imagenes
 

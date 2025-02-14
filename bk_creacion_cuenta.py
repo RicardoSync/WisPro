@@ -7,8 +7,8 @@ def conexion():
         conn = Connect(
             host="localhost",
             port=3306,
-            user="root",
-            password="MinuzaFea265/",
+            user="ricardo",
+            password="zerocuatro04",
             database="spider_user"
         )
         return conn
@@ -39,11 +39,11 @@ def enviar_datos(username, password, nombreISP, nombre, telefono, email, direcci
     except Exception as err:
         messagebox.showerror("SpiderNet", f"Tenemos un problema al almacenar el nuevo usuario {err}")
 
-def obtener_database(numero):
+def obtener_database(nombre_isp, telefono, email):
     try:
         server = conexion()
         cursor = server.cursor()
-        cursor.execute("SELECT nombre_db FROM usuarios_spider WHERE telefono = %s", (numero, ))
+        cursor.execute("SELECT nombre_db FROM usuarios_spider WHERE nombre_isp = %s AND telefono = %s AND email = %s", (nombre_isp, telefono, email))
         
         db_name = cursor.fetchone()
 

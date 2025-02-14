@@ -25,6 +25,8 @@ from md_block import panel_bloqueo
 from md_detalles_cliente import detalles_cliente
 from md_bloqueo_desbloqueo import modulo_bloqueo_desbloqueo
 from md_pruebas_red import md_enviar_ping
+from md_herramientas import md_herramentas
+
 iconos = imagenes_ui()
 colores = colores_ui()
 fecha = datetime.now().strftime("%d/%m/%Y")
@@ -336,9 +338,9 @@ def panelAdmin(username, rol, windows):
     btnHerramientasRed = CTkButton(banner, border_width=2, border_color=colores["marcos"],
                             fg_color=colores["boton"],
                             width=200,
-                            text="Pruebas de RED",
+                            text="Herramientas",
                             text_color="black",
-                            command=md_enviar_ping
+                            command=md_herramentas
                             )
 
 

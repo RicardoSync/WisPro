@@ -1,18 +1,16 @@
-1- Agregar bloqueo por dias. Ejemplo bloqueo de todos los clientes con dia de corte 20
+Integrar la opción de "Ya tengo cunta" donde vamos a confirmar la existencia de json,
+si existe entonces solo llamamos al modulo de login sin embargo; si no existe el json entonces le pedimos
+al usuario que ingrese el nombre de su ISP junto al numero de telefono con el que se creo la cuenta y el correo electronico.
+Con eso buscamos su base de datos y lo devolvemos para tenerlo almacenado ahora en un json
 
-2 - Cambiar de color la columna si es Bloqueado, Activo, Suspendio y Cancelado - Listo
 
-3 - Agregar las opciones en el menu desplegable de Suspender, Cancelar
-    Al suspender el cliente se bloquea, se cambia estado a suspendido
-    Al cancelar se bloquea el cliente, se actualizan los equipo con id_cliente Null 
-
-4 - Intrgrar whatsapp, enviar mensajes a todos los clientes con dia de corte 20
-5 - Crear PDF con todos los clientes 
-6 - Poder mostrar los pagos generales en un rango de fechas
-7 - Modulo de configuracion de servidor
-8 - Modulo creacion de base de datos (local)
-
-9 - Al iniciar el programa verificar la existencia del config.json si no existe llamar al modulo de Configuracion MySQL
-    para poder conectarse a una base de datos o llamar al script de creacion local.
-    Si el archivo existe optener la ip del host, mandar un ping. Si responde iniciar el modulo de inicio de sesion
-    si no responde alertar al usuario y decirle que cambio de red accesible o llamar al modulo de configuracion MySQL
+Integración de aviso cuando es un dia X y existen clientes con el mismo dia de corte y sin pagos registrados
+Agregar opciones de suspencion y cancelacion (ambos casos bloquean el acceso a microtik)
+Integracion de exportacion PDF de clientes (Activos, suspendidos, cancelados)
+Modulo de configuracion servidor
+Mostrar los pagos en un marguen de fechas
+Busqueda de un cliente con todos los detalles (Eliminar, Editar)
+Modulo ping a ips dentro de microtik
+Modulo generar equipos y clientes de muestra
+Abrir antenas en el navegador de los clientes
+Integracion de whatsapp

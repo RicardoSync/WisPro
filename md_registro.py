@@ -6,6 +6,7 @@ import random
 import string
 import webbrowser
 import json
+from md_tengo_cuenta import md_cuenta_existente
 iconos = imagenes_ui()
 colores = colores_ui()
 
@@ -36,19 +37,14 @@ def obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, tel
         config = {
             "host": "localhost",
             "port": 3306,
-            "user": "root",
-            "password": "MinuzaFea265/",
+            "user": "ricardo",
+            "password": "zerocuatro04",
             "database": nombre_db
         }
 
         # Guardar en un archivo JSON
         with open("config.json", "w") as file:
             json.dump(config, file, indent=4)
-
-def iniciar_sesion(windows):
-    from md_login import inicioSesion
-    windows.destroy()
-    inicioSesion()
 
 
 def contenedor_imagen(windows):
@@ -117,7 +113,7 @@ def formulario_cliente(windows):
                         text_color="black", border_color=colores["marcos"],
                         border_width=2, corner_radius=6,
                         fg_color=colores["boton"], width=300,
-                        command=lambda:iniciar_sesion(windows))
+                        command=lambda:md_cuenta_existente(windows))
     
     btnProyecto = CTkButton(frameCuenta, text="Proyecto GitHub",
                         text_color="black", border_color=colores["marcos"],

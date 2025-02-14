@@ -110,8 +110,8 @@ def crear_base_datos(nombre, usuario, password, nombre_bd):
         # Conectar a MySQL para crear la base de datos
         connection = mysql.connector.connect(
             host="localhost",
-            user="root",
-            password="MinuzaFea265/",
+            user="ricardo",
+            password="zerocuatro04",
             port=3306
         )
 

@@ -76,7 +76,7 @@ def md_enviar_ping():
                         width=100,
                         command=lambda:enviar_ping_manual(ip="1.1.1.1", salidaComando=salidaComando, numRepeticiones=numRepeticiones))  
 
-    numRepeticiones.insert(0, "5")
+    numRepeticiones.insert(0, "1")
     frameEntrada.place(relx=0.0, rely=0.0, relwidth=1.0, relheight=0.2)
     lbl.grid(column=0, row=0, padx=10, pady=10)
     ipEntry.grid(column=1, row=0, padx=10, pady=10)
