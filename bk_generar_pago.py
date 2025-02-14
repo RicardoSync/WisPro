@@ -5,7 +5,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
 
-def generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cantidad, cambio, nombre_admin):
+def generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cantidad, cambio, nombre_admin, numero_recibo):
     width, height = 400, 600  # Tamaño más parecido a un recibo térmico
     image = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(image)
@@ -27,6 +27,7 @@ def generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cant
     draw.text((20, 100), f"Fecha: {fecha_actual}", font=small_font, fill="black")
     draw.text((20, 130), f"Cliente: {nombre_cliente}", font=small_font, fill="black")
     draw.text((20, 160), f"Paquete: {paquete}", font=small_font, fill="black")
+    draw.text((20, 175), f"Numero recibo: {numero_recibo}", font=small_font, fill="black")
     
     draw.line((20, 190, width - 20, 190), fill="black", width=1)
     draw.text((20, 210), f"Monto: ${monto:.2f}", font=font, fill="black")

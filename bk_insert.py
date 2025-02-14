@@ -3,6 +3,9 @@ from tkinter import messagebox
 from bk_consultas import consultarPaqueteID
 from bk_generar_pago import generar_recibo
 import mysql.connector
+import datetime
+import hashlib
+from bk_recibos_png import crear_recibo_imagen
 
 def insertarUsuarios(nombre, username, password, rol):
     try:
@@ -70,6 +73,18 @@ def insertarCliente(nombre, telefono, email, direccion, paquete, ip_cliente, dia
 
 def insertarPago(id_cliente, monto, metodo_pago, cantidad, cambio, nombre_cliente, paquete, nombre_admin):
     try:
+        # Usamos la fecha y hora actual para asegurar que el recibo sea único.
+        fecha_hora = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        
+        # Combinamos los parámetros con la fecha y hora para generar un identificador único
+        datos_comb = f"{id_cliente}-{nombre_cliente}-{fecha_hora}-{paquete}-{metodo_pago}"
+        
+        # Creamos un hash de esos datos para tener un identificador único
+        hash_recibo = hashlib.sha256(datos_comb.encode()).hexdigest()[:10]  # Limitamos el hash a 10 caracteres
+        
+        # Construimos el número de recibo usando una combinación de la fecha/hora y el hash generado
+        numero_recibo = f"RCB-{fecha_hora}-{hash_recibo}"
+    
         conexion = conexionDB()
         cursor = conexion.cursor()
         sql = "INSERT INTO pagos (id_cliente, nombre, monto, metodo_pago, cantidad, cambio) VALUES (%s,%s,%s,%s,%s,%s)"
@@ -79,7 +94,8 @@ def insertarPago(id_cliente, monto, metodo_pago, cantidad, cambio, nombre_client
         conexion.commit()
         conexion.close()
         cursor.close()
-        generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cantidad, cambio, nombre_admin)
+        generar_recibo(id_cliente, nombre_cliente, paquete, monto, metodo_pago, cantidad, cambio, nombre_admin, numero_recibo)
+        #crear_recibo_imagen(nombre_cliente, numero_recibo, fecha_hora, total=monto, efectivo=cantidad, logo_path="img/logo.png", archivo_salida="cliente.png")
         return True
     
     except Exception as err:

@@ -229,8 +229,6 @@ def contenedorTabla(panel, nombre_admin, rol):
     menu.add_command(label="Cancelar servicio", command=lambda:enviar_cancelacion(tablaClientes))
     menu.add_command(label="Reportar falla", command=lambda:enviar_reporte_falla(rol, tablaClientes))
     menu.add_command(label="Actualizar", command=lambda:contenedorTabla(panel, nombre_admin, rol))
-    menu.add_command(label="Generar Clientes")
-    menu.add_command(label="Generar Equipos")
 
 
     def mostrar_menu(event):
