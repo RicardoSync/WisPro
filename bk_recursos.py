@@ -46,6 +46,10 @@ def imagenes_ui():
 
         "ping": CTkImage(light_image=Image.open("img/ping-pong.png"),
                         dark_image=Image.open("img/ping-pong.png"),
+                        size=(100,100)),
+        
+        "craneo": CTkImage(light_image=Image.open("img/craneo.png"),
+                        dark_image=Image.open("img/craneo.png"),
                         size=(100,100))
     }
     return imagenes

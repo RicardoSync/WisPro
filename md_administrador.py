@@ -22,10 +22,10 @@ from md_reportar_falla import reportar_falla_windows, reportar_falla_windows_cli
 from md_usuarios import creacionUsuarios
 from md_microtik import modulo_microtik
 from md_block import panel_bloqueo
-from md_detalles_cliente import detalles_cliente
 from md_bloqueo_desbloqueo import modulo_bloqueo_desbloqueo
 from md_pruebas_red import md_enviar_ping
 from md_herramientas import md_herramentas
+from md_detalles_cliente import mostrar_detalles_cliente
 
 iconos = imagenes_ui()
 colores = colores_ui()
@@ -60,9 +60,30 @@ def enviarActualizacion(tablaClientes, panel):
     telefono = identificador[2]
     email = identificador[3]
     direccion = identificador[4]
-    paquete = identificador[7]
+    ip = identificador[7]
+    dia_corte = identificador[8]
+    paquete = identificador[9]
 
-    actualizarCliente(id_cliente, nombre, telefono, email, direccion, paquete)
+    actualizarCliente(id_cliente, nombre, telefono, email, direccion, paquete, ip, dia_corte)
+
+def enviar_detalles(tablaClientes):
+    seleccionado = tablaClientes.selection()
+
+    if not seleccionado:
+        messagebox.showerror("SpiderNet", "No podemos actualizar si no esta seleccionado")
+        return
+    
+    identificador = tablaClientes.item(seleccionado, "values")
+    id_cliente = identificador[0]
+    nombre = identificador[1]
+    telefono = identificador[2]
+    email = identificador[3]
+    direccion = identificador[4]
+    ip = identificador[7]
+    dia_corte = identificador[8]
+    paquete = identificador[9]
+
+    mostrar_detalles_cliente(nombre, id_cliente, telefono, email, direccion, dia_corte, paquete, ip)
 
 def asignacion_equipo(tablaClientes):
     seleccionado = tablaClientes.selection()
@@ -193,7 +214,7 @@ def contenedorTabla(panel, nombre_admin, rol):
     contenedorTable = CTkFrame(panel, border_width=2, corner_radius=0, fg_color=colores["fondo"],
                     border_color=colores["marcos"])
     
-    columnas =("ID", "Nombre", "Telefono", "Dia Corte", "Direccion", "Instalacion", "Estado", "Paquete")
+    columnas =("ID", "Nombre", "Telefono", "Correo", "Direccion", "Instalacion", "Estado", "Ip", "Dia Corte", "Paquete")
 
     tablaClientes = ttk.Treeview(contenedorTable, columns=columnas, show="headings")
     for col in columnas:
@@ -201,7 +222,10 @@ def contenedorTabla(panel, nombre_admin, rol):
 
 
     tablaClientes.column("ID", width=30)
-    tablaClientes.column("Instalacion", width=100)
+    tablaClientes.column("Dia Corte", width=30)
+    tablaClientes.column("Instalacion", width=120)
+    tablaClientes.column("Estado", width=40)
+    tablaClientes.column("Ip", width=100)
 
     # Configurar las etiquetas de estilo
     tablaClientes.tag_configure("Activo", background="lightgreen")
@@ -220,6 +244,7 @@ def contenedorTabla(panel, nombre_admin, rol):
     menu.add_command(label="Crear Cliente", command=nuevoCliente)
     menu.add_command(label="Editar", command=lambda:enviarActualizacion(tablaClientes, panel))
     menu.add_command(label="Eliminar", command=lambda:enviarEliminar(tablaClientes, panel))
+    menu.add_command(label="Detalles cliente", command=lambda:enviar_detalles(tablaClientes))
     menu.add_command(label="Asignar Equipo", command=lambda:asignacion_equipo(tablaClientes))
     menu.add_command(label="Equipos Instalados", command=lambda:obtenerAsignacion(tablaClientes))
     menu.add_command(label="Registrar Pago", command=lambda:enviarPago(tablaClientes, nombre_admin))
@@ -240,28 +265,6 @@ def contenedorTabla(panel, nombre_admin, rol):
 
 
     insertarElementos(tablaClientes)
-
-def enviar_detalles(tablaClientes):
-    selecition = tablaClientes.selection()
-
-    if not selecition:
-        messagebox.showwarning("SpiderNet", "Por favor selecciona primero un cliente")
-        return
-    
-    identificador = tablaClientes.item(selecition, "values")
-    datos = detalles_cliente(id=identificador[0])
-
-    if datos:
-        id = identificador[0]
-        nombre = identificador[1]
-        telefono = identificador[2]
-        email = identificador[3]
-        direccion = identificador[4]
-        fechaRegistro = identificador[5]
-        paquete = identificador[6]
-        ipCliente = datos[0]
-        diaCorte = datos[1]
-        detalles_cliente(id, nombre, telefono, email, direccion, fechaRegistro, ipPaquete=paquete, ipCliente=ipCliente, diaCorte=diaCorte)
 
 def panelAdmin(username, rol, windows):
     windows.destroy()

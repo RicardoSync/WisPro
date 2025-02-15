@@ -10,23 +10,31 @@ from bk_update import actualizacion_cliente
 colores = colores_ui()
 iconos = imagenes_ui()
 
-def enviar_actualizacion(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, id, windows):
+def enviar_actualizacion(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, ipEntry, diaCorteEntry, id, windows):
     nombre = nombreEntry.get()
     telefono = telefonoEntry.get()
     email = emailEntry.get()
     direccion = direccionEntry.get()
     paquete = paqueteNuevoEntry.get()
+    ip_cliente = ipEntry.get()
+    dia_corte = diaCorteEntry.get()
 
-    if actualizacion_cliente(id, nombre, telefono, email, direccion, paquete):
+    
+    if actualizacion_cliente(id, nombre, telefono, email, direccion, paquete, ip_cliente, dia_corte):
         windows.destroy()
 
-def insertarElementos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paquetesEntry, nombre, telefono, email, direccion, paquete):
+def insertarElementos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, ipEntry, diaCorteEntry, nombre,
+                        telefono, email, direccion, paquete, ip, dia_corte):
+    
     nombreEntry.insert(0, nombre)
     telefonoEntry.insert(0, telefono)
     emailEntry.insert(0, email)
     direccionEntry.insert(0, direccion)
+    ipEntry.insert(0, ip)
+    diaCorteEntry.insert(0, dia_corte)
 
-def formulario(id, nombre, telefono, email, direccion, paquete, windows):
+
+def formulario(id, nombre, telefono, email, direccion, paquete, ip, dia_corte, windows):
     paquetes = consultarPaquetes()
     nombre_paquetes = [paquete[1] for paquete in paquetes]
     nombre_paquetes.insert(0, paquete)
@@ -69,13 +77,27 @@ def formulario(id, nombre, telefono, email, direccion, paquete, windows):
                         corner_radius=10,
                         width=250)
 
- 
+
+    ipLabel = CTkLabel(contenedorFormulario, text="Ip Actual" , font=("Arial", 20), text_color="black")
+
+    ipEntry = CTkEntry(contenedorFormulario,
+                        border_color=colores["marcos"], border_width=2,
+                        corner_radius=10,
+                        width=250)
+
+    diaCorteLabel = CTkLabel(contenedorFormulario, text="Dia de Corte" , font=("Arial", 20), text_color="black")
+
+    diaCorteEntry = CTkEntry(contenedorFormulario,
+                        border_color=colores["marcos"], border_width=2,
+                        corner_radius=10,
+                        width=250)
+
 
     btnGuardar = CTkButton(contenedorFormulario, text="Actualizar", border_color=colores["marcos"],
                         border_width=2, corner_radius=10, fg_color=colores["boton"],
                         text_color="black",
                         width=250,
-                        command=lambda:enviar_actualizacion(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, id, windows)
+                        command=lambda:enviar_actualizacion(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, ipEntry, diaCorteEntry, id, windows)
                         )
 
     btnCancelar = CTkButton(contenedorFormulario, text="Cancelar", border_color=colores["marcos"],
@@ -92,16 +114,22 @@ def formulario(id, nombre, telefono, email, direccion, paquete, windows):
     telefonoEntry.grid(column=1, row=1, padx=20, pady=10)
     emailLabel.grid(column=0, row=2, padx=10, pady=10)
     direccionLabel.grid(column=1, row=2, padx=10, pady=10)
-    emailEntry.grid(column=0, row=3, padx=10, pady=10)
+    emailEntry.grid(column=0, row=3, padx=10, pady=10)    
     direccionEntry.grid(column=1, row=3, padx=10, pady=10)
     paquetesLabel.grid(column=0, row=4, padx=10, pady=10)
+    ipLabel.grid(column=1, row=4, padx=10, pady=10)
     paqueteNuevoEntry.grid(column=0, row=5, padx=10, pady=10)
-    btnGuardar.grid(column=0, row=6, padx=10, pady=10)
-    btnCancelar.grid(column=1, row=6, padx=10, pady=10)
-    insertarElementos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, nombre,
-                    telefono, email, direccion, paquete)
+    ipEntry.grid(column=1, row=5, padx=10, pady=10)
+    diaCorteLabel.grid(column=0, row=6, padx=10, pady=10)
+    diaCorteEntry.grid(column=1, row=6, padx=10, pady=10)
+    btnGuardar.grid(column=0, row=7, padx=10, pady=10)
+    btnCancelar.grid(column=1, row=7, padx=10, pady=10)
+    
 
-def actualizarCliente(id, nombre, telefono, email, direccion, paquete):
+    insertarElementos(nombreEntry, telefonoEntry, emailEntry, direccionEntry, paqueteNuevoEntry, ipEntry, diaCorteEntry, nombre,
+                    telefono, email, direccion, paquete, ip, dia_corte)
+
+def actualizarCliente(id, nombre, telefono, email, direccion, paquete, ip, dia_corte):
     windows = CTkToplevel()
     windows.title("Actualizar Cliente")
     windows.geometry("800x400")
@@ -116,6 +144,6 @@ def actualizarCliente(id, nombre, telefono, email, direccion, paquete):
 
     contenedorOpciones.place(relx=0.0, rely=0.0, relwidth=0.2, relheight=1.0)
     icono.pack(padx=10, pady=10)
-    formulario(id, nombre, telefono, email, direccion, paquete, windows)
+    formulario(id, nombre, telefono, email, direccion, paquete, ip, dia_corte, windows)
     windows.mainloop()
 

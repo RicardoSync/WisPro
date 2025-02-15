@@ -58,10 +58,12 @@ def consultarClientes():
                 c.id, 
                 c.nombre, 
                 c.telefono, 
-                c.dia_corte,
+                c.email,
                 c.direccion, 
                 c.fecha_registro,
                 c.estado,
+                c.ip_cliente,
+                c.dia_corte,
                 COALESCE(p.nombre, 'Sin paquete') AS Paquete
             FROM clientes c
             LEFT JOIN paquetes p ON c.id_paquete = p.id;

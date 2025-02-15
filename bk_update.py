@@ -54,7 +54,7 @@ def actualizarPaquete(id, nombre, velocidad, precio):
     except Exception as err:
         messagebox.showerror("SpiderNet", f"No podemos actualizar el paquete {nombre} por problemas {err}")
 
-def actualizacion_cliente(id, nombre, telefono, email, direccion, nombre_paquete):
+def actualizacion_cliente(id, nombre, telefono, email, direccion, nombre_paquete, ip_cliente, dia_corte):
     try:
         if not nombre_paquete:
             messagebox.showerror("SpiderNet", "No podemos almacenar un paquete vacio")
@@ -69,9 +69,10 @@ def actualizacion_cliente(id, nombre, telefono, email, direccion, nombre_paquete
         conexion = conexionDB()
         cursor = conexion.cursor()
         sql = """UPDATE clientes
-            SET nombre = %s, telefono = %s, email = %s, direccion = %s, id_paquete = %s
+            SET nombre = %s, telefono = %s, email = %s, direccion = %s, id_paquete = %s,
+            ip_cliente = %s, dia_corte = %s
             WHERE id = %s"""
-        valores = (nombre, telefono, email, direccion, id_paquete, id)
+        valores = (nombre, telefono, email, direccion, id_paquete, ip_cliente, dia_corte, id)
         cursor.execute(sql, valores)
 
         conexion.commit()
