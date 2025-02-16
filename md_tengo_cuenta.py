@@ -15,7 +15,7 @@ import json
 colores = colores_ui()
 iconos = imagenes_ui()
 
-def obtener_datos(nombreentry, telefonoEntry, correoEntry):
+def obtener_datos(nombreentry, telefonoEntry, correoEntry, btnGO):
     nombre = nombreentry.get()
     telefono = telefonoEntry.get()
     correo = correoEntry.get()
@@ -39,18 +39,25 @@ def obtener_datos(nombreentry, telefonoEntry, correoEntry):
         # Guardar en un archivo JSON
         with open("config.json", "w") as file:
             json.dump(config, file, indent=4)
-        messagebox.showinfo("SpiderNet", "Cierra el programa y vuelve a ejecutar para inresar con tu usuario y contraseña")
+        messagebox.showinfo("SpiderNet", "Ya encontramos tu cuenta, ahora puedes iniciar sesion en el sistema")
+        btnGO.pack(padx=10, pady=10)
+
 
     elif database == None:
         messagebox.showwarning("SpiderNet","Por favor ingresa el nombre de tu isp, el telefono y correo electronico con el que se creo la cuenta")
     else:
         messagebox.showerror("SpiderNet", "No logramos obtener los datos")
 
+def inicioSesion(ventana):
+    from md_login_cuenta import inicioSesion
+    inicioSesion(windows=ventana)
+
+
 def md_cuenta_existente(windows):
     windows.destroy()
     ventana = CTk()
     ventana.title("Inicio de Sesión")
-    ventana.geometry("400x600")
+    ventana.geometry("400x650")
     ventana.resizable(False, False)
     ventana.configure(fg_color=colores["fondo"])
 
@@ -71,12 +78,21 @@ def md_cuenta_existente(windows):
     correoEntry = CTkEntry(formulario, placeholder_text="richardobedoesc@gmail.com", border_color=colores["marcos"], border_width=2,
                         corner_radius=6, width=300)
 
-    btnInicio = CTkButton(formulario, text="Inicio Sesión", text_color="black", border_color=colores["marcos"], border_width=2, corner_radius=6,
+    btnInicio = CTkButton(formulario, text="Buscar Cuenta", text_color="black", border_color=colores["marcos"], border_width=2, corner_radius=6,
                         fg_color=colores["boton"],
-                        command=lambda:obtener_datos(nombreentry, telefonoEntry, correoEntry))
+                        command=lambda:obtener_datos(nombreentry, telefonoEntry, correoEntry, btnGO))
 
+    btnGO = CTkButton(formulario, text="Iniciar Sesion", text_color="black", border_color=colores["marcos"], border_width=2, corner_radius=6,
+                        fg_color=colores["boton"],
+                        command=lambda:inicioSesion(ventana))
+    
+    nota = CTkLabel(formulario, text="Ingresa los mismos datos\ncuando creaste tu cuenta por favor!",
+                    text_color="white", font=("Arial", 15)
+                    )
+    
     formulario.place(relx=0.0, rely=0.0, relwidth=1.0, relheight=1.0)
     icono.pack(padx=10, pady=10)
+    nota.pack(padx=10, pady=10)
     nombreLabel.pack(padx=10, pady=10)
     nombreentry.pack(padx=10, pady=10)
     telefonoLabel.pack(padx=10, pady=10)

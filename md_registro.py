@@ -50,7 +50,7 @@ def obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, tel
 
 
 def contenedor_imagen(windows):
-    frameImagen = CTkFrame(windows, border_width=2, corner_radius=6)
+    frameImagen = CTkFrame(windows, border_width=2, corner_radius=6, fg_color="#2b2b2b")
     
     logo = CTkLabel(frameImagen, text="", image=iconos["hacker"])
     info_label = CTkLabel(
@@ -76,9 +76,11 @@ def inicioSesion(windows):
 
 def formulario_cliente(windows):
     #frame con las opciones
-    frameFormulario = CTkFrame(windows, border_color=colores["marcos"], border_width=2, corner_radius=6)
+    frameFormulario = CTkFrame(windows, border_color=colores["marcos"], border_width=2, corner_radius=6,
+                            fg_color="#2b2b2b")
 
-    frameCuenta = CTkFrame(windows, border_width=2, corner_radius=6, border_color=colores["marcos"])
+    frameCuenta = CTkFrame(windows, border_width=2, corner_radius=6, border_color=colores["marcos"],
+                        fg_color="#2b2b2b")
 
     usernameLabel = CTkLabel(frameCuenta, text="Nombre de usuario", text_color="white", font=("Arial", 15, "bold"))
     usernameEntry = CTkEntry(frameCuenta, placeholder_text="usuariochido", border_color=colores["marcos"], border_width=2,

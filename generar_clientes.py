@@ -9,7 +9,7 @@ from tkinter import messagebox
 def generar_clientes(entry_clientes):
     numero_clientes = int(entry_clientes.get())
 
-    if numero_clientes < 1:
+    if numero_clientes > 0:
         fake = faker.Faker()
         try:
             conn = conexionDB()
@@ -51,7 +51,7 @@ def generar_clientes(entry_clientes):
 def envio_equipos(entry_equipos):
     numero_equipos = int(entry_equipos.get())
 
-    if numero_equipos > 1:
+    if numero_equipos > 0:
         generar_equipos(numero_equipos)
     else:
         messagebox.showwarning("SpiderNet", "No podemos generar clientes por debajo de 0 :v")
