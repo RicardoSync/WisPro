@@ -11,7 +11,7 @@ iconos = imagenes_ui()
 colores = colores_ui()
 
 
-def obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, telefonoEntry, emailEntry, direccionEntry):
+def obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, telefonoEntry, emailEntry, direccionEntry, btnINicio):
     username = usernameEntry.get()
     password = passwordEntry.get()
     nombreISP = nombreISPEntry.get()
@@ -25,9 +25,9 @@ def obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, tel
         return
 
     # Generar una cadena con 5 letras aleatorias
-    letras_aleatorias = ''.join(random.choices(string.ascii_lowercase, k=5))
+    letras_aleatorias = ''.join(random.choices(string.ascii_lowercase, k=15))
     # Crear un nombre de base de datos utilizando los valores dados y las letras aleatorias
-    nombre_bd = f"{nombreISP}_{nombre}_{email.split('@')[0]}_{telefono}_{direccion[:5]}_{letras_aleatorias}"
+    nombre_bd = f"{nombreISP}_{nombre}_{email.split('@')[0]}_{direccion[:5]}_{letras_aleatorias}"
 
     # Limitar a un tamaño máximo de caracteres si es necesario (por ejemplo, 64 caracteres)
     nombre_db = nombre_bd[:64]
@@ -45,6 +45,8 @@ def obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, tel
         # Guardar en un archivo JSON
         with open("config.json", "w") as file:
             json.dump(config, file, indent=4)
+
+    btnINicio.grid(column=0, row=4, padx=10, pady=10)
 
 
 def contenedor_imagen(windows):
@@ -68,9 +70,9 @@ def contenedor_imagen(windows):
     logo.pack(padx=10, pady=10)
     info_label.pack(padx=10, pady=10)
 
-def inicioSesion():
-        from md_login import inicioSesion
-        inicioSesion()
+def inicioSesion(windows):
+    from md_login_cuenta import inicioSesion
+    inicioSesion(windows)
 
 def formulario_cliente(windows):
     #frame con las opciones
@@ -87,7 +89,7 @@ def formulario_cliente(windows):
                         corner_radius=6, text_color="white", width=300)
     
     #nombre ISP, nombre, telefono, email, direccion 
-    nombreLabel = CTkLabel(frameFormulario, text="Nombre de ISP", text_color="white", font=("Arial", 15, "bold"))
+    nombreLabel = CTkLabel(frameFormulario, text="Nombre de ISP (Sin Espacios)", text_color="white", font=("Arial", 15, "bold"))
     nombreISPEntry = CTkEntry(frameFormulario, placeholder_text="Ejemplo DOBLENET", border_color=colores["marcos"], border_width=2,
                             corner_radius=6, text_color="white", width=300)
     
@@ -111,7 +113,8 @@ def formulario_cliente(windows):
                         text_color="black", border_color=colores["marcos"],
                         border_width=2, corner_radius=6,
                         fg_color=colores["boton"], width=300,
-                        command=lambda:obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, telefonoEntry, emailEntry, direccionEntry))
+                        command=lambda:obtener_datos(usernameEntry, passwordEntry, nombreISPEntry, nombreEntry, telefonoEntry, emailEntry, direccionEntry,
+                                                    btnINicio))
 
     btnIniciarSesion = CTkButton(frameCuenta, text="Ya tengo cuenta!",
                         text_color="black", border_color=colores["marcos"],
@@ -119,11 +122,11 @@ def formulario_cliente(windows):
                         fg_color=colores["boton"], width=300,
                         command=lambda:md_cuenta_existente(windows))
     
-    btnINicio = CTkButton(frameCuenta, text="Inicias Sesion",
-                        text_color="black", border_color=colores["marcos"],
+    btnINicio = CTkButton(frameCuenta, text="Inicias Sesion", font=("Arial", 15, "bold"),
+                        text_color="white", border_color=colores["marcos"],
                         border_width=2, corner_radius=6,
-                        fg_color=colores["boton"], width=300,
-                        command=inicioSesion)
+                        fg_color="green", width=300,
+                        command=lambda:inicioSesion(windows))
     
     btnProyecto = CTkButton(frameCuenta, text="Proyecto GitHub",
                         text_color="black", border_color=colores["marcos"],

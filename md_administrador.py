@@ -109,7 +109,7 @@ def enviarPago(tablaClientes, nombre_admin):
 
     id_cliente = identificado[0]
     nombre = identificado[1]
-    paquete = identificado[7]
+    paquete = identificado[9]
     registar_pago(id_cliente, nombre, paquete, nombre_admin)
 
 def enviarDetalles(tablaClientes):

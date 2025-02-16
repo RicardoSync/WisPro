@@ -30,7 +30,7 @@ def enviar_datos(username, password, nombreISP, nombre, telefono, email, direcci
         cursor.close()
         server.close()
         if crear_base_datos(nombre, usuario=username, password=password, nombre_bd=nombre_db):
-            messagebox.showinfo("SpiderNet", f"Se registro el usuario {username} y se creo su base de datos {nombre_db}.\nAhora puede iniciar sesión en el sistema")
+            messagebox.showinfo("SpiderNet", f"Se registro el usuario {username}, felicidades por ser parte de este sistema. Ahora puedes iniciar sesion")
         else:
             messagebox.showerror("SpiderNet", "No logramos crear el usuario ni establecer conexión. Revisa el error desde terminal")
 

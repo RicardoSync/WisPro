@@ -121,7 +121,7 @@ def barraBusqueda(tablaPagos, ventana):
     btnFiltrarTipo.grid(column=1, row=0, padx=10, pady=10)
     btnFiltrarNulos.grid(column=3, row=0, padx=10, pady=20)
 
-def bk_asignacion(datos_equipo, clienteEntry, windows):
+def bk_asignacion(datos_equipo, clienteEntry, windows, ventana):
     nombre = clienteEntry.get()
 
     id_cliente = consultar_nombre_cliente(nombre)
@@ -130,13 +130,15 @@ def bk_asignacion(datos_equipo, clienteEntry, windows):
         id_equipo = datos_equipo[0]
         if actualizar_asignacion(id_equipo, id_cliente[0]):
             windows.destroy()
+            ventana.destroy()
             messagebox.showinfo("SpiderNet", "Equipo asignado al cliente")
         else:
+            windows.destroy()
             messagebox.showerror("SpiderNet", "No podemos asignar el equipo")
     else:
         messagebox.showerror("SpiderNrt", "No encontramos el id de ese cliente")
 
-def asigancion_cliente_windows(tabla):
+def asigancion_cliente_windows(tabla, ventana):
     seleccion = tabla.selection()
 
     if not seleccion:
@@ -159,7 +161,7 @@ def asigancion_cliente_windows(tabla):
     btnAsignar = CTkButton(windows, text="Asignar cliente", border_color=colores["marcos"],
                         border_width=2, corner_radius=6, fg_color=colores["boton"],
                         text_color="black", width=320,
-                        command=lambda:bk_asignacion(datos_equipo, clienteEntry, windows))
+                        command=lambda:bk_asignacion(datos_equipo, clienteEntry, windows, ventana))
     
     clienteEntry.pack(padx=10, pady=10)
     btnAsignar.pack(padx=10, pady=10)
@@ -188,7 +190,7 @@ def tablaPagos(ventana):
 
     #creacion del menu contextual
     menu = Menu(tabla, tearoff=0)
-    menu.add_command(label="Asignar a cliente", command=lambda:asigancion_cliente_windows(tabla))
+    menu.add_command(label="Asignar a cliente", command=lambda:asigancion_cliente_windows(tabla, ventana))
     menu.add_command(label="Registrar Equipo", command=lambda:asignacionEquipo(id_cliente=None, nombre="SpiderNet"))
     menu.add_command(label="Editar", command=lambda:enviar_actualizacion(tabla))
     menu.add_command(label="Actualizar", command=lambda:actualizar_tabla(tabla))

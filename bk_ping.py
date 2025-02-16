@@ -15,10 +15,10 @@ def enviar_pint(host, repeticiones):
         resultado = subprocess.run(comando, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         
         if resultado.returncode == 0:
-            print(f"✅ {host} está respondiendo.")
+            print(f"✅ está respondiendo.")
             return True
         else:
-            print(f"❌ {host} no responde.")
+            print(f"❌ no responde.")
             return False
     except Exception as e:
         messagebox.showerror("SpiderNet", f"⚠️ Error al hacer ping: {e}")

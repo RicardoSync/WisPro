@@ -63,17 +63,15 @@ def md_herramentas():
                             image=iconos["auto"],
                             command=md_generacion)
     
-    btnPingSegundoPlano = CTkButton(windows, border_color=colores["marcos"], border_width=2, corner_radius=6,
-                                    fg_color=colores["boton"], text="Ping 2do Plano Clientes", text_color="black",
-                                    image=iconos["craneo"],
-                                    command=iniciar_ping)
+    btnWhatsappBot = CTkButton(windows, border_color=colores["marcos"], border_width=2, corner_radius=6,
+                                    fg_color=colores["boton"], text="WhatsApp Bot", text_color="black",
+                                    image=iconos["auto"],
+                                    command=lambda:messagebox.showinfo("SpiderNet", "Proximamente integraremos las notificaciones via whatsapp"))
     
-    btnDetenerPing = CTkButton(windows, border_color=colores["marcos"], border_width=2, corner_radius=6,
-                            fg_color=colores["boton"], text="Detener Ping", text_color="black",
-                            image=iconos["craneo"],
-                            command=detener_ping)
+
     
     btnPing.grid(column=0, row=0, padx=10, pady=10)
     btnGeneracion.grid(column=1, row=0, padx=10, pady=10)
+    btnWhatsappBot.grid(column=2, row=0, padx=10, pady=10)
 
     windows.mainloop()
