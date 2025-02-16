@@ -63,7 +63,8 @@ def contenedor_imagen(windows):
         ),
         justify="center",
         wraplength=250,
-        font=("Arial", 15)
+        font=("Arial", 15),
+        text_color="white"
     )
     
     frameImagen.place(relx=0.0, rely=0.0, relwidth=0.5, relheight=1.0)
@@ -84,32 +85,32 @@ def formulario_cliente(windows):
 
     usernameLabel = CTkLabel(frameCuenta, text="Nombre de usuario", text_color="white", font=("Arial", 15, "bold"))
     usernameEntry = CTkEntry(frameCuenta, placeholder_text="usuariochido", border_color=colores["marcos"], border_width=2,
-                        corner_radius=6, text_color="white", width=300)
+                        corner_radius=6, text_color="black", width=300)
     
     passwordLabel = CTkLabel(frameCuenta, text="Contraseña de usuario", text_color="white", font=("Arial", 15, "bold"))
     passwordEntry = CTkEntry(frameCuenta, placeholder_text="dificil789", border_color=colores["marcos"], border_width=2,
-                        corner_radius=6, text_color="white", width=300)
+                        corner_radius=6, text_color="black", width=300)
     
     #nombre ISP, nombre, telefono, email, direccion 
     nombreLabel = CTkLabel(frameFormulario, text="Nombre de ISP (Sin Espacios)", text_color="white", font=("Arial", 15, "bold"))
     nombreISPEntry = CTkEntry(frameFormulario, placeholder_text="Ejemplo DOBLENET", border_color=colores["marcos"], border_width=2,
-                            corner_radius=6, text_color="white", width=300)
+                            corner_radius=6, text_color="black", width=300)
     
     nombrePersona = CTkLabel(frameFormulario, text="Su nombre (Sin apellidos ni Espacios)", text_color="white", font=("Arial", 15, "bold"))
     nombreEntry = CTkEntry(frameFormulario, placeholder_text="Ejemplo Ricardo Escobedo", border_color=colores["marcos"], border_width=2,
-                            corner_radius=6, text_color="white", width=300)
+                            corner_radius=6, text_color="black", width=300)
     
     telefonoLabel = CTkLabel(frameFormulario, text="Telefono celular", text_color="white", font=("Arial", 15, "bold"))
     telefonoEntry = CTkEntry(frameFormulario, placeholder_text="Ejemplo +5214981442266", border_color=colores["marcos"], border_width=2,
-                            corner_radius=6, text_color="white", width=300)
+                            corner_radius=6, text_color="black", width=300)
     
     emailLabel = CTkLabel(frameFormulario, text="Correo electronico", text_color="white", font=("Arial", 15, "bold"))
     emailEntry = CTkEntry(frameFormulario, placeholder_text="Ejemplo usuario@example.com", border_color=colores["marcos"], border_width=2,
-                        corner_radius=6, text_color="white", width=300)
+                        corner_radius=6, text_color="black", width=300)
     
     direccionLabel = CTkLabel(frameFormulario, text="Munipio / Localidad", text_color="white", font=("Arial", 15, "bold"))
     direccionEntry = CTkEntry(frameFormulario, placeholder_text="Ejemplo Loreto", border_color=colores["marcos"], border_width=2,
-                        corner_radius=6, text_color="white", width=300)
+                        corner_radius=6, text_color="black", width=300)
 
     btnCrearCuenta = CTkButton(frameCuenta, text="Crear Cuenta",
                         text_color="black", border_color=colores["marcos"],

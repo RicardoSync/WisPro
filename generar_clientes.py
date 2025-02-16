@@ -6,7 +6,7 @@ import faker
 from generar_equipos import generar_equipos
 from tkinter import messagebox
 
-def generar_clientes(entry_clientes):
+def generar_clientes(entry_clientes, ventana):
     numero_clientes = int(entry_clientes.get())
 
     if numero_clientes > 0:
@@ -34,7 +34,8 @@ def generar_clientes(entry_clientes):
                 
             cursor.executemany(sql, datos_insertar)
             conn.commit()
-            return True
+            ventana.destroy()
+            messagebox.showinfo("SpiderNet", f"Se genero la cantidad de {numero_clientes} de manera automatica")
         
         except mysql.connector.Error as e:
             print("Error al conectar a MySQL:", e)
@@ -48,11 +49,13 @@ def generar_clientes(entry_clientes):
     else:
         messagebox.showwarning("SpiderNet", "No podemos generar clientes por debajo de 0 :v")
 
-def envio_equipos(entry_equipos):
+def envio_equipos(entry_equipos, ventana):
     numero_equipos = int(entry_equipos.get())
 
     if numero_equipos > 0:
         generar_equipos(numero_equipos)
+        ventana.destroy()
+        messagebox.showinfo("SpiderNet", f"Se genero la cantidad de {numero_equipos} de manera automatica")
     else:
         messagebox.showwarning("SpiderNet", "No podemos generar clientes por debajo de 0 :v")
 
@@ -72,10 +75,10 @@ def md_generacion():
 
     
     btn_generar_clientes = ctk.CTkButton(ventana, text="Generar Clientes",
-                                        command=lambda:generar_clientes(entry_clientes))
+                                        command=lambda:generar_clientes(entry_clientes, ventana))
     
     btn_generar_equipos = ctk.CTkButton(ventana, text="Generar Equipos", 
-                                        command=lambda:envio_equipos(entry_equipos))
+                                        command=lambda:envio_equipos(entry_equipos, ventana))
 
     btn_generar_clientes.pack(pady=10)
     btn_generar_equipos.pack(pady=10)
